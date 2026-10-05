@@ -1,0 +1,60 @@
+# Kế hoạch một tuần và phân công
+
+## Lịch và giới hạn
+
+Giả định triển khai **08–14/10/2026** (7 ngày), nằm trong khoảng đề bài **08/10–08/11/2026**. Có thể dời cả lịch nếu nhóm chọn tuần khác. Ngày 05/10 là khởi tạo repo. Mỗi người dự kiến 3–4 giờ tập trung/ngày, tổng 42–56 giờ công; nếu không đủ thời gian hoặc chưa có dữ liệu phù hợp vào ngày 2, giảm phạm vi ngay. Khoảng thời gian còn lại trước hạn dành cho phản hồi giảng viên và nộp bài, không lên kế hoạch thêm tính năng.
+
+Người dùng thực tế: phụ huynh/giáo viên tải video có sẵn lên để sàng lọc trước khi chia sẻ với trẻ. Sản phẩm hỗ trợ quyết định của người lớn; không cam kết an toàn tuyệt đối và chưa chặn nội dung trong app TikTok/Reels/Shorts.
+
+## Phạm vi nghiệm thu
+
+**P0 — cần hoàn thành:** upload video ngắn, ít nhất hai modality thật (hình ảnh và transcript), ít nhất một bộ phân loại được nhóm huấn luyện trên dữ liệu có nhãn, kết quả review/flagged/no_risk_detected, điểm theo nhãn được hỗ trợ, evidence có thời gian, tải JSON, xử lý file lỗi, báo cáo test giữ riêng và demo trên máy khác. Hai lớp rủi ro ưu tiên: violence và toxic_language.
+
+**P1 — chỉ làm khi P0 ổn:** OCR chữ tiếng Việt, thêm sexual/dangerous_acts nếu có dữ liệu phù hợp và kết quả đánh giá đủ rõ, fine-tune PhoBERT/backbone, deploy online.
+
+**Ngoài phạm vi:** extension chặn feed, crawler nền tảng, tài khoản/phân quyền, ứng dụng điện thoại native, dashboard nhiều người, huấn luyện mọi backbone từ đầu, nhận diện tuổi người xuất hiện.
+
+Giữ thiết kế đa nhãn của hai ảnh: một video có thể vừa bạo lực vừa có lời nói độc hại. `Safe` không phải một lớp ngang hàng độc lập; UI dùng “chưa phát hiện rủi ro trong phạm vi đã đánh giá”. Hai lớp chưa hỗ trợ vẫn hiện “chưa đánh giá”. Nếu giảng viên bắt buộc đủ bốn nhóm rủi ro, cần chốt lại phạm vi ngay ngày 1.
+
+## Trách nhiệm
+
+| Hạng mục | Huy — ML lead / leader | Thành viên app | Đầu ra bàn giao |
+|---|---|---|---|
+| Phạm vi, nhãn, dữ liệu | Quyết định, nguồn dữ liệu, hướng dẫn nhãn | Góp ý tình huống dùng; gán nhãn chéo mẫu | Manifest và phạm vi đóng băng |
+| Tiền xử lý / ASR / model | Xây dựng, huấn luyện, cache đặc trưng | Gọi pipeline theo hợp đồng | Hàm suy luận + artifact version |
+| API / web | Cung cấp pipeline, review contract | Sở hữu API, upload, hiển thị, thông báo lỗi | Luồng upload → kết quả |
+| Fusion và đánh giá | Chọn ngưỡng trên validation, test, ablation | Đo luồng ứng dụng và độ trễ | Bảng metric thật + ví dụ lỗi |
+| Tích hợp | Duyệt PR, chốt phiên bản | Ghép app với model, thử trên máy khác | Demo chạy lại được |
+| Báo cáo / thuyết trình | Phương pháp, dữ liệu, thực nghiệm | Kiến trúc sản phẩm, hình UI, video demo | Một báo cáo và slide thống nhất |
+
+## Lịch cụ thể
+
+| Ngày | Huy — ML | Thành viên app | Điểm chốt cuối ngày |
+|---|---|---|---|
+| D1 · 08/10 | Chốt 2 nhãn P0; kiểm tra nguồn/quyền dữ liệu; chuẩn bị 20–30 clip pilot, quy tắc nhãn, thử CPU/Colab | Clone và chạy mock; hoàn thiện luồng upload/kết quả; thống nhất schema v1 | Cả hai chạy được repo; có dữ liệu pilot và API thống nhất |
+| D2 · 09/10 | Chốt manifest; chia theo video/nguồn 70/15/15 trước trích frame; lấy frame và transcript có timestamp | Kiểm tra kích thước/định dạng/thời lượng bằng giải mã thực; tiến trình/lỗi; gán nhãn chéo ~20% pilot | Chạy được tiền xử lý 10 clip, có train/val/test không trùng nguồn |
+| D3 · 10/10 | Train visual frozen-feature classifier; TF-IDF + logistic regression cho transcript; lưu baseline | Bảng nhãn/điểm, vùng evidence, tải JSON; tiếp tục dùng mock khi cần | Có baseline ML thật và UI chờ pipeline |
+| D4 · 11/10 | Ghép hai modality; chọn ngưỡng trên validation; nối analyze_video; thử PhoBERT feature nếu đủ giờ | Tích hợp model thật, xử lý thiếu audio và timeout; playback ở mốc evidence | Luồng đầu-cuối chạy với ít nhất 5 video thật |
+| D5 · 12/10 | Đánh giá test một lần sau khi chốt; precision/recall/F1 từng lớp, macro-F1, lỗi điển hình; ablation | Kiểm thử video rỗng/hỏng/dài/không tiếng; đo độ trễ và dọn tệp | Báo cáo thực nghiệm và danh sách lỗi phải sửa |
+| D6 · 13/10 | Sửa lỗi tích hợp; model card, mô tả dữ liệu/phương pháp; đóng băng checkpoint | Cài mới trên máy thứ hai, hoàn thiện README, chụp UI, quay demo dự phòng | Bản release candidate; không thêm tính năng |
+| D7 · 14/10 | Ghép báo cáo, slide và phần giải thích ML; diễn tập | Ghép demo, hướng dẫn sử dụng và kịch bản lỗi; diễn tập | Bản nộp chạy được, có báo cáo và video demo |
+
+## Điều kiện cắt giảm
+
+- Cuối D2 chưa có dữ liệu/nhãn phù hợp: bỏ OCR, sexual, dangerous_acts; giữ đúng hai nhánh visual + transcript và ghi rõ độ bao phủ. Không tự thu gom nội dung nhạy cảm liên quan trẻ em để bù dữ liệu.
+- Colab/GPU không khả dụng: giữ backbone đóng băng, phân loại tuyến tính, ASR cấu hình CPU nhẹ; không fine-tune toàn bộ.
+- D4 chưa tích hợp được: dừng tối ưu model, ưu tiên pipeline thật và API trước mọi tính năng phụ.
+- Model yếu: công bố kết quả thật, dùng trạng thái review cho bất định; không thay điểm bằng dữ liệu giả để demo.
+- Deploy mất quá 2 giờ: demo local trên máy đã kiểm chứng, kèm video quay sẵn có ghi phiên bản.
+
+## Checklist đóng dự án
+
+- [ ] Hai máy cài mới chạy được theo README.
+- [ ] Có checkpoint/classifier nhóm huấn luyện, cấu hình và quy trình tái tạo.
+- [ ] Cả visual và transcript thực sự được sử dụng; có so sánh visual-only/text-only/fusion.
+- [ ] Chia dữ liệu theo nguồn; không có frame/clip gần trùng giữa train và test.
+- [ ] Có metric theo lớp, support và thời gian trên phần cứng ghi rõ; không dùng accuracy làm chỉ số duy nhất.
+- [ ] UI phân biệt mock/model, null/0, thiếu modality và lỗi; evidence dựa trên tín hiệu thực.
+- [ ] Có ít nhất 10 ca kiểm thử thủ công, gồm video không tiếng và file hỏng.
+- [ ] Không đưa video cá nhân, trọng số lớn, token hoặc dữ liệu nhạy cảm lên Git.
+- [ ] Hoàn thành báo cáo, slide và video demo 3–5 phút.
