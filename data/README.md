@@ -1,6 +1,6 @@
 # Dữ liệu và nhãn
 
-Chưa chọn/tải dataset nào. Đây là kế hoạch và format cần dùng, không phải tuyên bố có sẵn dữ liệu. ML lead kiểm tra nguồn và quyền sử dụng ngay D1.
+Ngày 16/10/2026 đã tải ViCTSD từ repo tác giả vào `data/raw/victsd/` để huấn luyện baseline văn bản; có commit nguồn và SHA-256 từng CSV trong provenance. Xem [báo cáo](../reports/TOXIC_BASELINE.md). Chưa tải dataset video. Phần dưới là kế hoạch cho tập video, không phải số liệu đã có.
 
 - Pilot 20–30 clip để thử pipeline; mục tiêu 150–300 clip ngắn nếu có nguồn phù hợp và thời gian gán nhãn. Số lượng này chỉ phục vụ mini project, không chứng minh khả năng tổng quát ngoài thực tế.
 - Ưu tiên video được phép sử dụng, tự tạo hoặc benchmark có điều kiện rõ ràng; lưu nguồn, giấy phép và group_id. Không suy ra quyền tái phân phối từ việc xem được công khai.

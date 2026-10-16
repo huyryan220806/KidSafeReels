@@ -1,6 +1,23 @@
 # Công việc ML lead
 
-Thư mục này chưa có model/training code. Triển khai tuần tự để mỗi ngày có đầu ra đo được; ưu tiên CPU, dùng Colab khi cần batch trích đặc trưng.
+Đã có baseline Toxic tiếng Việt chạy CPU tại `ml/toxic_baseline.py` (16/10/2026). Các mục visual/ASR/fusion bên dưới vẫn là kế hoạch.
+
+## Chạy baseline văn bản
+
+Tại thư mục gốc repo, sau khi tạo `.venv` theo README:
+
+```powershell
+.\.venv\Scripts\python.exe -m pip install -r requirements-ml.txt
+.\.venv\Scripts\python.exe -m ml.toxic_baseline download
+.\.venv\Scripts\python.exe -m ml.toxic_baseline train
+.\.venv\Scripts\python.exe -m ml.toxic_baseline predict --text "Chúc bạn một ngày tốt lành"
+```
+
+Downloader lấy 3 CSV của ViCTSD từ commit cố định của tác giả; lưu dữ liệu và checksum trong `data/raw/victsd/` (gitignore). Train tạo `models/checkpoints/toxic-tfidf-v1.joblib` (gitignore) và `reports/toxic_baseline_metrics.json`. Chạy lại train sẽ ghi đè hai đầu ra này; giữ bản report cũ trước khi thử cấu hình khác. Model dùng TF-IDF ký tự 3–5 gram + Logistic Regression, seed 42; fit vectorizer chỉ trên train và chọn ngưỡng bằng macro-F1 validation. Chưa thử nhiều cấu hình sau khi xem test.
+
+Tích hợp nhánh text sau này: `from ml.toxic_baseline import ToxicClassifier`, khởi tạo một lần rồi gọi `classifier.predict(transcript)`. Chỉ nạp joblib tự huấn luyện/nguồn tin cậy. Hàm trả score/flagged cho văn bản; không có timestamp hay kết luận an toàn của video. Không thay thế `kidsafe.pipeline` bằng model text-only.
+
+Test ML: `python -m pytest tests/test_toxic_baseline.py -q` (cần cài pytest). Full test cần thêm `requirements-dev.txt`. App owner chỉ chạy mock không cần cài requirements ML.
 
 ## Lộ trình kỹ thuật
 

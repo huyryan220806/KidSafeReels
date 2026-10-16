@@ -1,5 +1,7 @@
 # Kế hoạch một tuần và phân công
 
+**Tiến độ 16/10/2026:** lịch 08–14/10 bên dưới là kế hoạch ban đầu, chưa hoàn thành theo lịch. Repo đã có baseline Toxic văn bản trên ViCTSD; xem `reports/TOXIC_BASELINE.md`. ViHarm4Kids không còn là dữ liệu bắt buộc. Chưa có visual/ASR/fusion; thứ tự ưu tiên tiếp theo: dữ liệu video → visual baseline → ASR → tích hợp → đánh giá video chung. Chưa tự dời deadline 08/11 của giảng viên.
+
 ## Lịch và giới hạn
 
 Giả định triển khai **08–14/10/2026** (7 ngày), nằm trong khoảng đề bài **08/10–08/11/2026**. Có thể dời cả lịch nếu nhóm chọn tuần khác. Ngày 05/10 là khởi tạo repo. Mỗi người dự kiến 3–4 giờ tập trung/ngày, tổng 42–56 giờ công; nếu không đủ thời gian hoặc chưa có dữ liệu phù hợp vào ngày 2, giảm phạm vi ngay. Khoảng thời gian còn lại trước hạn dành cho phản hồi giảng viên và nộp bài, không lên kế hoạch thêm tính năng.

@@ -1,4 +1,6 @@
-# Model card — chưa có model được phát hành
+# Model card — baseline text local, chưa phát hành model video
+
+Cập nhật 16/10/2026: `toxic-tfidf-v1` đã huấn luyện CPU trên ViCTSD và lưu local tại `models/checkpoints/toxic-tfidf-v1.joblib`. Xem [báo cáo](TOXIC_BASELINE.md) và [metadata/checksum](toxic_baseline_metrics.json). Phạm vi chỉ Toxic văn bản; F1 Toxic=0,4492, recall=0,4862 trên 988 bình luận test sau lọc trùng. Không dùng cho quyết định an toàn thực tế. Các mục dưới đây mô tả model video còn chưa hoàn thành.
 
 - Version/checksum: chưa có.
 - Phạm vi/nhãn được hỗ trợ: chưa có; kế hoạch P0 là violence và toxic_language.

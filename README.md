@@ -2,7 +2,7 @@
 
 Mini project môn **Học máy và ứng dụng**: hỗ trợ người lớn sàng lọc nội dung video ngắn trước khi cho trẻ xem.
 
-**Trạng thái hiện tại: bộ khung chạy được với API mô phỏng; chưa có model đã huấn luyện hay kết quả đánh giá.** Chế độ mock luôn trả `review`, điểm số `null`, không phân tích nội dung video. Không dùng kết quả này để đánh giá độ an toàn.
+**Trạng thái 16/10/2026: đã có baseline Toxic văn bản được huấn luyện và đánh giá; API video vẫn chạy mô phỏng.** Chế độ mock luôn trả `review`, điểm số `null`, không phân tích nội dung video. Xem [cách chạy baseline](ml/README.md) và [kết quả thật](reports/TOXIC_BASELINE.md). Chưa tích hợp ASR hoặc model hình ảnh.
 
 ## Phạm vi một tuần
 
