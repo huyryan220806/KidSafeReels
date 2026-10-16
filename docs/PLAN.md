@@ -1,5 +1,7 @@
 # Kế hoạch một tuần và phân công
 
+**Cập nhật phần app 05/10/2026:** nhánh `feat/app` triển khai UI, kiểm tra media, worker có timeout và test tích hợp. Xem `APP_VALIDATION.md` để phân biệt phần đã kiểm chứng với phần cần Huy bàn giao model/máy thứ hai. Lịch dưới đây giữ làm kế hoạch nhóm, không phải xác nhận các đầu ra ML đã hoàn thành.
+
 ## Lịch và giới hạn
 
 Giả định triển khai **08–14/10/2026** (7 ngày), nằm trong khoảng đề bài **08/10–08/11/2026**. Có thể dời cả lịch nếu nhóm chọn tuần khác. Ngày 05/10 là khởi tạo repo. Mỗi người dự kiến 3–4 giờ tập trung/ngày, tổng 42–56 giờ công; nếu không đủ thời gian hoặc chưa có dữ liệu phù hợp vào ngày 2, giảm phạm vi ngay. Khoảng thời gian còn lại trước hạn dành cho phản hồi giảng viên và nộp bài, không lên kế hoạch thêm tính năng.
