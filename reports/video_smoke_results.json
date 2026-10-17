@@ -1,0 +1,287 @@
+{
+  "scope": "FastAPI TestClient in-process integration; not browser/network testing, accuracy benchmark or representative latency estimate",
+  "environment": {
+    "python": "3.12.10",
+    "platform": "Windows-11-10.0.26300-SP0",
+    "device": "cpu"
+  },
+  "sources": {
+    "rlvs": "First 3 non-violence and 2 violence held-out manifest rows; no selection by prediction",
+    "speech": {
+      "dataset": "google/fleurs",
+      "subset": "vi_vn",
+      "split": "dev",
+      "filename": "10056093347220194289.wav",
+      "revision": "70bb2e84b976b7e960aa89f1c648e09c59f894dd",
+      "license": "CC-BY-4.0",
+      "sha256": "c32afc1cf9eb6b33753fc979edcb64426dcf677a85958ece9671ea8f78dabfe3",
+      "source": "https://huggingface.co/datasets/google/fleurs",
+      "tsv_row": [
+        [
+          "1594",
+          "10056093347220194289.wav",
+          "Một số loài động vật như voi và hươu cao cổ thường hay lại gần xe và chỉ với các dụng cụ bình thường chúng ta cũng sẽ quan sát một cách dễ dàng.",
+          "một số loài động vật như voi và hươu cao cổ thường hay lại gần xe và chỉ với các dụng cụ bình thường chúng ta cũng sẽ quan sát một cách dễ dàng",
+          "m ộ t | s ố | l o à i | đ ộ n g | v ậ t | n h ư | v o i | v à | h ư ơ u | c a o | c ổ | t h ư ờ n g | h a y | l ạ i | g ầ n | x e | v à | c h ỉ | v ớ i | c á c | d ụ n g | c ụ | b ì n h | t h ư ờ n g | c h ú n g | t a | c ũ n g | s ẽ | q u a n | s á t | m ộ t | c á c h | d ễ | d à n g |",
+          "239040",
+          "MALE"
+        ]
+      ]
+    }
+  },
+  "cases": [
+    {
+      "case": "rlvs-0",
+      "input_sha256": "9e2634193ffe1f674dcb24da2e4ff1920f625e068075ecba6447a0d6bc593042",
+      "status": 200,
+      "request_seconds": 10.132514699998865,
+      "result": {
+        "schema_version": "1.0",
+        "analysis_id": "5199e4f5-e7f8-436d-95c9-068bb2af0213",
+        "mode": "model",
+        "model_version": "violence-resnet18-v1+toxic-tfidf-v1+whisper-base",
+        "decision": "review",
+        "scores": {
+          "violence": 0.0001475504453848073,
+          "sexual": null,
+          "toxic_language": null,
+          "dangerous_acts": null
+        },
+        "evaluated_labels": [
+          "violence"
+        ],
+        "evidence": [],
+        "warnings": [
+          "Không xác nhận được lời nói tiếng Việt; Toxic chưa được đánh giá.",
+          "Bản thử nghiệm: chưa đánh giá toàn pipeline trên video ngắn tiếng Việt; dưới ngưỡng vẫn cần kiểm tra.",
+          "Sexual và Dangerous Acts chưa được hỗ trợ.",
+          "Toxic lấy điểm cao nhất theo đoạn ASR; ngưỡng mới được chọn trên bình luận, chưa hiệu chỉnh cho video."
+        ],
+        "processing_seconds": 10.1244
+      }
+    },
+    {
+      "case": "rlvs-1",
+      "input_sha256": "ff1a37867a26ef9a5c24214ae3a83a3ab37e7340c20917d1c49c9e4d5fe1c702",
+      "status": 200,
+      "request_seconds": 0.32326019999891287,
+      "result": {
+        "schema_version": "1.0",
+        "analysis_id": "d3451e74-b941-4bd0-9ed9-a4180f77854f",
+        "mode": "model",
+        "model_version": "violence-resnet18-v1+toxic-tfidf-v1+whisper-base",
+        "decision": "review",
+        "scores": {
+          "violence": 0.01057488494250817,
+          "sexual": null,
+          "toxic_language": null,
+          "dangerous_acts": null
+        },
+        "evaluated_labels": [
+          "violence"
+        ],
+        "evidence": [],
+        "warnings": [
+          "Video không có audio; Toxic chưa được đánh giá.",
+          "Bản thử nghiệm: chưa đánh giá toàn pipeline trên video ngắn tiếng Việt; dưới ngưỡng vẫn cần kiểm tra.",
+          "Sexual và Dangerous Acts chưa được hỗ trợ.",
+          "Toxic lấy điểm cao nhất theo đoạn ASR; ngưỡng mới được chọn trên bình luận, chưa hiệu chỉnh cho video."
+        ],
+        "processing_seconds": 0.3177
+      }
+    },
+    {
+      "case": "rlvs-2",
+      "input_sha256": "fe91c812adf91eb8ee366f347ec096f737b9ec39711a45041c0961b89fa7ccbf",
+      "status": 200,
+      "request_seconds": 0.32386290000067675,
+      "result": {
+        "schema_version": "1.0",
+        "analysis_id": "219b5c5a-072d-4dc8-b8d2-0ae37251541e",
+        "mode": "model",
+        "model_version": "violence-resnet18-v1+toxic-tfidf-v1+whisper-base",
+        "decision": "review",
+        "scores": {
+          "violence": 0.08152957930792568,
+          "sexual": null,
+          "toxic_language": null,
+          "dangerous_acts": null
+        },
+        "evaluated_labels": [
+          "violence"
+        ],
+        "evidence": [],
+        "warnings": [
+          "Video không có audio; Toxic chưa được đánh giá.",
+          "Bản thử nghiệm: chưa đánh giá toàn pipeline trên video ngắn tiếng Việt; dưới ngưỡng vẫn cần kiểm tra.",
+          "Sexual và Dangerous Acts chưa được hỗ trợ.",
+          "Toxic lấy điểm cao nhất theo đoạn ASR; ngưỡng mới được chọn trên bình luận, chưa hiệu chỉnh cho video."
+        ],
+        "processing_seconds": 0.319
+      }
+    },
+    {
+      "case": "rlvs-3",
+      "input_sha256": "41142ab86a7e0d07be1af1a9d359430d1eb4f4cd7e968811ea02f2d4ffd78526",
+      "status": 200,
+      "request_seconds": 1.4046089999974356,
+      "result": {
+        "schema_version": "1.0",
+        "analysis_id": "82d7bebd-638c-48cf-a08d-f5bae4e7fd1d",
+        "mode": "model",
+        "model_version": "violence-resnet18-v1+toxic-tfidf-v1+whisper-base",
+        "decision": "flagged",
+        "scores": {
+          "violence": 0.9477848636281779,
+          "sexual": null,
+          "toxic_language": null,
+          "dangerous_acts": null
+        },
+        "evaluated_labels": [
+          "violence"
+        ],
+        "evidence": [
+          {
+            "modality": "visual",
+            "start_seconds": 0.0,
+            "end_seconds": 5.01551,
+            "label": "violence",
+            "score": 0.9477848636281779,
+            "description": "Điểm Violence ở cấp toàn video từ tối đa 8 frame lấy mẫu; chưa định vị cảnh bạo lực."
+          }
+        ],
+        "warnings": [
+          "Không xác nhận được lời nói tiếng Việt; Toxic chưa được đánh giá.",
+          "Bản thử nghiệm: chưa đánh giá toàn pipeline trên video ngắn tiếng Việt; dưới ngưỡng vẫn cần kiểm tra.",
+          "Sexual và Dangerous Acts chưa được hỗ trợ.",
+          "Toxic lấy điểm cao nhất theo đoạn ASR; ngưỡng mới được chọn trên bình luận, chưa hiệu chỉnh cho video."
+        ],
+        "processing_seconds": 1.3997
+      }
+    },
+    {
+      "case": "rlvs-4",
+      "input_sha256": "6f661a0b0b2de8aebb060f487b7b2f00fe415e02086cff6e1fe85713cb7de40b",
+      "status": 200,
+      "request_seconds": 1.440049299999373,
+      "result": {
+        "schema_version": "1.0",
+        "analysis_id": "622c02b2-1c51-4f11-8d15-bf6048a3ba01",
+        "mode": "model",
+        "model_version": "violence-resnet18-v1+toxic-tfidf-v1+whisper-base",
+        "decision": "flagged",
+        "scores": {
+          "violence": 0.9280565938876792,
+          "sexual": null,
+          "toxic_language": null,
+          "dangerous_acts": null
+        },
+        "evaluated_labels": [
+          "violence"
+        ],
+        "evidence": [
+          {
+            "modality": "visual",
+            "start_seconds": 0.0,
+            "end_seconds": 5.113401,
+            "label": "violence",
+            "score": 0.9280565938876792,
+            "description": "Điểm Violence ở cấp toàn video từ tối đa 8 frame lấy mẫu; chưa định vị cảnh bạo lực."
+          }
+        ],
+        "warnings": [
+          "Không xác nhận được lời nói tiếng Việt; Toxic chưa được đánh giá.",
+          "Bản thử nghiệm: chưa đánh giá toàn pipeline trên video ngắn tiếng Việt; dưới ngưỡng vẫn cần kiểm tra.",
+          "Sexual và Dangerous Acts chưa được hỗ trợ.",
+          "Toxic lấy điểm cao nhất theo đoạn ASR; ngưỡng mới được chọn trên bình luận, chưa hiệu chỉnh cho video."
+        ],
+        "processing_seconds": 1.435
+      }
+    },
+    {
+      "case": "silent",
+      "input_sha256": "f424590c6d91377601ed5253fad2709dcc1ec21cb07b79d71257cfafb7974f32",
+      "status": 200,
+      "request_seconds": 0.2889181999998982,
+      "result": {
+        "schema_version": "1.0",
+        "analysis_id": "d75cb757-1dcc-4676-9831-5322b3faec51",
+        "mode": "model",
+        "model_version": "violence-resnet18-v1+toxic-tfidf-v1+whisper-base",
+        "decision": "review",
+        "scores": {
+          "violence": 0.013866348262630794,
+          "sexual": null,
+          "toxic_language": null,
+          "dangerous_acts": null
+        },
+        "evaluated_labels": [
+          "violence"
+        ],
+        "evidence": [],
+        "warnings": [
+          "Video không có audio; Toxic chưa được đánh giá.",
+          "Bản thử nghiệm: chưa đánh giá toàn pipeline trên video ngắn tiếng Việt; dưới ngưỡng vẫn cần kiểm tra.",
+          "Sexual và Dangerous Acts chưa được hỗ trợ.",
+          "Toxic lấy điểm cao nhất theo đoạn ASR; ngưỡng mới được chọn trên bình luận, chưa hiệu chỉnh cho video."
+        ],
+        "processing_seconds": 0.2849
+      }
+    },
+    {
+      "case": "vietnamese-speech",
+      "input_sha256": "c21aff3925134a7cf4f8c06fe131f98219e6958b3e8bc556523df5ea9babee4a",
+      "status": 200,
+      "request_seconds": 2.3528210000004037,
+      "result": {
+        "schema_version": "1.0",
+        "analysis_id": "eb183b3b-0aa0-403d-95bc-2214b65a2155",
+        "mode": "model",
+        "model_version": "violence-resnet18-v1+toxic-tfidf-v1+whisper-base",
+        "decision": "flagged",
+        "scores": {
+          "violence": 0.013866348262630794,
+          "sexual": null,
+          "toxic_language": 0.633290534272493,
+          "dangerous_acts": null
+        },
+        "evaluated_labels": [
+          "violence",
+          "toxic_language"
+        ],
+        "evidence": [
+          {
+            "modality": "audio_text",
+            "start_seconds": 4.66,
+            "end_seconds": 9.26,
+            "label": "toxic_language",
+            "score": 0.633290534272493,
+            "description": "Đoạn ASR được model đánh dấu: thường hay lời ràng xe và chỉ với cách nhום cổ bình thường."
+          }
+        ],
+        "warnings": [
+          "Bản thử nghiệm: chưa đánh giá toàn pipeline trên video ngắn tiếng Việt; dưới ngưỡng vẫn cần kiểm tra.",
+          "Sexual và Dangerous Acts chưa được hỗ trợ.",
+          "Toxic lấy điểm cao nhất theo đoạn ASR; ngưỡng mới được chọn trên bình luận, chưa hiệu chỉnh cho video."
+        ],
+        "processing_seconds": 2.3488
+      }
+    },
+    {
+      "case": "too-long",
+      "input_sha256": "73651943c041537197bc3c405cbe3ca365614f6d4bf8be4f8e152e0a1336850b",
+      "status": 422,
+      "request_seconds": 0.01699400000143214,
+      "result": {
+        "detail": "Video dài quá 60 giây."
+      }
+    },
+    {
+      "case": "corrupt",
+      "status": 422,
+      "result": {
+        "detail": "Không mở được video hoặc media bị hỏng."
+      }
+    }
+  ]
+}

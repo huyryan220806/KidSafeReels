@@ -7,7 +7,7 @@ import streamlit as st
 st.set_page_config(page_title="KidSafeReels", page_icon="🛡️")
 st.title("KidSafeReels")
 st.caption("Hỗ trợ sàng lọc nội dung video ngắn trước khi cho trẻ xem.")
-st.info("Bản khởi tạo: API mặc định ở chế độ mô phỏng, chưa có model phân tích video.")
+st.info("Bản thử nghiệm hỗ trợ người lớn kiểm tra video. Kết quả ghi rõ chế độ mô phỏng hoặc model.")
 
 api_url = os.getenv("KIDSAFE_API_URL", "http://127.0.0.1:8000").rstrip("/")
 upload = st.file_uploader(

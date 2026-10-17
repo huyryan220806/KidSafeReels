@@ -1,0 +1,62 @@
+"""Frozen ResNet18 features and a video-level violence classifier."""
+from pathlib import Path
+
+import joblib
+import numpy as np
+import sklearn
+import torch
+from torchvision.models import ResNet18_Weights, resnet18
+
+from kidsafe.errors import ModelNotReadyError
+
+ROOT = Path(__file__).resolve().parents[1]
+CHECKPOINTS = ROOT / "models/checkpoints"
+BACKBONE = CHECKPOINTS / "resnet18-imagenet1k-v1.pth"
+CLASSIFIER = CHECKPOINTS / "violence-resnet18-v1.joblib"
+SAMPLING_VERSION = "uniform8-mean-max-v1"
+
+
+def prepare_backbone():
+    CHECKPOINTS.mkdir(parents=True, exist_ok=True)
+    if BACKBONE.exists():
+        return
+    model = resnet18(weights=ResNet18_Weights.IMAGENET1K_V1)
+    torch.save(model.state_dict(), BACKBONE)
+
+
+class VisualEncoder:
+    def __init__(self, path=BACKBONE):
+        if not path.is_file():
+            raise ModelNotReadyError("Thiếu ResNet18 local. Chạy python -m ml.video_assets.")
+        torch.set_num_threads(4)
+        self.model = resnet18(weights=None)
+        self.model.load_state_dict(torch.load(path, map_location="cpu", weights_only=True))
+        self.model.fc = torch.nn.Identity()
+        self.model.eval()
+        self.transform = ResNet18_Weights.IMAGENET1K_V1.transforms()
+
+    def encode(self, frames):
+        batch = torch.stack([self.transform(frame) for frame in frames])
+        with torch.inference_mode():
+            features = self.model(batch).numpy()
+        return np.concatenate([features.mean(axis=0), features.max(axis=0)])
+
+
+class ViolenceClassifier:
+    def __init__(self, path=CLASSIFIER):
+        if not path.is_file():
+            raise ModelNotReadyError("Thiếu classifier Violence. Chạy python -m ml.train_visual.")
+        artifact = joblib.load(path)
+        if artifact["sklearn_version"] != sklearn.__version__ or artifact["sampling"] != SAMPLING_VERSION:
+            raise ModelNotReadyError("Phiên bản artifact Violence không tương thích.")
+        self.model = artifact["model"]
+        self.threshold = artifact["threshold"]
+        self.version = artifact["version"]
+        backbone = path.parent / BACKBONE.name
+        from ml.toxic_baseline import sha256
+        if not backbone.is_file() or sha256(backbone) != artifact["backbone_sha256"]:
+            raise ModelNotReadyError("Backbone không khớp classifier Violence.")
+        self.encoder = VisualEncoder(backbone)
+
+    def score(self, frames):
+        return float(self.model.predict_proba(self.encoder.encode(frames)[None, :])[0, 1])

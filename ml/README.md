@@ -1,6 +1,6 @@
 # Công việc ML lead
 
-Đã có baseline Toxic tiếng Việt chạy CPU tại `ml/toxic_baseline.py` (16/10/2026). Các mục visual/ASR/fusion bên dưới vẫn là kế hoạch.
+Đã có Toxic tiếng Việt, visual Violence và ASR trên CPU (16/10/2026). Chạy model thật theo [VIDEO_PIPELINE.md](../docs/VIDEO_PIPELINE.md); metric tại [Toxic](../reports/TOXIC_BASELINE.md), [Visual](../reports/VISUAL_BASELINE.md), smoke test tại `reports/video_smoke_results.json`.
 
 ## Chạy baseline văn bản
 
@@ -15,11 +15,13 @@ Tại thư mục gốc repo, sau khi tạo `.venv` theo README:
 
 Downloader lấy 3 CSV của ViCTSD từ commit cố định của tác giả; lưu dữ liệu và checksum trong `data/raw/victsd/` (gitignore). Train tạo `models/checkpoints/toxic-tfidf-v1.joblib` (gitignore) và `reports/toxic_baseline_metrics.json`. Chạy lại train sẽ ghi đè hai đầu ra này; giữ bản report cũ trước khi thử cấu hình khác. Model dùng TF-IDF ký tự 3–5 gram + Logistic Regression, seed 42; fit vectorizer chỉ trên train và chọn ngưỡng bằng macro-F1 validation. Chưa thử nhiều cấu hình sau khi xem test.
 
-Tích hợp nhánh text sau này: `from ml.toxic_baseline import ToxicClassifier`, khởi tạo một lần rồi gọi `classifier.predict(transcript)`. Chỉ nạp joblib tự huấn luyện/nguồn tin cậy. Hàm trả score/flagged cho văn bản; không có timestamp hay kết luận an toàn của video. Không thay thế `kidsafe.pipeline` bằng model text-only.
+Nhánh text trong `ml.inference` dùng `ToxicClassifier` và gọi `classifier.predict(segment_text)` theo từng đoạn ASR. Chỉ nạp joblib tự huấn luyện/nguồn tin cậy. Model text không tự có timestamp hay kết luận an toàn video; adapter giữ timestamp từ ASR và kết hợp kết quả visual.
 
 Test ML: `python -m pytest tests/test_toxic_baseline.py -q` (cần cài pytest). Full test cần thêm `requirements-dev.txt`. App owner chỉ chạy mock không cần cài requirements ML.
 
-## Lộ trình kỹ thuật
+## Việc còn lại sau baseline
+
+Ưu tiên tập video tiếng Việt có nhãn chung và kiểm thử máy thứ hai. Các mục bên dưới là định hướng ban đầu; bản v1 dùng 8 frame/clip để giảm thời gian CPU, hai benchmark riêng, và chưa có calibration ở cấp video. Không coi việc ghép hai nhánh là đã đánh giá fusion.
 
 1. **Dữ liệu:** chốt nhãn đa nhãn và manifest theo `data/README.md`; định nghĩa nguy cơ dựa trên nội dung quan sát được. Dùng clip pilot để kiểm tra feasibility trước khi mở rộng.
 2. **Preprocess:** giữ video_id/timestamp; lấy mẫu 1 frame/giây (tối đa 60 frame); lấy transcript phân đoạn với ASR; xử lý không có audio. Cache theo hash video + cấu hình + version model. Cần thống nhất trình giải mã và FFmpeg với app owner.
@@ -30,9 +32,15 @@ Test ML: `python -m pytest tests/test_toxic_baseline.py -q` (cần cài pytest).
 7. **Inference:** triển khai nhánh model của `kidsafe/pipeline.py`, nạp model một lần, inference eval/no-grad, trả schema hợp lệ; thiếu checkpoint thì lỗi rõ ràng, không tự tải hàng GB trong request.
 8. **Evaluation:** precision/recall/F1 và support từng lớp, macro/micro-F1 trên các lớp thực hỗ trợ, confusion từng lớp, latency median/p95 và phần cứng. So sánh visual-only/text-only/fusion trên cùng test và nói rõ modality chỉ hỗ trợ lớp nào.
 
-## Cấu trúc sẽ bổ sung khi triển khai
+## Module đã triển khai
 
-`ml/preprocess.py`, `ml/features.py`, `ml/train.py`, `ml/evaluate.py`, `ml/inference.py`, `ml/configs/` và notebook Colab nếu cần. Mỗi script có seed/cấu hình/split rõ ràng; tránh logic chỉ tồn tại trong notebook. Tách requirements ML riêng sau khi thử tương thích để người làm app không phải cài toàn bộ stack.
+- `toxic_baseline.py`: tải, train, đánh giá và suy luận Toxic văn bản.
+- `download_rlvs.py`, `train_visual.py`: tải RLVS, dedup/group split, cache features, train/evaluate Violence.
+- `visual.py`, `media.py`: backbone/head, kiểm tra video và lấy frame.
+- `video_assets.py`: tải trước backbone/ASR; `inference.py`: API adapter + CLI.
+- `smoke_video.py`: kiểm chứng model qua HTTP; `package_models.py`: tạo gói artifact local.
+
+Phụ thuộc tách `requirements-ml.txt` và `requirements-video.txt`; torch CPU cài theo hướng dẫn riêng. Chưa có notebook Colab vì đã chạy được trên CPU.
 
 ## Bàn giao cho app cuối D4
 

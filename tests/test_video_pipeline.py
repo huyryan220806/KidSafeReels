@@ -1,0 +1,139 @@
+import pytest
+
+from kidsafe.errors import InvalidMediaError, ModelNotReadyError
+from ml.inference import VideoService, combine_result
+
+
+class FakeText:
+    def predict(self, text):
+        return {"score": 0.8, "flagged": True}
+
+
+def test_missing_modalities_stay_unknown_and_below_threshold_stays_review():
+    result = combine_result(0.1, 0.5, [], FakeText(), 3, "test", ["missing audio"])
+    assert result.mode == "model"
+    assert result.decision == "review"
+    assert result.scores.toxic_language is None
+    assert result.scores.sexual is None
+    assert result.evaluated_labels == ["violence"]
+
+
+def test_audio_evidence_clipped_to_video_duration():
+    result = combine_result(0.1, 0.5, [(-0.1, 8, "test text")], FakeText(), 3, "test", [])
+    assert result.decision == "flagged"
+    assert result.scores.toxic_language == 0.8
+    assert result.evidence[0].start_seconds == 0
+    assert result.evidence[0].end_seconds == 3
+    assert "toxic_language" in result.evaluated_labels
+
+
+def test_visual_evidence_is_clip_level():
+    result = combine_result(0.9, 0.5, [], FakeText(), 5, "test", [])
+    assert result.evidence[0].start_seconds == 0
+    assert result.evidence[0].end_seconds == 5
+    assert "toàn video" in result.evidence[0].description
+
+
+def test_missing_artifacts_fail_before_download(tmp_path):
+    with pytest.raises(ModelNotReadyError):
+        VideoService(tmp_path)
+
+
+def test_corrupt_media_and_duration_limit(tmp_path):
+    cv2 = pytest.importorskip("cv2")
+    pytest.importorskip("av")
+    import numpy as np
+    from ml.media import inspect_video, sample_frames
+
+    corrupt = tmp_path / "corrupt.mp4"
+    corrupt.write_bytes(b"not a video")
+    with pytest.raises(InvalidMediaError):
+        inspect_video(corrupt)
+    path = tmp_path / "silent.mp4"
+    writer = cv2.VideoWriter(str(path), cv2.VideoWriter_fourcc(*"mp4v"), 10, (64, 64))
+    assert writer.isOpened()
+    for _ in range(20):
+        writer.write(np.zeros((64, 64, 3), dtype=np.uint8))
+    writer.release()
+    info = inspect_video(path)
+    assert info.duration == pytest.approx(2, abs=0.1)
+    assert not info.has_audio
+    assert len(sample_frames(path)) == 8
+    with pytest.raises(InvalidMediaError):
+        inspect_video(path, max_seconds=1)
+
+
+def test_group_split_keeps_related_clips_together():
+    pytest.importorskip("torch")
+    pytest.importorskip("cv2")
+    pytest.importorskip("av")
+    import numpy as np
+    from ml.train_visual import make_split, similar_groups
+
+    assert list(similar_groups([[0, 0, 0], [1, 1, 1], [2**64-1]*3])) == [0, 0, 2]
+    labels = np.array([i % 2 for i in range(100)])
+    groups = np.repeat(np.arange(50), 2)
+    splits = make_split(labels, groups)
+    assert not set(groups[splits["train"]]) & set(groups[splits["test"]])
+    assert not set(groups[splits["valid"]]) & set(groups[splits["test"]])
+
+
+def test_whisper_audio_decoder_dependency_compatibility(tmp_path):
+    pytest.importorskip("faster_whisper")
+    import wave
+    import numpy as np
+    from faster_whisper.audio import decode_audio
+
+    path = tmp_path / "tone.wav"
+    samples = (np.sin(np.arange(16000) * 2 * np.pi * 440 / 16000) * 16000).astype("<i2")
+    with wave.open(str(path), "wb") as audio:
+        audio.setnchannels(1)
+        audio.setsampwidth(2)
+        audio.setframerate(16000)
+        audio.writeframes(samples.tobytes())
+    decoded = decode_audio(str(path), sampling_rate=16000)
+    assert len(decoded) == 16000
+    assert np.isfinite(decoded).all()
+    assert np.max(np.abs(decoded)) > 0.4
+
+
+def test_conflicting_duplicate_labels_are_identified_before_split(tmp_path):
+    pytest.importorskip("torch")
+    pytest.importorskip("cv2")
+    pytest.importorskip("av")
+    from ml.train_visual import scan_videos
+
+    paths = []
+    for label in ("Violence", "NonViolence"):
+        directory = tmp_path / label
+        directory.mkdir()
+        path = directory / "same.mp4"
+        path.write_bytes(b"same video bytes with incompatible labels")
+        paths.append(path)
+    unique = tmp_path / "NonViolence" / "unique.mp4"
+    unique.write_bytes(b"another video")
+    entries, conflicts = scan_videos(paths + [unique])
+    assert len(conflicts) == 1
+    retained = [path for path, _, digest in entries if digest not in conflicts]
+    assert retained == [unique]
+
+
+def test_failed_asr_preserves_visual_and_unknown_toxic(monkeypatch):
+    pytest.importorskip("av")
+    pytest.importorskip("cv2")
+    whisper_audio = pytest.importorskip("faster_whisper.audio")
+    from types import SimpleNamespace
+    import numpy as np
+    from ml import media
+
+    service = VideoService.__new__(VideoService)
+    service.visual = SimpleNamespace(score=lambda frames: 0.2, threshold=0.5, version="test-visual")
+    service.text = SimpleNamespace(version="test-text")
+    monkeypatch.setattr(media, "inspect_video", lambda path: media.VideoInfo(2, True))
+    monkeypatch.setattr(media, "sample_frames", lambda path: [])
+    monkeypatch.setattr(whisper_audio, "decode_audio", lambda *args, **kwargs: np.array([], dtype=np.float32))
+    result = service.analyze("empty-audio.mp4")
+    assert result.scores.violence == 0.2
+    assert result.scores.toxic_language is None
+    assert result.decision == "review"
+    assert any("ASR" in warning and "ValueError" in warning for warning in result.warnings)

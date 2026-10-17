@@ -1,6 +1,8 @@
 # Kế hoạch một tuần và phân công
 
-**Tiến độ 16/10/2026:** lịch 08–14/10 bên dưới là kế hoạch ban đầu, chưa hoàn thành theo lịch. Repo đã có baseline Toxic văn bản trên ViCTSD; xem `reports/TOXIC_BASELINE.md`. ViHarm4Kids không còn là dữ liệu bắt buộc. Chưa có visual/ASR/fusion; thứ tự ưu tiên tiếp theo: dữ liệu video → visual baseline → ASR → tích hợp → đánh giá video chung. Chưa tự dời deadline 08/11 của giảng viên.
+**Tiến độ 16/10/2026:** lịch 08–14/10 bên dưới là kế hoạch ban đầu, chưa hoàn thành theo lịch. Đã có baseline Toxic trên ViCTSD, baseline visual trên RLVS, Whisper base và pipeline hai nhánh qua API; xem `docs/VIDEO_PIPELINE.md` và `reports/`. ViHarm4Kids không còn là dữ liệu bắt buộc. Việc tiếp theo: Huy chuẩn bị/gán nhãn tập video tiếng Việt và đánh giá chung; app owner hoàn thiện playback/evidence, kiểm thử UI và cài trên máy thứ hai. Chưa tự dời deadline 08/11 của giảng viên.
+
+**Ưu tiên ngay sau bàn giao model:** Huy chọn 20–30 clip pilot có quyền sử dụng và lời nói tiếng Việt, ghi nguồn/group_id rồi gán nhãn trước khi xem dự đoán; thành viên app gán nhãn độc lập khoảng 20% để kiểm tra bất đồng. Giữ một phần chưa dùng để điều chỉnh model/ngưỡng cho đánh giá cuối. Đây là pilot nhỏ, báo support và ca lỗi, không công bố độ chính xác tổng quát. Tạm giữ baseline để hoàn thiện sản phẩm; chưa thêm OCR/PhoBERT/hai nhãn P1.
 
 ## Lịch và giới hạn
 

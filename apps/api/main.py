@@ -7,6 +7,7 @@ from fastapi import FastAPI, HTTPException, UploadFile
 
 from kidsafe.pipeline import ModelNotReadyError, analyze_video
 from kidsafe.schemas import AnalysisResult
+from kidsafe.errors import InvalidMediaError
 
 MAX_UPLOAD_BYTES = 50 * 1024 * 1024
 ALLOWED_EXTENSIONS = {".mp4", ".mov", ".webm"}
@@ -42,6 +43,8 @@ def analyze(file: UploadFile):
                 result = analyze_video(path, backend=os.getenv("KIDSAFE_BACKEND", "mock"))
             except ModelNotReadyError as exc:
                 raise HTTPException(503, str(exc)) from exc
+            except InvalidMediaError as exc:
+                raise HTTPException(422, str(exc)) from exc
             except ValueError as exc:
                 raise HTTPException(503, "Cấu hình pipeline không hợp lệ.") from exc
             result.processing_seconds = round(perf_counter() - started, 4)

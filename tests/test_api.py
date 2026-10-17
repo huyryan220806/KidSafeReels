@@ -35,8 +35,9 @@ def test_upload_limit(client, monkeypatch):
     assert client.post("/v1/analyze", files={"file": ("clip.mp4", b"1234")}).status_code == 413
 
 
-def test_model_is_not_silently_replaced_by_mock(client, monkeypatch):
+def test_model_is_not_silently_replaced_by_mock(client, monkeypatch, tmp_path):
     monkeypatch.setenv("KIDSAFE_BACKEND", "model")
+    monkeypatch.setenv("KIDSAFE_MODEL_DIR", str(tmp_path))
     assert client.post("/v1/analyze", files={"file": ("clip.mp4", b"abc")}).status_code == 503
 
 
@@ -56,3 +57,17 @@ def test_temporary_file_removed_on_pipeline_failure(client, monkeypatch):
 def test_evidence_rejects_backwards_timestamp():
     with pytest.raises(ValidationError):
         Evidence(modality="visual", start_seconds=5, end_seconds=2, label="violence", score=0.8, description="test")
+
+
+def test_invalid_media_returns_422_and_cleans_upload(client, monkeypatch):
+    captured = []
+
+    def invalid_media(path, **kwargs):
+        captured.append(path)
+        raise main.InvalidMediaError("Không giải mã được video.")
+
+    monkeypatch.setattr(main, "analyze_video", invalid_media)
+    response = client.post("/v1/analyze", files={"file": ("broken.mp4", b"bad")})
+    assert response.status_code == 422
+    assert "video" in response.json()["detail"]
+    assert not captured[0].exists()

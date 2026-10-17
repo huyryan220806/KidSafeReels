@@ -34,7 +34,7 @@ Fit khoảng 2,52 giây, predict cả batch 988 bình luận khoảng 0,30 giây
 
 1. Phân tích lỗi và thử word+char TF-IDF / PhoBERT features bằng validation; không dùng test hiện tại để chọn cấu hình.
 2. Bổ sung tập transcript video có nhãn và đánh giá ảnh hưởng ASR; text bình luận khác lời nói thực tế.
-3. Chuẩn bị RLVS, kiểm tra quyền/split/near duplicates trước baseline visual; tạo tập video chung để đánh giá fusion.
+3. Baseline RLVS và ASR đã được tích hợp ở nhánh video; tiếp tục tạo tập video chung để đánh giá hai nhánh, xem [pipeline](../docs/VIDEO_PIPELINE.md).
 4. Giữ Sexual/Dangerous ở trạng thái chưa hỗ trợ cho đến khi có dữ liệu và đánh giá.
 
 Chưa đủ chất lượng để dùng làm bộ lọc bảo vệ trẻ em thực tế. Score chưa calibration và không phải xác suất an toàn.

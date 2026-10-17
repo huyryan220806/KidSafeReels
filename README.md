@@ -2,7 +2,7 @@
 
 Mini project môn **Học máy và ứng dụng**: hỗ trợ người lớn sàng lọc nội dung video ngắn trước khi cho trẻ xem.
 
-**Trạng thái 16/10/2026: đã có baseline Toxic văn bản được huấn luyện và đánh giá; API video vẫn chạy mô phỏng.** Chế độ mock luôn trả `review`, điểm số `null`, không phân tích nội dung video. Xem [cách chạy baseline](ml/README.md) và [kết quả thật](reports/TOXIC_BASELINE.md). Chưa tích hợp ASR hoặc model hình ảnh.
+**Trạng thái 17/10/2026: đã có pipeline video thật cho Violence + Toxic tiếng Việt trên CPU.** Visual dùng ResNet18 đóng băng + classifier học trên RLVS; audio dùng Whisper base + baseline Toxic học trên ViCTSD. Xem [cài và chạy model video](docs/VIDEO_PIPELINE.md), [kết quả visual](reports/VISUAL_BASELINE.md), [kết quả Toxic](reports/TOXIC_BASELINE.md) và [kiểm thử tích hợp/ca lỗi](reports/VIDEO_SMOKE.md). Chưa đánh giá toàn hệ thống trên tập video ngắn tiếng Việt; Sexual/Dangerous chưa được hỗ trợ. Mock vẫn là mặc định để thành viên app chạy ngay.
 
 ## Phạm vi một tuần
 
@@ -36,7 +36,7 @@ macOS/Linux: thay `.\.venv\Scripts\python.exe` bằng `.venv/bin/python`. Chế 
 .\.venv\Scripts\python.exe -m pytest -q
 ```
 
-`KIDSAFE_BACKEND=mock` là mặc định. Đặt biến môi trường `KIDSAFE_BACKEND=model` sẽ trả HTTP 503 cho phân tích cho đến khi ML lead nối model thật. `KIDSAFE_API_URL` cấu hình địa chỉ API cho web, mặc định `http://127.0.0.1:8000`. File `.env.example` là tài liệu cấu hình, chưa được tự động nạp.
+`KIDSAFE_BACKEND=mock` là mặc định: luôn trả `review`, điểm `null`, không phân tích video. Đặt `KIDSAFE_BACKEND=model` sau khi chuẩn bị phụ thuộc và artifact theo [hướng dẫn model](docs/VIDEO_PIPELINE.md); thiếu artifact trả HTTP 503. `KIDSAFE_API_URL` cấu hình địa chỉ API cho web, mặc định `http://127.0.0.1:8000`. File `.env.example` là tài liệu cấu hình, chưa được tự động nạp.
 
 ## Hai người bắt đầu từ đâu?
 
@@ -57,6 +57,6 @@ docs/          Phạm vi, phân công, kiến trúc, hợp đồng và ảnh ý 
 tests/         Kiểm tra API và giao diện mock
 ```
 
-Đọc [quy trình Git](CONTRIBUTING.md) và [hướng dẫn cho Codex](AGENTS.md) trước khi sửa. Chi tiết giới hạn hiện tại nằm ở [API contract](docs/API_CONTRACT.md). Bộ khung chưa giải mã video, kiểm tra thời lượng hay chạy ASR/model; đây là hạng mục phải hoàn thành trong tuần triển khai.
+Đọc [quy trình Git](CONTRIBUTING.md) và [hướng dẫn cho Codex](AGENTS.md) trước khi sửa. Chi tiết giới hạn hiện tại nằm ở [API contract](docs/API_CONTRACT.md). Model kiểm tra media/thời lượng và xử lý thiếu audio; còn cần tập video đích có nhãn, kiểm thử UI và cài lại trên máy thứ hai.
 
 Ý tưởng gốc được giữ tại [Idea1.png](docs/ideas/Idea1.png) và [Idea2.png](docs/ideas/Idea2.png); xem [kiến trúc dự kiến](docs/ARCHITECTURE.md) để đối chiếu với phạm vi một tuần.
