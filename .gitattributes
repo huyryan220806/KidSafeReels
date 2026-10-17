@@ -4,5 +4,5 @@
 *.yml text eol=lf
 *.json text eol=lf
 # Frozen pilot SHA-256 covers exact bytes; preserve them on Windows/Linux clones.
-data/pilot/manifest.json -text
+data/pilot/manifest.json -text whitespace=cr-at-eol
 *.png binary
