@@ -1,5 +1,7 @@
 # Kế hoạch một tuần và phân công
 
+**Bổ sung D1–D2 ngày 17/10/2026:** đã chuẩn bị 25 đoạn thật từ 8 nguồn có giấy phép, khóa 5 nhóm và split 17/4/4 trước trích frame; chạy 625 frame + 58 segment ASR. Có gói gán nhãn Huy 25/app 6, nhưng chưa ai hoàn tất nhãn và chưa đo chất lượng moderation trên pilot. Xem [tiến độ lưu để tiếp tục](PROGRESS.md) và [báo cáo D1–D2](../reports/PILOT_D1_D2.md). Đây là phần kỹ thuật D1–D2, không thay thế nghiệm thu chung của cả hai người.
+
 **Tiến độ 16/10/2026:** lịch 08–14/10 bên dưới là kế hoạch ban đầu, chưa hoàn thành theo lịch. Đã có baseline Toxic trên ViCTSD, baseline visual trên RLVS, Whisper base và pipeline hai nhánh qua API; xem `docs/VIDEO_PIPELINE.md` và `reports/`. ViHarm4Kids không còn là dữ liệu bắt buộc. Việc tiếp theo: Huy chuẩn bị/gán nhãn tập video tiếng Việt và đánh giá chung; app owner hoàn thiện playback/evidence, kiểm thử UI và cài trên máy thứ hai. Chưa tự dời deadline 08/11 của giảng viên.
 
 **Ưu tiên ngay sau bàn giao model:** Huy chọn 20–30 clip pilot có quyền sử dụng và lời nói tiếng Việt, ghi nguồn/group_id rồi gán nhãn trước khi xem dự đoán; thành viên app gán nhãn độc lập khoảng 20% để kiểm tra bất đồng. Giữ một phần chưa dùng để điều chỉnh model/ngưỡng cho đánh giá cuối. Đây là pilot nhỏ, báo support và ca lỗi, không công bố độ chính xác tổng quát. Tạm giữ baseline để hoàn thiện sản phẩm; chưa thêm OCR/PhoBERT/hai nhãn P1.

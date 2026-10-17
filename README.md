@@ -2,6 +2,8 @@
 
 Mini project môn **Học máy và ứng dụng**: hỗ trợ người lớn sàng lọc nội dung video ngắn trước khi cho trẻ xem.
 
+**Dữ liệu pilot D1–D2:** đã có 25 đoạn từ 8 nguồn có giấy phép, chia theo nhóm và tiền xử lý thật. Huy gán 25 clip, thành viên app gán chéo 6; nhãn đang chờ người xác nhận. Xem [progress để tiếp tục](docs/PROGRESS.md), [cách chạy lại/gói gán nhãn](docs/PILOT_DATA.md) và [kết quả D1–D2](reports/PILOT_D1_D2.md).
+
 **Trạng thái 17/10/2026: đã có pipeline video thật cho Violence + Toxic tiếng Việt trên CPU.** Visual dùng ResNet18 đóng băng + classifier học trên RLVS; audio dùng Whisper base + baseline Toxic học trên ViCTSD. Xem [cài và chạy model video](docs/VIDEO_PIPELINE.md), [kết quả visual](reports/VISUAL_BASELINE.md), [kết quả Toxic](reports/TOXIC_BASELINE.md) và [kiểm thử tích hợp/ca lỗi](reports/VIDEO_SMOKE.md). Chưa đánh giá toàn hệ thống trên tập video ngắn tiếng Việt; Sexual/Dangerous chưa được hỗ trợ. Mock vẫn là mặc định để thành viên app chạy ngay.
 
 ## Phạm vi một tuần
