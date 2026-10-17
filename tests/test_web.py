@@ -25,7 +25,7 @@ def health(monkeypatch):
 
 
 def analyze_button(page):
-    return next(button for button in page.button if button.label == "Phân tích video")
+    return next(button for button in page.button if button.label == "Kiểm tra video")
 
 
 def page_with_upload(video_files):
@@ -52,10 +52,12 @@ def test_mock_result_persists_and_new_upload_resets(video_files):
         page.run()
         assert request.call_count == 1
         assert not page.exception
-        assert any(header.value == "Cần người lớn kiểm tra" for header in page.subheader)
+        assert any("Cần người lớn kiểm tra" in block.value for block in page.markdown)
         assert any("KẾT QUẢ MÔ PHỎNG" in warning.value for warning in page.warning)
-        assert list(page.table[0].value["Điểm model"]) == ["Chưa đánh giá"] * 4
-        assert len(page.get("download_button")) == 1
+        assert list(page.table[0].value["Chỉ số phân tích"]) == ["Chưa đánh giá"] * 4
+        assert len(page.get("download_button")) == 2
+        details = next(expander for expander in page.expander if expander.label.startswith("Chi tiết phân tích"))
+        assert not details.proto.expanded
         page.file_uploader[0].set_value(("new.mp4", video_files["audio.mp4"].read_bytes(), "video/mp4")).run()
         assert "analysis_result" not in page.session_state
         assert not page.table
@@ -71,7 +73,7 @@ def test_model_evidence_seeks_video_and_zero_is_not_null(video_files):
         page = page_with_upload(video_files)
         analyze_button(page).click().run()
         assert not page.exception
-        assert list(page.table[0].value["Điểm model"]) == ["0.800", "Chưa đánh giá", "0.000", "Chưa đánh giá"]
+        assert list(page.table[0].value["Chỉ số phân tích"]) == ["0.800", "Chưa đánh giá", "0.000", "Chưa đánh giá"]
         page.selectbox[0].select_index(1).run()
         assert page.get("video")[0].proto.start_time == 1
         assert "analysis_result" in page.session_state
@@ -100,7 +102,7 @@ def test_http_errors_are_readable(video_files, code):
         page = page_with_upload(video_files)
         analyze_button(page).click().run()
     assert not page.exception
-    assert any(f"Thông báo kiểm thử {code}" in error.value for error in page.error)
+    assert any(f"Thông báo kiểm thử {code}" in block.value for block in [*page.error, *page.markdown])
     assert not page.get("download_button")
 
 
@@ -109,7 +111,7 @@ def test_invalid_response_never_renders_result(video_files):
         page = page_with_upload(video_files)
         analyze_button(page).click().run()
     assert not page.exception
-    assert any("không đúng hợp đồng" in error.value for error in page.error)
+    assert any("Chưa đọc được kết quả" in error.value for error in page.error)
     assert not page.table
 
 
@@ -136,7 +138,7 @@ def test_api_offline_is_visible(monkeypatch):
     monkeypatch.setattr("apps.web.client.check_health", lambda url: None)
     page = AppTest.from_file(str(APP), default_timeout=30).run(timeout=30)
     assert not page.exception
-    assert any("Chưa kết nối được API" in error.value for error in page.error)
+    assert any("Chưa kết nối được dịch vụ" in error.value for error in page.error)
 
 
 def test_non_json_error_hides_html():
@@ -156,4 +158,4 @@ def test_web_to_real_api_to_real_decoder(video_files):
             analyze_button(page).click().run(timeout=30)
             assert not page.exception
             assert page.session_state["analysis_result"]["mode"] == "mock"
-            assert any("không có luồng âm thanh" in warning.value for warning in page.warning)
+            assert any("không có luồng âm thanh" in block.value for block in page.markdown)

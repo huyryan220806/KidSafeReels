@@ -1,5 +1,7 @@
 # Hướng dẫn sử dụng và demo app
 
+**Giao diện cập nhật 17/10/2026:** bố cục dành cho phụ huynh với ba bước Chọn video → Kiểm tra nội dung → Xem kết quả. Nút thao tác chính là **Kiểm tra video**. **Lưu kết quả về máy** tải bản tóm tắt tiếng Việt dạng TXT; JSON và chỉ số chi tiết nằm trong mục **Chi tiết phân tích**. Hướng dẫn lần đầu và thông tin kết nối nằm cuối trang. Mô phỏng luôn được ghi rõ và không hiển thị điểm đánh giá giả.
+
 ## Khởi động trên Windows
 
 Mở PowerShell tại repo (máy hiện tại: `D:\KidSafeReels`):
@@ -13,12 +15,12 @@ Chỉ cần setup ở lần đầu hoặc khi dependency thay đổi. Mở http:
 
 ## Dùng app
 
-1. Kiểm tra trạng thái API ở thanh bên. Nhãn “Mô phỏng” nghĩa là chưa phân tích rủi ro nội dung.
+1. Kiểm tra nhãn trạng thái ở đầu trang và thông báo bên dưới phần giới thiệu. Nhãn “Bản dùng thử” kèm thông báo mô phỏng nghĩa là chưa phân tích rủi ro nội dung. Mục hướng dẫn cuối trang có nút thử kết nối lại.
 2. Chọn video MP4/MOV/WebM, tối đa 50 MiB, 60 giây. Có thể xem trước bằng trình phát. MOV/codec không phát được trên trình duyệt nên xuất lại MP4/H.264.
-3. Bấm **Phân tích video**. Trạng thái chờ không hiển thị phần trăm giả.
+3. Bấm **Kiểm tra video**. Trạng thái chờ không hiển thị phần trăm giả.
 4. Đọc kết luận, điểm, nhóm chưa đánh giá và cảnh báo. `Chưa đánh giá` khác `0.000`.
 5. Khi model trả evidence, chọn mốc để trình phát bắt đầu từ giây đó; UI làm tròn xuống giây để không bỏ đầu đoạn. Xem nguồn hình ảnh/lời nói/OCR và mô tả.
-6. Tải JSON. Kết quả còn trong phiên khi tương tác; đổi/xóa file sẽ xóa kết quả cũ. API luôn dọn file tạm sau request.
+6. Bấm **Lưu kết quả về máy** để tải bản tóm tắt dễ đọc. Khi cần JSON, mở **Chi tiết phân tích** rồi bấm **Tải dữ liệu JSON**. Kết quả còn trong phiên khi tương tác; đổi/xóa file sẽ xóa kết quả cũ. API luôn dọn file tạm sau request.
 
 ## Xử lý sự cố
 
