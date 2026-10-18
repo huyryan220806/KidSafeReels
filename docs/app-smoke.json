@@ -1,0 +1,78 @@
+{
+  "recorded_at": "2026-10-05T21:12:32.097660+07:00",
+  "python": "3.12.5",
+  "platform": "Windows-11-10.0.26200-SP0",
+  "scope": "Real media decoding + mock API only. Not model inference or ML quality evaluation.",
+  "passed": 11,
+  "total": 11,
+  "cases": [
+    {
+      "case": "health",
+      "expected": 200,
+      "actual": 200
+    },
+    {
+      "case": "01-khong-am-thanh.mp4",
+      "expected": 200,
+      "actual": 200,
+      "http_seconds": 0.0094,
+      "server_seconds": 0.0057
+    },
+    {
+      "case": "02-co-am-thanh.mp4",
+      "expected": 200,
+      "actual": 200,
+      "http_seconds": 0.0248,
+      "server_seconds": 0.0103
+    },
+    {
+      "case": "03-video.mov",
+      "expected": 200,
+      "actual": 200,
+      "http_seconds": 0.0087,
+      "server_seconds": 0.005
+    },
+    {
+      "case": "04-video.webm",
+      "expected": 200,
+      "actual": 200,
+      "http_seconds": 0.0257,
+      "server_seconds": 0.0045
+    },
+    {
+      "case": "05-dung-60-giay.mp4",
+      "expected": 200,
+      "actual": 200,
+      "http_seconds": 0.0394,
+      "server_seconds": 0.0103
+    },
+    {
+      "case": "06-qua-61-giay.mp4",
+      "expected": 422,
+      "actual": 422,
+      "http_seconds": 0.0221
+    },
+    {
+      "case": "07-file-hong.mp4",
+      "expected": 422,
+      "actual": 422,
+      "http_seconds": 0.045
+    },
+    {
+      "case": "08-file-rong.mp4",
+      "expected": 400,
+      "actual": 400,
+      "http_seconds": 0.0064
+    },
+    {
+      "case": "missing-file",
+      "expected": 422,
+      "actual": 422
+    },
+    {
+      "case": "wrong-extension",
+      "expected": 415,
+      "actual": 415
+    }
+  ]
+}

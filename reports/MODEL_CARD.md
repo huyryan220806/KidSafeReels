@@ -1,5 +1,7 @@
 # Model card — KidSafeReels CPU baseline v1
 
+**Bổ sung 18/10/2026:** bản tích hợp `feat/ml-release` đã chạy 13/13 ca HTTP với worker/model thật, 117 tests pass. Các kết quả benchmark bên dưới không đổi. Chưa có nhãn/metric pilot hoặc nghiệm thu máy thứ hai. Xem `docs/RELEASE_HANDOFF.md`.
+
 Cập nhật 16/10/2026. Pipeline local kết hợp `violence-resnet18-v1`, `toxic-tfidf-v1` và Whisper base. [Cách chạy](../docs/VIDEO_PIPELINE.md), [artifact/checksum](../models/artifacts.json), [visual metrics](visual_baseline_metrics.json), [text metrics](toxic_baseline_metrics.json), [kiểm thử tích hợp](video_smoke_results.json).
 
 ## Mục đích và phạm vi
@@ -22,7 +24,7 @@ Hỗ trợ người lớn sàng lọc video ≤60 giây trong demo học phần.
 - Sai ASR, nói nhỏ/nhạc nền/phương ngữ và chia đoạn có thể đổi điểm Toxic. Đã gặp cảnh báo nhầm trên một mẫu FLEURS có lời nói trung tính; xem báo cáo smoke.
 - Score chưa calibration. Ngưỡng Toxic chọn trên bình luận, chưa được xác nhận cho max nhiều đoạn của một video. Thiếu audio/không nhận ra tiếng Việt/ASR lỗi → Toxic=null, không suy ra an toàn.
 - RLVS có khác biệt về bối cảnh/camera so với video dọc và thiếu metadata nguồn; vẫn có nguy cơ gần trùng chưa phát hiện.
-- Chưa đánh giá công bằng theo nhóm/ngôn ngữ/phương ngữ, chưa đo latency đại diện hay kiểm thử máy thứ hai. API local chưa có timeout giải mã cứng và bảo vệ triển khai public.
+- Chưa đánh giá công bằng theo nhóm/ngôn ngữ/phương ngữ, chưa đo latency đại diện hay kiểm thử máy thứ hai. App tích hợp có timeout media 30 giây/model 180 giây; chưa nghiệm thu triển khai public.
 
 ## Artifact và dữ liệu
 

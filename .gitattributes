@@ -6,3 +6,5 @@
 # Frozen pilot SHA-256 covers exact bytes; preserve them on Windows/Linux clones.
 data/pilot/manifest.json -text whitespace=cr-at-eol
 *.png binary
+*.pdf binary
+*.pptx binary

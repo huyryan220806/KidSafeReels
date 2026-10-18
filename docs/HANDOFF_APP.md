@@ -1,5 +1,7 @@
 # Bàn giao cho thành viên làm app
 
+**Cập nhật 05/10/2026:** phần app trong nhánh `feat/app` đã triển khai các hạng mục UI, kiểm tra media thật, worker/timeout, evidence playback và test. Dùng `APP_GUIDE.md` để chạy, `APP_VALIDATION.md` để xem bằng chứng kiểm tra, `HANDOFF_ML_APP.md` để ghép với Huy. Danh sách dưới đây giữ lại làm bối cảnh phân công ban đầu; kiểm tra bằng model thật/máy thứ hai chờ tích hợp.
+
 Bạn có thể clone và chạy ngay theo README; hiện chưa cần GPU hay model. Mục tiêu là luồng người dùng tải video lên → chờ → xem nhãn, điểm, cảnh báo và bằng chứng → tải JSON.
 
 **Bàn giao ML 16/10/2026:** nhánh `feat/ml-video-pipeline` có visual + ASR + Toxic thật. Giữ nguyên schema v1.0 và signature `analyze_video`; API thêm ánh xạ media lỗi sang HTTP 422. Cài model hoặc nhận gói local theo [VIDEO_PIPELINE.md](VIDEO_PIPELINE.md). Điểm dưới ngưỡng vẫn `review`; Sexual/Dangerous luôn null; visual evidence chưa định vị cảnh. Chỉ sửa dòng giới thiệu UI cho khớp trạng thái mới, các phần playback/bố cục vẫn thuộc app owner.

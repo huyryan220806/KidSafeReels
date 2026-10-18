@@ -1,5 +1,7 @@
 # Kế hoạch một tuần và phân công
 
+**Cập nhật 18/10/2026:** Huy đã hoàn thành baseline D3, tích hợp hai nhánh D4 và công cụ đánh giá/bàn giao D5–D6. Đã có báo cáo PDF 9 trang, slide 11 trang và kịch bản D7. Còn nhãn người thật, đánh giá pilot, máy thứ hai và diễn tập/quay demo. Xem [progress hiện tại](PROGRESS.md); lịch bên dưới là lịch gốc.
+
 **Bổ sung D1–D2 ngày 17/10/2026:** đã chuẩn bị 25 đoạn thật từ 8 nguồn có giấy phép, khóa 5 nhóm và split 17/4/4 trước trích frame; chạy 625 frame + 58 segment ASR. Có gói gán nhãn Huy 25/app 6, nhưng chưa ai hoàn tất nhãn và chưa đo chất lượng moderation trên pilot. Xem [tiến độ lưu để tiếp tục](PROGRESS.md) và [báo cáo D1–D2](../reports/PILOT_D1_D2.md). Đây là phần kỹ thuật D1–D2, không thay thế nghiệm thu chung của cả hai người.
 
 **Tiến độ 16/10/2026:** lịch 08–14/10 bên dưới là kế hoạch ban đầu, chưa hoàn thành theo lịch. Đã có baseline Toxic trên ViCTSD, baseline visual trên RLVS, Whisper base và pipeline hai nhánh qua API; xem `docs/VIDEO_PIPELINE.md` và `reports/`. ViHarm4Kids không còn là dữ liệu bắt buộc. Việc tiếp theo: Huy chuẩn bị/gán nhãn tập video tiếng Việt và đánh giá chung; app owner hoàn thiện playback/evidence, kiểm thử UI và cài trên máy thứ hai. Chưa tự dời deadline 08/11 của giảng viên.
@@ -56,11 +58,15 @@ Giữ thiết kế đa nhãn của hai ảnh: một video có thể vừa bạo 
 ## Checklist đóng dự án
 
 - [ ] Hai máy cài mới chạy được theo README.
-- [ ] Có checkpoint/classifier nhóm huấn luyện, cấu hình và quy trình tái tạo.
-- [ ] Cả visual và transcript thực sự được sử dụng; có so sánh visual-only/text-only/fusion.
+- [x] Có checkpoint/classifier nhóm huấn luyện, cấu hình và quy trình tái tạo.
+- [x] Cả visual và transcript thực sự được sử dụng qua HTTP/model thật.
+- [ ] So sánh visual-only/text-only/fusion trên pilot có nhãn (đã có công cụ, chưa có kết quả).
 - [ ] Chia dữ liệu theo nguồn; không có frame/clip gần trùng giữa train và test.
-- [ ] Có metric theo lớp, support và thời gian trên phần cứng ghi rõ; không dùng accuracy làm chỉ số duy nhất.
-- [ ] UI phân biệt mock/model, null/0, thiếu modality và lỗi; evidence dựa trên tín hiệu thực.
-- [ ] Có ít nhất 10 ca kiểm thử thủ công, gồm video không tiếng và file hỏng.
-- [ ] Không đưa video cá nhân, trọng số lớn, token hoặc dữ liệu nhạy cảm lên Git.
-- [ ] Hoàn thành báo cáo, slide và video demo 3–5 phút.
+- [x] Metric benchmark theo lớp, support và thời gian chạy CPU có giới hạn rõ.
+- [ ] Metric trên tập video chung có nhãn và đo latency đại diện.
+- [x] UI phân biệt mock/model, null/0, thiếu modality và lỗi; evidence dựa trên tín hiệu thực.
+- [x] 13 ca HTTP/model thật tự động, gồm video không tiếng và file hỏng.
+- [ ] Diễn tập kiểm thử thủ công luồng sử dụng cuối.
+- [x] Không đưa video cá nhân, trọng số lớn, token hoặc dữ liệu nhạy cảm lên Git.
+- [ ] Chốt báo cáo và slide sau khi thêm metric pilot/thông tin sinh viên.
+- [ ] Diễn tập và quay video demo 3–5 phút.

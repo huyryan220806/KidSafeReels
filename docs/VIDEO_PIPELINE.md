@@ -59,7 +59,7 @@ Hoặc dùng CLI:
 
 ## Kết quả và lỗi
 
-- Hỗ trợ video ≤60 giây, diện tích frame ≤3840×2160; API nhận ≤50 MiB. File hỏng/không đọc được/thời lượng vượt giới hạn trả 422 ở chế độ model. Chưa có timeout giải mã cứng, chưa phù hợp triển khai public.
+- Hỗ trợ video ≤60 giây, diện tích frame ≤3840×2160; API nhận ≤50 MiB. File hỏng/không đọc được/thời lượng vượt giới hạn trả 422 ở chế độ model. Bản app tích hợp 18/10 có worker với timeout media 30 giây và model 180 giây. Chưa nghiệm thu triển khai public.
 - Violence là điểm toàn clip từ frame thưa. Evidence visual bao phủ `[0, duration]` và nói rõ chưa định vị cảnh; không diễn giải thành toàn bộ khoảng này đều có bạo lực.
 - Toxic chỉ chạy khi có audio và ASR nhận diện tiếng Việt với điểm ngôn ngữ ≥0,5. Chỉ dùng đoạn có `no_speech_prob < 0,6`; điểm video là max điểm từng đoạn. Các bộ lọc ASR này là cấu hình ban đầu, chưa hiệu chỉnh trên video tiếng Việt. Timestamp đến từ ASR và được giới hạn trong clip, có thể sai lệch.
 - Không tiếng/không nhận ra tiếng Việt/ASR lỗi: Toxic = `null`, kèm lý do. Lỗi ASR không làm mất điểm visual đã có. Sexual và Dangerous Acts luôn `null`.
@@ -76,6 +76,6 @@ Hoặc dùng CLI:
 
 Smoke test gọi FastAPI qua TestClient trong tiến trình, chưa kiểm thử trình duyệt hay kết nối mạng. Dùng 5 clip RLVS từ test (chọn theo thứ tự manifest, không chọn theo dự đoán), video không tiếng, video nền màu ghép một mẫu giọng nói FLEURS, video quá dài và file hỏng. Mẫu ghép chỉ kiểm tra đường đi ASR → Toxic; không dùng để đo độ chính xác moderation. JSON kết quả lưu `reports/video_smoke_results.json`.
 
-Cần tiếp tục gán nhãn tập video ngắn tiếng Việt để đo hai lớp trên cùng video, ảnh hưởng ASR, visual-only/text-only/kết hợp và độ trễ đại diện. Hai metric benchmark riêng chưa chứng minh hiệu quả hệ thống trên TikTok/Reels/Shorts. App owner tiếp tục playback/evidence, kiểm thử UI và cài trên máy thứ hai.
+Cần tiếp tục gán nhãn tập video ngắn tiếng Việt để đo hai lớp trên cùng video, ảnh hưởng ASR, visual-only/text-only/kết hợp và độ trễ đại diện. Hai metric benchmark riêng chưa chứng minh hiệu quả hệ thống trên TikTok/Reels/Shorts. Playback/evidence và bộ test app đã tích hợp; xem `RELEASE_HANDOFF.md` và `reports/release_smoke_results.json` cho 13 ca HTTP/model mới. Máy thứ hai vẫn chưa nghiệm thu.
 
 Nguồn: [RLVS](https://www.kaggle.com/datasets/mohamedmustafa/real-life-violence-situations-dataset), [ResNet18](https://docs.pytorch.org/vision/stable/models/generated/torchvision.models.resnet18.html), [faster-whisper](https://github.com/SYSTRAN/faster-whisper), [FLEURS](https://huggingface.co/datasets/google/fleurs).

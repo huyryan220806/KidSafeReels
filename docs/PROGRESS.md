@@ -1,5 +1,45 @@
 # Tiến độ KidSafeReels
 
+Cập nhật **18/10/2026**, nhánh tích hợp **`feat/ml-release`**. Người dùng xác nhận chưa gán nhãn và yêu cầu hoàn thiện các phần khác. Không tự tạo nhãn hoặc metric pilot.
+
+## Trạng thái phần việc của Huy
+
+| Mốc | Đã thực hiện | Còn cần hoàn tất |
+|---|---|---|
+| D1–D2 | Phạm vi, 25 clip có giấy phép, manifest nhóm/split khóa, frame + ASR, player gán nhãn | Huy gán 25, app gán 6, phân xử |
+| D3 | Huấn luyện và đánh giá hai baseline, giữ checkpoint và checksum | Không có việc kỹ thuật còn thiếu trong baseline đã chọn |
+| D4 | Hai modality thật, ghép app d82798d, 5 clip train qua HTTP/model thật | Không có lỗi tích hợp đã biết trong 13 ca smoke |
+| D5 | Metric benchmark, ca lỗi ASR, công cụ agreement/gold/evaluation/ablation, 117 tests | Metric và ablation trên pilot có nhãn |
+| D6 | Model card, cài bundle có kiểm hash, phụ thuộc PyAV 16.1.0, lock môi trường, handoff | Nghiệm thu cài/chạy trên máy thứ hai |
+| D7 | Báo cáo kỹ thuật, PDF, slide và speaker notes, kịch bản demo + Q&A đã kiểm tra | Bổ sung metric pilot/thông tin sinh viên, diễn tập và quay demo |
+
+Không quy đổi bảng này thành 100% dự án: nhãn, đánh giá đích và nghiệm thu của người dùng vẫn còn.
+
+## Kiểm chứng bản tích hợp
+
+- Full suite: **117 passed**, 71,50 giây. `pip check` pass. 8 artifact khớp manifest.
+- **13/13 ca HTTP thật pass**: 5 clip train có cả hai score, 2 clip tổng hợp không tiếng/có âm thử, 6 ca đầu vào lỗi. Đây là kiểm tra kỹ thuật, không phải số dự đoán nội dung đúng.
+- Lần gọi đầu 23,34 giây; 4 lần sau median 5,20, p95 mô tả 11,95 giây. Cùng nhóm nguồn, mỗi clip chạy một lần, chưa là benchmark hiệu năng đại diện.
+- Nhánh app giữ nguyên trên remote. Nhánh tích hợp ghép từ ML `32d1ad4` và app `d82798d`; schema v1 không đổi, không fallback mock.
+- Giữ kết quả/ASR/nhãn/video/checkpoint ở thư mục private hoặc ignored. Chỉ 005–009 train đã chạy classifier cho smoke; test pilot chưa chạy classifier.
+- Audit D1–D2 bên dưới là ảnh chụp trạng thái 17/10, giữ nguyên. Dòng `predictions_run=false` trong audit áp dụng lúc audit, trước smoke train ngày 18/10.
+
+## Đầu ra để tiếp tục khi hết quota
+
+- [Chạy bản tích hợp và bàn giao máy khác](RELEASE_HANDOFF.md).
+- [Quy trình so phiếu, tạo gold và đánh giá](EVALUATION_GUIDE.md).
+- [Báo cáo kỹ thuật](../reports/TECHNICAL_REPORT.md), [PDF](../output/pdf/KidSafeReels_BaoCaoKyThuat.pdf), [slide](../output/presentation/KidSafeReels_ThuyetTrinh.pptx).
+- [Kịch bản demo và câu hỏi bảo vệ](DEFENSE_NOTES.md).
+- Model ZIP local: `models/checkpoints/bundle/kidsafe-cpu-v1.zip`; không nằm trên Git.
+- Phiếu/video local: `data/private/kidsafe-pilot-v1-annotation.zip`; không chứa dự đoán.
+- Chưa có phiếu người thật. Khi nhận hai JSON, chạy hướng dẫn evaluation; không tải/train lại baseline, không thay split hoặc chỉnh ngưỡng bằng test.
+- Trạng thái commit/push: đang hoàn tất kiểm tra tài liệu và lưu nhánh tích hợp.
+
+---
+
+## Lịch sử đã lưu ngày 17/10
+
+
 Cập nhật 17/10/2026. Nhánh đang làm: `feat/ml-pilot-data`, nối tiếp `cb64e05` (pipeline CPU). Đây là nhật ký trạng thái thực; chỉ đánh dấu xong khi có đầu ra và kiểm tra tương ứng.
 
 ## Công việc hiện tại: bù phần D1–D2

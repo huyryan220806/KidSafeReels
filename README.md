@@ -4,7 +4,9 @@ Mini project môn **Học máy và ứng dụng**: hỗ trợ người lớn sà
 
 **Dữ liệu pilot D1–D2:** đã có 25 đoạn từ 8 nguồn có giấy phép, chia theo nhóm và tiền xử lý thật. Huy gán 25 clip, thành viên app gán chéo 6; nhãn đang chờ người xác nhận. Xem [progress để tiếp tục](docs/PROGRESS.md), [cách chạy lại/gói gán nhãn](docs/PILOT_DATA.md) và [kết quả D1–D2](reports/PILOT_D1_D2.md).
 
-**Trạng thái 17/10/2026: đã có pipeline video thật cho Violence + Toxic tiếng Việt trên CPU.** Visual dùng ResNet18 đóng băng + classifier học trên RLVS; audio dùng Whisper base + baseline Toxic học trên ViCTSD. Xem [cài và chạy model video](docs/VIDEO_PIPELINE.md), [kết quả visual](reports/VISUAL_BASELINE.md), [kết quả Toxic](reports/TOXIC_BASELINE.md) và [kiểm thử tích hợp/ca lỗi](reports/VIDEO_SMOKE.md). Chưa đánh giá toàn hệ thống trên tập video ngắn tiếng Việt; Sexual/Dangerous chưa được hỗ trợ. Mock vẫn là mặc định để thành viên app chạy ngay.
+**Trạng thái 18/10/2026: đã có pipeline video thật cho Violence + Toxic tiếng Việt trên CPU.** Visual dùng ResNet18 đóng băng + classifier học trên RLVS; audio dùng Whisper base + baseline Toxic học trên ViCTSD. Xem [cài và chạy model video](docs/VIDEO_PIPELINE.md), [kết quả visual](reports/VISUAL_BASELINE.md), [kết quả Toxic](reports/TOXIC_BASELINE.md) và [kiểm thử tích hợp/ca lỗi](reports/VIDEO_SMOKE.md). Chưa đánh giá toàn hệ thống trên tập video ngắn tiếng Việt; Sexual/Dangerous chưa được hỗ trợ. Mock vẫn là mặc định để thành viên app chạy ngay.
+
+App đã ghép giao diện mới, worker có timeout, kiểm tra media và evidence từ nhánh app. Bản tích hợp có 13/13 ca HTTP/model thật pass. Xem [bàn giao release](docs/RELEASE_HANDOFF.md), [báo cáo kỹ thuật](reports/TECHNICAL_REPORT.md) và [quy trình đánh giá sau gán nhãn](docs/EVALUATION_GUIDE.md).
 
 ## Phạm vi một tuần
 
@@ -14,13 +16,24 @@ Mini project môn **Học máy và ứng dụng**: hỗ trợ người lớn sà
 - OCR, hai nhóm sexual/dangerous_acts và triển khai online là mở rộng sau khi lõi chạy ổn.
 - TikTok/Reels/YouTube Shorts là bối cảnh sử dụng video, chưa có tích hợp chặn feed hay tải video trực tiếp từ nền tảng.
 
-## Chạy bộ khung (Python 3.11 hoặc 3.12)
+## Chạy app (ưu tiên Python 3.12)
+
+Windows, tại thư mục repo:
 
 ```powershell
-git clone https://github.com/huyryan220806/KidSafeReels.git
+powershell -ExecutionPolicy Bypass -File scripts/setup.ps1
+powershell -ExecutionPolicy Bypass -File scripts/run.ps1
+```
+
+Lệnh đầu tạo `.venv` và cài phiên bản thư viện đã khóa; lệnh sau chạy cả web và API. Mở http://127.0.0.1:8501. Nhấn Ctrl+C trong terminal chạy app để dừng cả hai. Các dịch vụ local chỉ lắng nghe trên máy hiện tại. Mở Codex/VS Code tại đúng thư mục `D:\KidSafeReels` khi làm phần app.
+
+Hoặc chạy từng dịch vụ để phát triển:
+
+```powershell
+git clone --branch feat/ml-release https://github.com/huyryan220806/KidSafeReels.git
 cd KidSafeReels
 python -m venv .venv
-.\.venv\Scripts\python.exe -m pip install -r requirements-dev.txt
+.\.venv\Scripts\python.exe -m pip install -r requirements-dev.txt -c requirements-app.lock.txt
 .\.venv\Scripts\python.exe -m uvicorn apps.api.main:app --reload
 ```
 
@@ -32,13 +45,31 @@ Mở terminal thứ hai tại thư mục repo:
 
 Web: http://localhost:8501 · API docs: http://127.0.0.1:8000/docs · Health: http://127.0.0.1:8000/health
 
-macOS/Linux: thay `.\.venv\Scripts\python.exe` bằng `.venv/bin/python`. Chế độ mock không cần GPU, FFmpeg hay tải model.
+macOS/Linux: thay `.\.venv\Scripts\python.exe` bằng `.venv/bin/python`; có thể chạy chung bằng `.venv/bin/python -m scripts.run_app`. PyAV wheel chứa thư viện FFmpeg để kiểm tra media; không cần cài executable FFmpeg riêng cho phần app. Không cần GPU, torch hay tải model để chạy mock.
 
 ```powershell
 .\.venv\Scripts\python.exe -m pytest -q
 ```
 
 `KIDSAFE_BACKEND=mock` là mặc định: luôn trả `review`, điểm `null`, không phân tích video. Đặt `KIDSAFE_BACKEND=model` sau khi chuẩn bị phụ thuộc và artifact theo [hướng dẫn model](docs/VIDEO_PIPELINE.md); thiếu artifact trả HTTP 503. `KIDSAFE_API_URL` cấu hình địa chỉ API cho web, mặc định `http://127.0.0.1:8000`. File `.env.example` là tài liệu cấu hình, chưa được tự động nạp.
+
+
+Giới hạn mặc định: 50 MiB, 60 giây, 8.294.400 pixel/khung, 18.000 khung; timeout kiểm tra media 30 giây, model 180 giây, web 225 giây. Một worker phục vụ một lượt; lượt đến khi worker bận nhận 429, không tự retry. Worker được dùng lại để Huy có thể cache model trong bộ nhớ; timeout chấm dứt worker và lượt sau tạo lại. Thay đổi code model cần khởi động lại API.
+
+```powershell
+# Tạo 8 file tổng hợp để thử app; không phải dữ liệu đánh giá ML.
+.\.venv\Scripts\python.exe -m scripts.make_demo_videos
+```
+
+File nằm tại `data/private/app-demo/`, đã được gitignore. Xem [hướng dẫn sử dụng và demo](docs/APP_GUIDE.md), [bàn giao tích hợp cho Huy](docs/HANDOFF_ML_APP.md), [kiểm chứng app](docs/APP_VALIDATION.md).
+
+## Chạy bằng container (tùy chọn)
+
+```powershell
+docker compose up --build
+```
+
+Mở http://127.0.0.1:8501. Compose gồm web, API và nginx giới hạn request body 52 MiB (gồm multipart); API vẫn giới hạn nội dung file 50 MiB. Chưa công bố ra Internet. Docker chưa được chạy kiểm chứng trên máy phát triển hiện tại vì chưa có Docker. Khi tích hợp model, Huy cần thêm dependencies/checkpoint tương ứng; image hiện tại chỉ gồm app và mock.
 
 ## Hai người bắt đầu từ đâu?
 
@@ -59,6 +90,6 @@ docs/          Phạm vi, phân công, kiến trúc, hợp đồng và ảnh ý 
 tests/         Kiểm tra API và giao diện mock
 ```
 
-Đọc [quy trình Git](CONTRIBUTING.md) và [hướng dẫn cho Codex](AGENTS.md) trước khi sửa. Chi tiết giới hạn hiện tại nằm ở [API contract](docs/API_CONTRACT.md). Model kiểm tra media/thời lượng và xử lý thiếu audio; còn cần tập video đích có nhãn, kiểm thử UI và cài lại trên máy thứ hai.
+Đọc [quy trình Git](CONTRIBUTING.md) và [hướng dẫn cho Codex](AGENTS.md) trước khi sửa. Chi tiết giới hạn hiện tại nằm ở [API contract](docs/API_CONTRACT.md). Model kiểm tra media/thời lượng và xử lý thiếu audio; còn cần tập video đích có nhãn, đánh giá có nhãn và cài lại trên máy thứ hai.
 
 Ý tưởng gốc được giữ tại [Idea1.png](docs/ideas/Idea1.png) và [Idea2.png](docs/ideas/Idea2.png); xem [kiến trúc dự kiến](docs/ARCHITECTURE.md) để đối chiếu với phạm vi một tuần.
