@@ -1,6 +1,6 @@
 # Bàn giao bản tích hợp CPU - 18/10/2026
 
-Nhánh `feat/ml-release` ghép ML/pilot từ `32d1ad4` với app `d82798d`. Giữ nguyên schema v1 và signature `analyze_video`; giữ giao diện/worker của app owner. **117 tests pass, 13/13 ca HTTP với model thật pass**, 8 artifact khớp checksum. Đây là bản tích hợp để demo và hoàn thiện nhãn, chưa phải bản đã chứng minh hiệu quả kiểm duyệt trẻ em.
+Commit tích hợp `fdec72b` đã push lên GitHub. Nhánh `feat/ml-release` ghép ML/pilot từ `32d1ad4` với app `d82798d`. Giữ nguyên schema v1 và signature `analyze_video`; giữ giao diện/worker của app owner. **117 tests pass, 13/13 ca HTTP với model thật pass**, 8 artifact khớp checksum. Đây là bản tích hợp để demo và hoàn thiện nhãn, chưa phải bản đã chứng minh hiệu quả kiểm duyệt trẻ em.
 
 ## Chạy trên máy Huy
 
@@ -53,3 +53,7 @@ Bộ cài kiểm tra danh sách file, kích thước và SHA-256 theo manifest t
 Lần gọi đầu 23,34 giây gồm nạp worker/model. Bốn clip ấm có median 5,20 và p95 mô tả 11,95 giây; mỗi clip chỉ chạy một lần. Không dùng số này làm cam kết hiệu năng.
 
 Huy còn gán 25 clip; app owner gán 6 và thử cài/chạy trên máy thứ hai. Sau đó Huy chạy [quy trình đánh giá](EVALUATION_GUIDE.md), bổ sung metric vào báo cáo/slide rồi cả nhóm diễn tập và quay video demo. Các phần này chưa được đánh dấu hoàn thành.
+
+## Tài liệu bàn giao
+
+Báo cáo PDF 9 trang ở `output/pdf/KidSafeReels_BaoCaoKyThuat.pdf`, slide 11 trang có speaker notes ở `output/presentation/KidSafeReels_ThuyetTrinh.pptx`. Có nội dung sửa được ở `reports/TECHNICAL_REPORT.md` và nguồn tạo slide ở `scripts/build_slides.mjs`. Kịch bản demo/Q&A: `docs/DEFENSE_NOTES.md`. Chưa thay thế bước cập nhật metric pilot sau khi có nhãn.

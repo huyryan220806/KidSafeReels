@@ -33,7 +33,7 @@ Không quy đổi bảng này thành 100% dự án: nhãn, đánh giá đích v�
 - Model ZIP local: `models/checkpoints/bundle/kidsafe-cpu-v1.zip`; không nằm trên Git.
 - Phiếu/video local: `data/private/kidsafe-pilot-v1-annotation.zip`; không chứa dự đoán.
 - Chưa có phiếu người thật. Khi nhận hai JSON, chạy hướng dẫn evaluation; không tải/train lại baseline, không thay split hoặc chỉnh ngưỡng bằng test.
-- Trạng thái commit/push: đang hoàn tất kiểm tra tài liệu và lưu nhánh tích hợp.
+- Đã commit và push bản tích hợp `fdec72b` lên `origin/feat/ml-release`. PDF 9 trang và slide 11 trang đã render/kiểm tra từng trang. Nhật ký này được lưu bằng commit tiếp theo; checkpoint/video vẫn chỉ ở local.
 
 ---
 
