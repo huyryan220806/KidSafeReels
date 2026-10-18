@@ -24,6 +24,13 @@ Không quy đổi bảng này thành 100% dự án: nhãn, đánh giá đích v�
 - Giữ kết quả/ASR/nhãn/video/checkpoint ở thư mục private hoặc ignored. Chỉ 005–009 train đã chạy classifier cho smoke; test pilot chưa chạy classifier.
 - Audit D1–D2 bên dưới là ảnh chụp trạng thái 17/10, giữ nguyên. Dòng `predictions_run=false` trong audit áp dụng lúc audit, trước smoke train ngày 18/10.
 
+## Bàn giao cho app ngày 18/10
+
+- Đã cập nhật `docs/HANDOFF_APP.md` thành hướng dẫn tiếp nhận bản tích hợp; thay yêu cầu làm app từ đầu bằng nghiệm thu máy thứ hai, nhãn chéo và demo.
+- Có tin nhắn/prompt chuyển cho Codex app tại `docs/APP_HANDOFF_MESSAGE.md` và mẫu trống `docs/APP_ACCEPTANCE_TEMPLATE.md`. Không điền pass thay cho người kiểm tra máy khác.
+- Gói gửi riêng nằm tại `data/private/handoff-app/kidsafe-app-handoff-2026-10-18.zip`, kèm SHA-256; chứa model ZIP, annotation ZIP, tài liệu và PDF/PPTX. Không chứa dự đoán/ASR private hoặc raw dataset huấn luyện. Code lấy từ GitHub.
+- Gói để Huy gửi cho thành viên app; chưa tự gửi tin nhắn, upload dịch vụ ngoài hoặc xác nhận người nhận đã nhận.
+
 ## Đầu ra để tiếp tục khi hết quota
 
 - [Chạy bản tích hợp và bàn giao máy khác](RELEASE_HANDOFF.md).
