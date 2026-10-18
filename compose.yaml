@@ -1,0 +1,33 @@
+services:
+  api:
+    build: .
+    environment:
+      KIDSAFE_BACKEND: ${KIDSAFE_BACKEND:-mock}
+      KIDSAFE_MEDIA_TIMEOUT: 30
+      KIDSAFE_MODEL_TIMEOUT: 180
+    init: true
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/health', timeout=3)"]
+      interval: 15s
+      timeout: 5s
+      retries: 3
+    stop_grace_period: 220s
+  web:
+    build: .
+    command: ["python", "-m", "streamlit", "run", "apps/web/app.py", "--server.address=0.0.0.0", "--server.headless=true"]
+    environment:
+      KIDSAFE_API_URL: http://gateway:8000
+      KIDSAFE_HTTP_TIMEOUT: 225
+    init: true
+    depends_on:
+      api:
+        condition: service_healthy
+  gateway:
+    image: nginx:stable-alpine
+    volumes:
+      - ./deploy/nginx.conf:/etc/nginx/conf.d/default.conf:ro
+    ports:
+      - "127.0.0.1:8501:8501"
+    depends_on:
+      - api
+    init: true

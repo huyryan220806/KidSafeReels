@@ -4,15 +4,16 @@ from pathlib import Path
 from uuid import uuid4
 
 from kidsafe.schemas import AnalysisResult, RiskScores
-
-
-class ModelNotReadyError(RuntimeError):
-    pass
+from kidsafe.errors import ModelNotReadyError
 
 
 def analyze_video(path: Path, *, backend: str = "mock") -> AnalysisResult:
     if backend == "model":
-        raise ModelNotReadyError("Model chưa được tích hợp. Dùng mock để phát triển app.")
+        try:
+            from ml.inference import analyze
+            return analyze(path)
+        except ImportError as exc:
+            raise ModelNotReadyError("Thiếu thư viện video ML. Xem docs/VIDEO_PIPELINE.md.") from exc
     if backend != "mock":
         raise ValueError(f"Unsupported backend: {backend}")
     if not path.is_file():

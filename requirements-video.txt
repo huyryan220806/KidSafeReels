@@ -1,0 +1,10 @@
+-r requirements-ml.txt
+# Install CPU torch/torchvision separately as documented in docs/VIDEO_PIPELINE.md.
+faster-whisper==1.2.1
+opencv-python-headless==5.0.0.93
+# faster-whisper 1.2.1 uses metadata_errors, removed by newer PyAV.
+av==16.1.0
+ctranslate2==4.8.3
+huggingface-hub==2.2.0
+requests>=2.32,<3
+pydantic>=2.10,<3
