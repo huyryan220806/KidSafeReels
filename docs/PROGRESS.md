@@ -1,5 +1,18 @@
 # Tiến độ KidSafeReels
 
+## Nghiệm thu máy app - 18/10/2026
+
+- Thành viên app Lê Quyết Tiến nhận ZIP khớp SHA-256, kiểm 17 tệp bàn giao và 8 artifact model.
+- Ghép `feat/ml-release` f5d9310 lên `feat/app` theo fast-forward, giữ giao diện d82798d và toàn bộ ML của Huy.
+- Cài mới `.venv-model` trên Windows 11 / i5-12450H / Python 3.12.5. Đây là máy khác với Ryzen 5 7535HS của Huy.
+- **118 tests pass**, `pip check` và verifier qua; **13/13 ca HTTP model thật**, **9/9 ca UI AppTest nối HTTP/model thật** qua. Xem `APP_ACCEPTANCE_TIEN.md` và ba JSON `reports/app_*` tương ứng.
+- Thêm launcher model, biên bản riêng, thông tin sinh viên và sửa ánh xạ lỗi media từ model thành 422. Không sửa ngưỡng hoặc model.
+- Chưa chạy classifier trên pilot; 6 nhãn độc lập của Tiến và 25 nhãn Huy vẫn cần người thực hiện. Không có metric pilot mới.
+- Công cụ trình duyệt từ chối quyền truy cập nên không xác nhận kiểm thử tay/ảnh UI model hoặc quay video mới. Ghi rõ kiểm thử giao diện ở mức AppTest, không coi là thao tác trình duyệt thủ công.
+- Báo cáo/slide bản dành cho Tiến cập nhật bằng chứng máy app và thông tin đã xác nhận. Phần ML gốc vẫn được giữ để đối chiếu.
+
+Nhật ký dưới đây là lịch sử công việc của Huy; số đo của từng máy không trộn lẫn.
+
 Cập nhật **18/10/2026**, nhánh tích hợp **`feat/ml-release`**. Người dùng xác nhận chưa gán nhãn và yêu cầu hoàn thiện các phần khác. Không tự tạo nhãn hoặc metric pilot.
 
 ## Trạng thái phần việc của Huy

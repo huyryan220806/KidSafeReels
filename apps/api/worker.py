@@ -36,9 +36,13 @@ def worker_loop(connection):
                 continue
             connection.send(("media",))
             from kidsafe.pipeline import ModelNotReadyError, analyze_video
+            from kidsafe.errors import InvalidMediaError
 
             try:
                 result = analyze_video(Path(path), backend=backend)
+            except InvalidMediaError as exc:
+                connection.send(("error", 422, str(exc)))
+                continue
             except ModelNotReadyError:
                 connection.send(("error", 503, "Model chưa sẵn sàng. Kiểm tra checkpoint và hướng dẫn bàn giao của Huy."))
                 continue

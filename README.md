@@ -18,6 +18,17 @@ App đã ghép giao diện mới, worker có timeout, kiểm tra media và evide
 
 ## Chạy app (ưu tiên Python 3.12)
 
+Máy thành viên app đã có gói model: mở `Chay-KidSafeReels.cmd` hoặc chạy `powershell -ExecutionPolicy Bypass -File scripts/run-model.ps1`. Lệnh này dùng `.venv-model`, kiểm checksum rồi khởi động backend model thật. Bản kiểm tra trên máy Tiến được ghi riêng tại [nghiệm thu máy app](docs/APP_ACCEPTANCE_TIEN.md).
+
+Cài model trên máy mới, dùng ZIP `kidsafe-cpu-v1.zip` Huy gửi:
+
+```powershell
+powershell -ExecutionPolicy Bypass -File scripts/setup-model.ps1 -ModelBundle "D:\BanGiao\kidsafe-cpu-v1.zip"
+powershell -ExecutionPolicy Bypass -File scripts/run-model.ps1
+```
+
+Môi trường model dùng đúng `av==16.1.0`, PyTorch CPU và constraints bàn giao. `.venv-model/`, checkpoint và video được giữ local. Các lệnh dưới đây dành cho phát triển app/mock:
+
 Windows, tại thư mục repo:
 
 ```powershell

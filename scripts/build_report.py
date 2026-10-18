@@ -1,5 +1,7 @@
 """Render the Vietnamese technical report with ReportLab and installed Arial fonts."""
 from pathlib import Path
+import argparse
+import json
 import re
 from xml.sax.saxutils import escape
 
@@ -12,7 +14,12 @@ from reportlab.pdfbase.ttfonts import TTFont
 from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, PageBreak, Table, TableStyle
 
 ROOT = Path(__file__).resolve().parents[1]
-OUT = ROOT / "output/pdf/KidSafeReels_BaoCaoKyThuat.pdf"
+parser = argparse.ArgumentParser()
+parser.add_argument("--output", type=Path, default=ROOT / "output/pdf/KidSafeReels_BaoCaoKyThuat.pdf")
+parser.add_argument("--profile", type=Path)
+args = parser.parse_args()
+profile = json.loads(args.profile.read_text(encoding="utf-8")) if args.profile else None
+OUT = args.output
 OUT.parent.mkdir(parents=True, exist_ok=True)
 pdfmetrics.registerFont(TTFont("Arial", "C:/Windows/Fonts/arial.ttf"))
 pdfmetrics.registerFont(TTFont("Arial-Bold", "C:/Windows/Fonts/arialbd.ttf"))
@@ -44,13 +51,19 @@ def footer(canvas, doc):
     canvas.drawRightString(543, 30, str(doc.page))
 
 
-story = [Spacer(1, 82), Paragraph("KidSafeReels", title),
+people = (f"Học phần: Học máy và ứng dụng<br/>Giảng viên: {escape(profile['lecturer'])}<br/>"
+          f"Lớp: {escape(profile['class'])}<br/>"
+          f"Ứng dụng: {escape(profile['name'])} - MSSV {escape(profile['student_id'])}<br/>"
+          "Học máy và điều phối: Huy") if profile else "Học phần: Học máy và ứng dụng<br/>Huy: học máy và điều phối nhóm<br/>Thành viên app: ứng dụng và giao diện"
+cover_status = ("Bản tích hợp CPU đã được cài và kiểm thử trên máy thành viên app. "
+                "Nhãn pilot và đánh giá chung vẫn chờ người thực hiện.") if profile else "Báo cáo trình bày hai baseline đã huấn luyện, pipeline CPU và sản phẩm tích hợp. Nhãn pilot, đánh giá chung và nghiệm thu trên máy thứ hai chưa hoàn tất."
+story = [Spacer(1, 50), Paragraph("KidSafeReels", title),
          Paragraph("Hệ thống kiểm duyệt đa phương thức<br/>nội dung video ngắn nhằm bảo vệ trẻ em", heading),
          Spacer(1, 28), Paragraph("BÁO CÁO KỸ THUẬT", body),
-         Paragraph("Học phần: Học máy và ứng dụng<br/>Huy: học máy và điều phối nhóm<br/>Thành viên app: ứng dụng và giao diện", body),
-         Spacer(1, 32), Paragraph("Phiên bản ngày 18/10/2026", body),
-         Paragraph("Báo cáo trình bày hai baseline đã huấn luyện, pipeline CPU và sản phẩm tích hợp. Nhãn pilot, đánh giá chung và nghiệm thu trên máy thứ hai chưa hoàn tất.", body),
-         Paragraph("Bổ sung họ tên đầy đủ, MSSV, lớp và thông tin giảng viên theo mẫu học phần trước khi nộp.", small)]
+         Paragraph(people, body),
+         Spacer(1, 24), Paragraph("Phiên bản ngày 18/10/2026", body),
+         Paragraph(cover_status, body),
+         Paragraph("Thông tin đầy đủ của thành viên Huy sẽ bổ sung khi nhóm chốt hồ sơ nộp." if profile else "Bổ sung họ tên đầy đủ, MSSV, lớp và thông tin giảng viên theo mẫu học phần trước khi nộp.", small)]
 lines = (ROOT / "reports/TECHNICAL_REPORT.md").read_text(encoding="utf-8").splitlines()
 i = 0
 while i < len(lines):

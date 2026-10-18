@@ -1,6 +1,6 @@
 # KidSafeReels - Báo cáo kỹ thuật
 
-Học phần Học máy và ứng dụng. Nhóm hai người: Huy phụ trách ML và điều phối, thành viên còn lại phụ trách app. Phiên bản tích hợp CPU ngày 18/10/2026. Đây là báo cáo từ kết quả đã chạy; đánh giá pilot có nhãn và nghiệm thu máy thứ hai đang chờ.
+Học phần Học máy và ứng dụng. Nhóm hai người: Huy phụ trách ML và điều phối; Lê Quyết Tiến (2474802010386) phụ trách app. Lớp 03_02, giảng viên Nguyễn Thái Anh. Phiên bản tích hợp CPU ngày 18/10/2026. Đây là báo cáo từ kết quả đã chạy; đánh giá pilot có nhãn đang chờ; nghiệm thu kỹ thuật tự động trên máy app đã có bằng chứng riêng.
 
 ## 1. Bài toán và phạm vi sản phẩm
 
@@ -59,11 +59,11 @@ Streamlit gọi FastAPI qua HTTP. API lưu upload ở thư mục tạm, worker P
 
 App kiểm tra mode đúng backend, evaluated_labels khớp score khác null, evidence thuộc nhãn được đánh giá và không vượt clip. Model chưa sẵn sàng trả 503, kết quả sai contract trả 502, quá thời gian trả 504. Giao diện phân biệt mock/model, thiếu nhãn và điểm 0; có preview, mốc evidence, bản tóm tắt TXT và JSON chi tiết.
 
-Bản tích hợp giữ app commit d82798d và pipeline ML đã huấn luyện. Xung đột PyAV được giải quyết bằng 16.1.0 cho app và faster-whisper; 8 artifact khớp checksum. Hai test giả định chưa có model được đổi sang thư mục checkpoint trống riêng, vì máy Huy đã có model thật. Bộ kiểm thử hiện tại có 117 test pass, pip check không phát hiện phụ thuộc hỏng.
+Bản tích hợp giữ app commit d82798d và pipeline ML đã huấn luyện. Xung đột PyAV được giải quyết bằng 16.1.0 cho app và faster-whisper; 8 artifact khớp checksum. Hai test giả định chưa có model được đổi sang thư mục checkpoint trống riêng, vì máy Huy đã có model thật. Bộ kiểm thử tích hợp trên máy Huy có 117 test pass; phiên bản app bổ sung một regression ánh xạ lỗi media, chạy 118 test qua trên máy Tiến. Cả hai máy đều qua pip check.
 
 Kiểm thử HTTP thật qua worker/model đạt 13/13 ca. Trong đó có 5 clip train thật dài 25 giây, video tổng hợp không tiếng và có âm thử, file quá dài, file hỏng, sai đuôi/container, file rỗng và thiếu trường upload. Đây là kiểm thử kỹ thuật, không phải 13 dự đoán nội dung đúng. Kết quả score/transcript được giữ riêng để không làm lệch quá trình gán nhãn.
 
-Lần gọi đầu mất 23,34 giây, gồm nạp worker/model. Bốn clip sau có median 5,20 giây và p95 mô tả 11,95 giây. Các clip cùng một nhóm nguồn và mỗi clip chỉ chạy một lần, nên chưa đủ làm benchmark hiệu năng. Máy chạy Windows, Python 3.12.10, AMD Ryzen 5 7535HS; model dùng CPU. Chưa nghiệm thu cài mới trên máy thứ hai hoặc Docker có model.
+Lần gọi đầu mất 23,34 giây, gồm nạp worker/model. Bốn clip sau có median 5,20 giây và p95 mô tả 11,95 giây. Các clip cùng một nhóm nguồn và mỗi clip chỉ chạy một lần, nên chưa đủ làm benchmark hiệu năng. Máy chạy Windows, Python 3.12.10, AMD Ryzen 5 7535HS; model dùng CPU. Các số đo trên thuộc máy Huy. Trên máy Tiến (Windows 11, Python 3.12.5, Intel Core i5-12450H, RAM 15,71 GiB), môi trường mới .venv-model và đủ 8 artifact đã chạy 13/13 ca HTTP cùng 9/9 ca UI AppTest nối API/model thật. Fixture tiếng Việt FLEURS ghép nền tổng hợp có cả hai score, gọi lại mất 1,7737 giây; gọi đầu video tổng hợp không tiếng mất 7,2651 giây gồm nạp model. Đây là số đo riêng của fixture nhỏ, không so trực tiếp với clip 25 giây của Huy. Kiểm thử trình duyệt thủ công, video quay mới và Docker có model chưa nghiệm thu.
 
 ## 6. Pilot và quy trình đánh giá cuối
 
@@ -77,15 +77,15 @@ Test khóa theo manifest, gold, artifact, code và media. Chỉ dùng train/vali
 
 ## 7. Đóng góp và giới hạn
 
-Huy phụ trách phạm vi, nguồn dữ liệu, chia tập, hai baseline, ASR, fusion, manifest/artifact, công cụ nhãn/đánh giá, review và tích hợp hai nhánh, nội dung phương pháp/thực nghiệm. Thành viên app phụ trách upload, preview, trình bày kết quả, evidence playback, worker/timeout, validation, kiểm thử app, hướng dẫn chạy và giao diện dành cho phụ huynh. Hai người cùng thực hiện gán nhãn chéo, kiểm thử máy thứ hai và demo cuối.
+Huy phụ trách phạm vi, nguồn dữ liệu, chia tập, hai baseline, ASR, fusion, manifest/artifact, công cụ nhãn/đánh giá, review và tích hợp hai nhánh, nội dung phương pháp/thực nghiệm. Lê Quyết Tiến phụ trách upload, preview, trình bày kết quả, evidence playback, worker/timeout, validation, kiểm thử app, hướng dẫn chạy và giao diện dành cho phụ huynh. Hai người cùng thực hiện gán nhãn chéo, kiểm thử máy thứ hai và demo cuối.
 
 Các giới hạn còn ảnh hưởng kết luận: chưa có nhãn pilot; Toxic còn yếu trên benchmark viết; ASR chưa đo WER/CER đại diện; thiếu chuyển động và localization ở visual; chưa đánh giá công bằng theo phương ngữ hoặc nhóm người; chưa có Sexual/Dangerous/OCR; chưa tích hợp trực tiếp vào nền tảng. Độ chính xác RLVS không được hiểu là mức bảo vệ trẻ em ngoài thực tế.
 
-Với giới hạn một tuần, nhóm giữ hai nhãn P0 và demo local. Hạng mục phải hoàn tất trước nộp là gán nhãn và phân xử, đánh giá chung với support rõ, thử máy thứ hai, bổ sung thông tin sinh viên theo mẫu giảng viên, diễn tập và quay demo 3-5 phút. Bản báo cáo này đã chứa kết quả đã đo và phương pháp tái tạo, không đánh dấu các mục trên là đã thực hiện.
+Với giới hạn một tuần, nhóm giữ hai nhãn P0 và demo local. Hạng mục phải hoàn tất trước nộp là gán nhãn và phân xử, đánh giá chung với support rõ, hoàn thiện kiểm thử tay trên máy thứ hai, bổ sung thông tin đầy đủ của Huy, diễn tập và quay demo 3-5 phút. Bản báo cáo này đã chứa kết quả đã đo và phương pháp tái tạo, không đánh dấu các mục trên là đã thực hiện.
 
 ## 8. Tài liệu và dữ liệu tái tạo
 
-Nguồn mã: https://github.com/huyryan220806/KidSafeReels, nhánh feat/ml-release. Mã huấn luyện nằm ở ml/train_visual.py và ml/toxic_baseline.py; inference ở ml/inference.py. Phiên bản/phụ thuộc: requirements-video.txt, requirements-release.lock.txt. Checksum: models/artifacts.json.
+Nguồn mã tích hợp: https://github.com/huyryan220806/KidSafeReels, nhánh feat/app; đầu vào bàn giao feat/ml-release tại f5d9310. Bản sao cá nhân: https://github.com/TienMoi79/KidSafeReels. Biên bản máy app: docs/APP_ACCEPTANCE_TIEN.md; kết quả máy đọc được: reports/app_acceptance_tien_results.json, reports/app_ui_acceptance_tien.json, reports/app_test_summary.json. Mã huấn luyện nằm ở ml/train_visual.py và ml/toxic_baseline.py; inference ở ml/inference.py. Phiên bản/phụ thuộc: requirements-video.txt, requirements-release.lock.txt. Checksum: models/artifacts.json.
 
 Kết quả gốc: reports/visual_baseline_metrics.json, reports/toxic_baseline_metrics.json, reports/video_smoke_results.json, reports/pilot_data_audit.json và reports/release_smoke_results.json. Dùng các tệp máy đọc được để tái tạo bảng số liệu, không nhập số từ hình ảnh.
 

@@ -129,6 +129,8 @@ with right, st.container(key="results_panel"):
         else:
             if result["mode"] == "mock":
                 st.warning("KẾT QUẢ MÔ PHỎNG — video chưa được đánh giá nội dung. Các nhóm bên dưới đều chưa có kết quả.", icon="ℹ️")
+            else:
+                st.caption("KẾT QUẢ TỪ BỘ PHÂN TÍCH NỘI DUNG")
             st.markdown(decision_card(result), unsafe_allow_html=True)
             st.markdown("**Các nhóm nội dung**")
             st.markdown(score_cards(result["scores"]), unsafe_allow_html=True)

@@ -101,6 +101,19 @@ def test_worker_rejects_audio_evidence_when_no_audio(video_files):
         runner.close()
 
 
+def test_model_media_rejection_is_422_not_internal_error(video_files):
+    from tests.worker_fixtures import rejected_media_worker
+
+    runner = AnalyzerWorker(rejected_media_worker)
+    try:
+        with pytest.raises(AnalysisError) as error:
+            runner.analyze(video_files["silent.mp4"], "model")
+        assert error.value.status_code == 422
+        assert "âm thanh" in str(error.value)
+    finally:
+        runner.close()
+
+
 @pytest.mark.parametrize("value", ["0", "-1", "nan", "inf", "601", "invalid"])
 def test_bad_timeout_configuration(worker, video_files, monkeypatch, value):
     monkeypatch.setenv("KIDSAFE_MEDIA_TIMEOUT", value)

@@ -65,3 +65,17 @@ def impossible_audio_worker(connection):
 
     kidsafe.pipeline.analyze_video = impossible_audio_result
     worker_loop(connection)
+
+
+def rejected_media_result(*args, **kwargs):
+    from kidsafe.errors import InvalidMediaError
+
+    raise InvalidMediaError("Luồng âm thanh không hợp lệ trong kiểm thử tích hợp.")
+
+
+def rejected_media_worker(connection):
+    import kidsafe.pipeline
+    from apps.api.worker import worker_loop
+
+    kidsafe.pipeline.analyze_video = rejected_media_result
+    worker_loop(connection)
