@@ -1,4 +1,4 @@
-param([string]$PythonPath)
+param([string]$PythonPath, [switch]$OpenBrowser)
 $ErrorActionPreference = 'Stop'
 $projectRoot = Split-Path -Parent $PSScriptRoot
 Push-Location -LiteralPath $projectRoot
@@ -22,8 +22,10 @@ try {
     & $modelPython -m ml.release_verify
     if ($LASTEXITCODE -ne 0) { throw 'Model thieu hoac sai checksum. Hay nhan lai goi model tu Huy.' }
     $env:KIDSAFE_BACKEND = 'model'
-    & $modelPython -m scripts.run_app
-    if ($LASTEXITCODE -ne 0) { throw 'App da dung do loi. Xem thong bao phia tren.' }
+    $launchArgs = @('-m', 'scripts.run_app')
+    if ($OpenBrowser) { $launchArgs += '--open-browser' }
+    & $modelPython @launchArgs
+    if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
 } finally {
     $env:KIDSAFE_BACKEND = $previousBackend
     $env:KIDSAFE_MODEL_DIR = $previousModelDir

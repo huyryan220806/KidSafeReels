@@ -18,7 +18,7 @@ App đã ghép giao diện mới, worker có timeout, kiểm tra media và evide
 
 ## Chạy app (ưu tiên Python 3.12)
 
-**Mở nhanh trên máy đã cài model:** nhấp đúp `Chay-KidSafeReels.cmd`, chờ terminal báo địa chỉ rồi mở http://127.0.0.1:8501. Chọn video → bấm **Kiểm tra video** → đọc kết quả. Giữ terminal mở khi dùng web; Ctrl+C để dừng. Xem [kiểm tra bản merge ngày 19/10](docs/APP_MERGE_REVIEW.md).
+**Mở nhanh trên máy đã cài model:** nhấp đúp `Chay-KidSafeReels.cmd`; trình duyệt tự mở khi app sẵn sàng. Nếu chưa mở, truy cập http://127.0.0.1:8501. Nhấp đúp lại khi API model và web đang chạy sẽ mở lại web, không tạo thêm server. Chọn video → bấm **Kiểm tra video** → đọc kết quả. Giữ terminal khởi động đầu tiên mở khi dùng web; Ctrl+C tại terminal đó để dừng. Xem [kiểm tra bản merge ngày 19/10](docs/APP_MERGE_REVIEW.md).
 
 Máy thành viên app đã có gói model: mở `Chay-KidSafeReels.cmd` hoặc chạy `powershell -ExecutionPolicy Bypass -File scripts/run-model.ps1`. Lệnh này ưu tiên `.venv-model`, dùng `.venv` nếu máy đã cài model ở đó, kiểm checksum rồi khởi động backend model thật. Bản kiểm tra trên máy Tiến được ghi riêng tại [nghiệm thu máy app](docs/APP_ACCEPTANCE_TIEN.md).
 

@@ -4,7 +4,7 @@
 
 ## Khởi động trên Windows
 
-Bản đã tích hợp model: mở `Chay-KidSafeReels.cmd` hoặc chạy `powershell -ExecutionPolicy Bypass -File scripts/run-model.ps1`. Dùng `.venv-model` hoặc `.venv` đã cài đủ phụ thuộc và checkpoint; xem `README.md` để cài trên máy mới. Hướng dẫn dưới đây vẫn dùng cho bản app/mock nhẹ.
+Bản đã tích hợp model: mở `Chay-KidSafeReels.cmd` (tự mở trình duyệt) hoặc chạy `powershell -ExecutionPolicy Bypass -File scripts/run-model.ps1 -OpenBrowser`. Dùng `.venv-model` hoặc `.venv` đã cài đủ phụ thuộc và checkpoint; xem `README.md` để cài trên máy mới. Khi app đã chạy đúng backend, mở lại launcher sẽ dùng phiên hiện có. Hướng dẫn dưới đây vẫn dùng cho bản app/mock nhẹ.
 
 Mở PowerShell tại repo (máy hiện tại: `D:\KidSafeReels`):
 
@@ -13,7 +13,7 @@ powershell -ExecutionPolicy Bypass -File scripts/setup.ps1
 powershell -ExecutionPolicy Bypass -File scripts/run.ps1
 ```
 
-Chỉ cần setup ở lần đầu hoặc khi dependency thay đổi. Mở http://127.0.0.1:8501. Script từ chối chạy nếu cổng 8000/8501 đang bị dùng; không tự dừng chương trình khác. Nhấn Ctrl+C trong terminal để đóng app; đợi request đang xử lý kết thúc hoặc chạm timeout.
+Chỉ cần setup ở lần đầu hoặc khi dependency thay đổi. Mở http://127.0.0.1:8501. Nếu cổng 8000/8501 đã được dùng, script kiểm tra định danh OpenAPI KidSafeReels, backend yêu cầu và health của web để mở lại phiên đang chạy. Nếu không khớp hoặc chỉ còn một dịch vụ hoạt động, script báo cách xử lý; không tự dừng chương trình khác. Nhấn Ctrl+C trong terminal khởi động đầu tiên để đóng app; đợi request đang xử lý kết thúc hoặc chạm timeout.
 
 ## Dùng app
 
@@ -29,6 +29,7 @@ Chỉ cần setup ở lần đầu hoặc khi dependency thay đổi. Mở http:
 | Tình huống | Cách xử lý |
 |---|---|
 | API chưa kết nối | Kiểm tra terminal, chạy lại script; bấm Kiểm tra kết nối |
+| Cổng 8000/8501 đang được sử dụng | Nếu web đang dùng được, mở http://127.0.0.1:8501. Nếu vừa khởi động, chờ vài giây rồi mở launcher lại. Nếu chạy sai backend hoặc chỉ còn API/web, Ctrl+C ở terminal phiên cũ rồi khởi động lại |
 | Model chưa sẵn sàng | Nhờ Huy kiểm tra dependencies/checkpoint; dùng mock để làm UI và nói rõ đang mô phỏng |
 | File hỏng/không phải video | Xuất lại video hợp lệ; đổi đuôi không sửa được nội dung |
 | Quá 60 giây/50 MiB | Cắt ngắn hoặc xuất nhẹ hơn |

@@ -1,5 +1,13 @@
 # Tiến độ KidSafeReels
 
+## Sửa mở lại app khi cổng đã được dùng — 19/10/2026
+
+- Ảnh lỗi của Huy do phiên kiểm thử trước vẫn chạy ở 8000/8501; health xác nhận API backend `model` và web đều hoạt động.
+- Launcher nhận diện OpenAPI KidSafeReels, backend yêu cầu và web health; nếu khớp thì dùng phiên hiện có và trả thành công. Không tạo server trùng, không tự dừng tiến trình chiếm cổng.
+- `Chay-KidSafeReels.cmd` truyền `-OpenBrowser`: mở trình duyệt khi khởi động xong hoặc mở lại phiên đang chạy. Khi cổng thuộc dịch vụ khác/sai backend/chưa sẵn sàng, in hướng dẫn thay vì thêm stack trace PowerShell cho lỗi cổng.
+- **12 tests launcher pass (8,44 giây)**: mở lại, sai backend/dịch vụ, health lỗi, trình duyệt không mở được, khởi động mới chờ readiness và dọn web. Không chạy lại toàn bộ suite 118 tests của lần merge vì phần API/model/UI không thay đổi.
+- Chạy thật `scripts/run-model.ps1` cả có/không có `-OpenBrowser`: exit 0, 8 artifact đúng checksum; PID API/web giữ nguyên. Cập nhật README và APP_GUIDE. Các việc nhãn pilot, metric pilot và quay demo vẫn đang chờ.
+
 ## Review và merge app — 19/10/2026
 
 - Đã nhận app `47326a6` và merge fast-forward vào `feat/ml-release`; giữ nhánh app remote nguyên trạng.
