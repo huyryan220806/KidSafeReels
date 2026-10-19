@@ -1,6 +1,6 @@
 """Second-machine HTTP acceptance, using only synthetic and FLEURS fixtures.
 
-Never reads pilot clips or annotation submissions, never overwrites ML reports.
+Never reads pilot clips or annotation submissions; stores every run separately.
 Run against an already running model API. Detailed results remain private.
 """
 
@@ -23,13 +23,22 @@ ROOT = Path(__file__).resolve().parents[1]
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--url", default="http://127.0.0.1:8000")
+    parser.add_argument("--run-dir", type=Path, required=True, help="New directory under data/private for this machine/run")
+    parser.add_argument("--machine", default=platform.processor() or "unspecified", help="Actual machine description, not a result from another machine")
     args = parser.parse_args()
-    private = ROOT / "data/private/app-acceptance-tien"
-    private.mkdir(parents=True, exist_ok=True)
+    private = args.run_dir.resolve()
+    if not private.is_relative_to((ROOT / "data/private").resolve()):
+        parser.error("--run-dir must stay under data/private")
+    if private.exists():
+        parser.error("Use a new --run-dir to preserve earlier acceptance evidence")
+    speech = ROOT / "data/processed/smoke/vietnamese-speech.mp4"
+    if not speech.is_file():
+        raise SystemExit("Prepare the licensed FLEURS speech fixture first: python -m ml.smoke_video --prepare-only")
     health = requests.get(args.url + "/health", timeout=5)
     health.raise_for_status()
     if health.json().get("backend") != "model":
         raise SystemExit("Acceptance requires model backend; mock is not accepted.")
+    private.mkdir(parents=True, exist_ok=False)
     fixtures = {
         "silent.mp4": {}, "tone.mp4": {"audio": True}, "video.mov": {}, "video.webm": {},
         "boundary.mp4": {"seconds": 60, "fps": 2}, "long.mp4": {"seconds": 61, "fps": 2},
@@ -37,9 +46,6 @@ def main():
     for name, options in fixtures.items():
         make_video(private / name, **options)
     (private / "broken.mp4").write_bytes(b"APP ACCEPTANCE INVALID VIDEO")
-    speech = ROOT / "data/processed/smoke/vietnamese-speech.mp4"
-    if not speech.is_file():
-        raise SystemExit("Prepare the licensed FLEURS speech fixture first: python -m ml.smoke_video --prepare-only")
     rows = []
     cases = [(name, private / name, 200) for name in ("silent.mp4", "tone.mp4", "video.mov", "video.webm", "boundary.mp4")]
     cases += [("vietnamese-speech", speech, 200), ("speech-warm-repeat", speech, 200),
@@ -78,13 +84,13 @@ def main():
                      "passed": response.status_code == expected})
     report = {
         "recorded_at": datetime.now().astimezone().isoformat(),
-        "machine": "Tien, Intel Core i5-12450H, separate from Huy's Ryzen 5 7535HS",
+        "machine": args.machine,
         "python": platform.python_version(), "platform": platform.platform(),
         "scope": "Actual HTTP + spawned worker + CPU models. Synthetic visuals and FLEURS Vietnamese speech only. No pilot inference or quality metrics.",
         "speech_sha256": hashlib.sha256(speech.read_bytes()).hexdigest(),
         "passed": sum(row["passed"] for row in rows), "total": len(rows), "cases": rows,
     }
-    output = ROOT / "reports/app_acceptance_tien_results.json"
+    output = private / "http-summary.json"
     output.write_text(json.dumps(report, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     print(f"{report['passed']}/{report['total']} acceptance cases passed. {output}", flush=True)
     if report["passed"] != report["total"]:

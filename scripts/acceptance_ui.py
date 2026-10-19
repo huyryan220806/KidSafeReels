@@ -2,11 +2,14 @@
 
 This validates widget state and result delivery, not browser rendering or clicks.
 """
+import argparse
+from datetime import datetime
 import json
 import math
 import os
 from pathlib import Path
 import socket
+import platform
 from tempfile import TemporaryDirectory
 
 from streamlit.testing.v1 import AppTest
@@ -22,10 +25,20 @@ def analyze_button(page):
 
 
 def main():
-    base = "http://127.0.0.1:8000"
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--url", default="http://127.0.0.1:8000")
+    parser.add_argument("--run-dir", type=Path, required=True, help="Directory created by acceptance_model for this run")
+    args = parser.parse_args()
+    private = args.run_dir.resolve()
+    if not private.is_relative_to((ROOT / "data/private").resolve()):
+        parser.error("--run-dir must stay under data/private")
+    if not (private / "http-summary.json").is_file() or not (private / "silent.mp4").is_file():
+        parser.error("Run acceptance_model first using this --run-dir")
+    if (private / "ui-summary.json").exists():
+        parser.error("UI acceptance already recorded; preserve it and use a new run")
+    base = args.url
     os.environ["KIDSAFE_API_URL"] = base
     app_path = str(ROOT / "apps/web/app.py")
-    private = ROOT / "data/private/app-acceptance-tien"
     speech = ROOT / "data/processed/smoke/vietnamese-speech.mp4"
     rows = []
     page = AppTest.from_file(app_path, default_timeout=240).run(timeout=240)
@@ -93,10 +106,12 @@ def main():
         os.environ.pop("KIDSAFE_MODEL_DIR", None)
     else:
         os.environ["KIDSAFE_MODEL_DIR"] = old_directory
-    report = {"scope": "Actual Streamlit AppTest + real HTTP API + real CPU model, no pilot inference. Not browser/manual acceptance.",
+    report = {"recorded_at": datetime.now().astimezone().isoformat(),
+              "python": platform.python_version(), "platform": platform.platform(),
+              "scope": "Actual Streamlit AppTest + real HTTP API + real CPU model, no pilot inference. Not browser/manual acceptance.",
               "passed": sum(row["passed"] is True for row in rows),
               "not_run": sum(row["passed"] is None for row in rows), "total": len(rows), "cases": rows}
-    path = ROOT / "reports/app_ui_acceptance_tien.json"
+    path = private / "ui-summary.json"
     path.write_text(json.dumps(report, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     print(json.dumps(report, ensure_ascii=False, indent=2))
 

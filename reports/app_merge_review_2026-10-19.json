@@ -1,0 +1,47 @@
+{
+  "date": "2026-10-19",
+  "app_commit_reviewed": "47326a6288e64a7b8c29f1a61983f30a22fdf031",
+  "target_branch": "feat/ml-release",
+  "machine": "Huy, AMD Ryzen 5 7535HS, CPU",
+  "python": "3.12.10",
+  "platform": "Windows-11-10.0.26300-SP0",
+  "pytest": {
+    "tests": "118",
+    "errors": "0",
+    "failures": "0",
+    "skipped": "0",
+    "time": "78.093"
+  },
+  "http": {
+    "passed": 13,
+    "total": 13,
+    "scope": "Actual HTTP + spawned worker + CPU models. Synthetic visuals and FLEURS Vietnamese speech only. No pilot inference or quality metrics."
+  },
+  "ui_apptest": {
+    "passed": 9,
+    "total": 9,
+    "not_run": 0
+  },
+  "browser": {
+    "automation": "Codex in-app browser, actual Streamlit UI and model HTTP API",
+    "checks": [
+      "upload and preview",
+      "model results for FLEURS with both evaluated labels",
+      "evidence video currentTime=4 readyState=4 error=null",
+      "TXT downloaded and inspected, 1212 bytes",
+      "new upload clears previous result",
+      "silent video shows Toxic not evaluated"
+    ],
+    "json_download_in_browser": "not performed; widget covered by AppTest",
+    "screenshot": "docs/screenshots/app-merged-model-20261019.png"
+  },
+  "pip_check": "passed",
+  "artifact_files_verified": 8,
+  "pilot_inference": false,
+  "human_annotation_status": "No new submission received",
+  "limitations": [
+    "Technical acceptance only, no pilot quality metrics",
+    "Browser automated by agent; no human demo rehearsal or recording",
+    "Original Tien results preserved"
+  ]
+}

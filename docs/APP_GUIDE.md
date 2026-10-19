@@ -4,7 +4,7 @@
 
 ## Khởi động trên Windows
 
-Bản đã tích hợp model: mở `Chay-KidSafeReels.cmd` hoặc chạy `powershell -ExecutionPolicy Bypass -File scripts/run-model.ps1`. Cần `.venv-model` và model ZIP Huy bàn giao; xem `README.md` để cài trên máy mới. Hướng dẫn dưới đây vẫn dùng cho bản app/mock nhẹ.
+Bản đã tích hợp model: mở `Chay-KidSafeReels.cmd` hoặc chạy `powershell -ExecutionPolicy Bypass -File scripts/run-model.ps1`. Dùng `.venv-model` hoặc `.venv` đã cài đủ phụ thuộc và checkpoint; xem `README.md` để cài trên máy mới. Hướng dẫn dưới đây vẫn dùng cho bản app/mock nhẹ.
 
 Mở PowerShell tại repo (máy hiện tại: `D:\KidSafeReels`):
 

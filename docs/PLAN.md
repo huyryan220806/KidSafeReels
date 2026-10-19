@@ -1,5 +1,7 @@
 # Kế hoạch một tuần và phân công
 
+**Cập nhật 19/10/2026:** đã nhận code/nghiệm thu tự động máy Tiến, merge vào `feat/ml-release` và kiểm lại trên máy Huy với 118 tests, 13 ca HTTP, 9 ca UI AppTest; có thêm kiểm tra trình duyệt thật. Còn nhãn pilot, metric chung, diễn tập và quay demo. [Biên bản merge và cách mở web](APP_MERGE_REVIEW.md).
+
 **Cập nhật 18/10/2026:** Huy đã hoàn thành baseline D3, tích hợp hai nhánh D4 và công cụ đánh giá/bàn giao D5–D6. Đã có báo cáo PDF 9 trang, slide 11 trang và kịch bản D7. Còn nhãn người thật, đánh giá pilot, máy thứ hai và diễn tập/quay demo. Xem [progress hiện tại](PROGRESS.md); lịch bên dưới là lịch gốc.
 
 **Bổ sung D1–D2 ngày 17/10/2026:** đã chuẩn bị 25 đoạn thật từ 8 nguồn có giấy phép, khóa 5 nhóm và split 17/4/4 trước trích frame; chạy 625 frame + 58 segment ASR. Có gói gán nhãn Huy 25/app 6, nhưng chưa ai hoàn tất nhãn và chưa đo chất lượng moderation trên pilot. Xem [tiến độ lưu để tiếp tục](PROGRESS.md) và [báo cáo D1–D2](../reports/PILOT_D1_D2.md). Đây là phần kỹ thuật D1–D2, không thay thế nghiệm thu chung của cả hai người.

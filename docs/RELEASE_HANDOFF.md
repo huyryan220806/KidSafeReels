@@ -1,5 +1,7 @@
 # Bàn giao bản tích hợp CPU - 18/10/2026
 
+**Cập nhật 19/10:** đã merge app `47326a6` trở lại `feat/ml-release`. Dùng [cách mở web và biên bản review](APP_MERGE_REVIEW.md) cho trạng thái mới nhất. Nội dung dưới đây giữ mốc bàn giao 18/10 để đối chiếu.
+
 Commit tích hợp `fdec72b` đã push lên GitHub. Nhánh `feat/ml-release` ghép ML/pilot từ `32d1ad4` với app `d82798d`. Giữ nguyên schema v1 và signature `analyze_video`; giữ giao diện/worker của app owner. **117 tests pass, 13/13 ca HTTP với model thật pass**, 8 artifact khớp checksum. Đây là bản tích hợp để demo và hoàn thiện nhãn, chưa phải bản đã chứng minh hiệu quả kiểm duyệt trẻ em.
 
 ## Chạy trên máy Huy

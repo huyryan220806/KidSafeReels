@@ -4,7 +4,7 @@ Mini project môn **Học máy và ứng dụng**: hỗ trợ người lớn sà
 
 **Dữ liệu pilot D1–D2:** đã có 25 đoạn từ 8 nguồn có giấy phép, chia theo nhóm và tiền xử lý thật. Huy gán 25 clip, thành viên app gán chéo 6; nhãn đang chờ người xác nhận. Xem [progress để tiếp tục](docs/PROGRESS.md), [cách chạy lại/gói gán nhãn](docs/PILOT_DATA.md) và [kết quả D1–D2](reports/PILOT_D1_D2.md).
 
-**Trạng thái 18/10/2026: đã có pipeline video thật cho Violence + Toxic tiếng Việt trên CPU.** Visual dùng ResNet18 đóng băng + classifier học trên RLVS; audio dùng Whisper base + baseline Toxic học trên ViCTSD. Xem [cài và chạy model video](docs/VIDEO_PIPELINE.md), [kết quả visual](reports/VISUAL_BASELINE.md), [kết quả Toxic](reports/TOXIC_BASELINE.md) và [kiểm thử tích hợp/ca lỗi](reports/VIDEO_SMOKE.md). Chưa đánh giá toàn hệ thống trên tập video ngắn tiếng Việt; Sexual/Dangerous chưa được hỗ trợ. Mock vẫn là mặc định để thành viên app chạy ngay.
+**Trạng thái 19/10/2026: đã có pipeline video thật cho Violence + Toxic tiếng Việt trên CPU.** Visual dùng ResNet18 đóng băng + classifier học trên RLVS; audio dùng Whisper base + baseline Toxic học trên ViCTSD. Xem [cài và chạy model video](docs/VIDEO_PIPELINE.md), [kết quả visual](reports/VISUAL_BASELINE.md), [kết quả Toxic](reports/TOXIC_BASELINE.md) và [kiểm thử tích hợp/ca lỗi](reports/VIDEO_SMOKE.md). Chưa đánh giá toàn hệ thống trên tập video ngắn tiếng Việt; Sexual/Dangerous chưa được hỗ trợ. Mock vẫn là mặc định để thành viên app chạy ngay.
 
 App đã ghép giao diện mới, worker có timeout, kiểm tra media và evidence từ nhánh app. Bản tích hợp có 13/13 ca HTTP/model thật pass. Xem [bàn giao release](docs/RELEASE_HANDOFF.md), [báo cáo kỹ thuật](reports/TECHNICAL_REPORT.md) và [quy trình đánh giá sau gán nhãn](docs/EVALUATION_GUIDE.md).
 
@@ -18,7 +18,9 @@ App đã ghép giao diện mới, worker có timeout, kiểm tra media và evide
 
 ## Chạy app (ưu tiên Python 3.12)
 
-Máy thành viên app đã có gói model: mở `Chay-KidSafeReels.cmd` hoặc chạy `powershell -ExecutionPolicy Bypass -File scripts/run-model.ps1`. Lệnh này dùng `.venv-model`, kiểm checksum rồi khởi động backend model thật. Bản kiểm tra trên máy Tiến được ghi riêng tại [nghiệm thu máy app](docs/APP_ACCEPTANCE_TIEN.md).
+**Mở nhanh trên máy đã cài model:** nhấp đúp `Chay-KidSafeReels.cmd`, chờ terminal báo địa chỉ rồi mở http://127.0.0.1:8501. Chọn video → bấm **Kiểm tra video** → đọc kết quả. Giữ terminal mở khi dùng web; Ctrl+C để dừng. Xem [kiểm tra bản merge ngày 19/10](docs/APP_MERGE_REVIEW.md).
+
+Máy thành viên app đã có gói model: mở `Chay-KidSafeReels.cmd` hoặc chạy `powershell -ExecutionPolicy Bypass -File scripts/run-model.ps1`. Lệnh này ưu tiên `.venv-model`, dùng `.venv` nếu máy đã cài model ở đó, kiểm checksum rồi khởi động backend model thật. Bản kiểm tra trên máy Tiến được ghi riêng tại [nghiệm thu máy app](docs/APP_ACCEPTANCE_TIEN.md).
 
 Cài model trên máy mới, dùng ZIP `kidsafe-cpu-v1.zip` Huy gửi:
 

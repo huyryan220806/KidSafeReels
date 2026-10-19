@@ -73,11 +73,11 @@ Terminal thứ hai, chỉ dùng fixture không phải pilot:
 
 ```powershell
 .\.venv-model\Scripts\python.exe -X utf8 -m ml.smoke_video --prepare-only
-.\.venv-model\Scripts\python.exe -X utf8 -m scripts.acceptance_model
-.\.venv-model\Scripts\python.exe -X utf8 -m scripts.acceptance_ui
+.\.venv-model\Scripts\python.exe -X utf8 -m scripts.acceptance_model --run-dir data/private/app-acceptance-tien-new --machine "Tien, Intel Core i5-12450H"
+.\.venv-model\Scripts\python.exe -X utf8 -m scripts.acceptance_ui --run-dir data/private/app-acceptance-tien-new
 ```
 
-Các lệnh nghiệm thu ghi lại JSON công khai tóm tắt riêng của máy app; kết quả chi tiết ở `data/private/app-acceptance-tien/`. Không chạy `ml.release_smoke` để ghi đè số đo máy Huy.
+**Cập nhật công cụ 19/10:** các lệnh chạy lại dùng thư mục mới (đổi tên nếu đã tồn tại), ghi `http-summary.json` và `ui-summary.json` tại `--run-dir`. Dữ liệu công bố ngày 18/10 bên trên giữ nguyên. Script không còn tự ghi đè báo cáo máy Tiến khi chạy trên máy khác. Không chạy `ml.release_smoke` để ghi đè số đo máy Huy.
 
 ## Phần người app thực hiện tiếp
 

@@ -1,5 +1,15 @@
 # Tiến độ KidSafeReels
 
+## Review và merge app — 19/10/2026
+
+- Đã nhận app `47326a6` và merge fast-forward vào `feat/ml-release`; giữ nhánh app remote nguyên trạng.
+- Chạy lại trên máy Huy: **118 tests**, **13/13 HTTP/model**, **9/9 UI AppTest** đều qua; pip check và 8 artifact qua.
+- Đã kiểm trình duyệt thật: upload, kết quả model, evidence tại giây 4, tải TXT, đổi file xóa kết quả cũ, video không tiếng. Không chạy pilot.
+- Sửa launcher để dùng cả `.venv-model`/`.venv`; sửa script nghiệm thu để không ghi đè hoặc gắn nhầm tên máy Tiến.
+- Hướng dẫn mở web và giới hạn review: [APP_MERGE_REVIEW.md](APP_MERGE_REVIEW.md). Số đo tóm tắt: `reports/app_merge_review_2026-10-19.json`.
+- Còn nhãn của hai người, metric pilot và quay demo; không coi việc thành viên app đã bàn giao code là các mục này đã xong.
+
+
 ## Nghiệm thu máy app - 18/10/2026
 
 - Thành viên app Lê Quyết Tiến nhận ZIP khớp SHA-256, kiểm 17 tệp bàn giao và 8 artifact model.
