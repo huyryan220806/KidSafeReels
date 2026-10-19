@@ -36,10 +36,26 @@ class VisualEncoder:
         self.transform = ResNet18_Weights.IMAGENET1K_V1.transforms()
 
     def encode(self, frames):
+        features = self.encode_frames(frames)
+        return np.concatenate([features.mean(axis=0), features.max(axis=0)])
+
+    def encode_frames(self, frames):
         batch = torch.stack([self.transform(frame) for frame in frames])
         with torch.inference_mode():
             features = self.model(batch).numpy()
-        return np.concatenate([features.mean(axis=0), features.max(axis=0)])
+        return features
+
+
+def aggregate_features(features, mode):
+    """Use identical, label-independent aggregation during fitting and inference."""
+    features = np.asarray(features)
+    base = [features.mean(axis=0), features.max(axis=0)]
+    if mode == "mean-max-std-diff":
+        delta = np.abs(np.diff(features, axis=0)).mean(axis=0) if len(features) > 1 else np.zeros(features.shape[1])
+        base.extend([features.std(axis=0), delta])
+    elif mode != "mean-max":
+        raise ValueError(f"Unknown aggregation: {mode}")
+    return np.concatenate(base)
 
 
 class ViolenceClassifier:
@@ -47,8 +63,13 @@ class ViolenceClassifier:
         if not path.is_file():
             raise ModelNotReadyError("Thiếu classifier Violence. Chạy python -m ml.train_visual.")
         artifact = joblib.load(path)
-        if artifact["sklearn_version"] != sklearn.__version__ or artifact["sampling"] != SAMPLING_VERSION:
+        dense_modes = {f"uniform24-{mode}-v2": mode for mode in ("mean-max", "mean-max-std-diff")}
+        if artifact["sklearn_version"] != sklearn.__version__ or artifact["sampling"] not in {SAMPLING_VERSION, *dense_modes}:
             raise ModelNotReadyError("Phiên bản artifact Violence không tương thích.")
+        self.frame_count = 8 if artifact["sampling"] == SAMPLING_VERSION else 24
+        self.aggregation = dense_modes.get(artifact["sampling"])
+        if self.aggregation and (artifact.get("frame_count") != 24 or artifact.get("aggregation") != self.aggregation):
+            raise ModelNotReadyError("Cấu hình lấy mẫu không khớp artifact Violence.")
         self.model = artifact["model"]
         self.threshold = artifact["threshold"]
         self.version = artifact["version"]
@@ -59,4 +80,6 @@ class ViolenceClassifier:
         self.encoder = VisualEncoder(backbone)
 
     def score(self, frames):
-        return float(self.model.predict_proba(self.encoder.encode(frames)[None, :])[0, 1])
+        feature = (aggregate_features(self.encoder.encode_frames(frames), self.aggregation)
+                   if self.aggregation else self.encoder.encode(frames))
+        return float(self.model.predict_proba(feature[None, :])[0, 1])

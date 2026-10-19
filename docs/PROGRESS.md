@@ -1,5 +1,14 @@
 # Tiến độ KidSafeReels
 
+## Đang thực hiện cải thiện model — 20/10/2026
+
+- Huy yêu cầu thực hiện kế hoạch và xác nhận chưa lưu các video lỗi; tiếp tục với dữ liệu hiện có.
+- Đã thêm công cụ chọn cấu hình trên validation, khóa artifact rồi đánh giá test; xuất CSV/PNG/SVG, Accuracy/Loss và các metric theo lớp. Hướng dẫn: [MODEL_EXPERIMENTS.md](MODEL_EXPERIMENTS.md).
+- Toxic: đã train 6 ứng viên. Ứng viên chọn trên validation giảm FP test 74 → 57 nhưng TP cũng giảm 53 → 48; F1 0,4492 → 0,4486. Chưa thay classifier đang dùng vì chưa cải thiện cân bằng precision/recall.
+- ASR: đã so 3 cấu hình trên 16 câu dev, chốt small/beam5 rồi đánh giá 16 câu test FLEURS riêng. WER test 0,3836 → 0,1983; CER 0,2240 → 0,1070. Có CSV, hình và audit ảnh hưởng ASR lên đầu ra Toxic; chưa phải accuracy moderation.
+- Violence: đang trích feature 24 frame, so mean/max với thêm std/biến thiên liền kề; giữ nguyên nhóm/split RLVS. Chưa có kết quả test ứng viên trong checkpoint tiến độ này.
+- Đã kiểm 20 tests metric/pipeline/baseline và 9 tests cấu hình/đồng nhất feature train–inference. Chưa chạy full suite sau cùng hoặc đổi bundle hoạt động. Cache nằm local để tiếp tục nếu gián đoạn.
+
 ## Ưu tiên tiếp theo theo phản hồi Huy — 19/10/2026
 
 **Đã ghi nhận, chưa chạy train/đánh giá mới; tiếp tục khi Huy quay lại sau khi quota hồi.** Kế hoạch chi tiết và checklist: [MODEL_IMPROVEMENT_PLAN.md](MODEL_IMPROVEMENT_PLAN.md).

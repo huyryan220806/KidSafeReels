@@ -1,6 +1,6 @@
 # Kế hoạch cải thiện Toxic và Violence
 
-Cập nhật 19/10/2026 theo phản hồi trực tiếp của Huy sau khi dùng app. **Trạng thái: đã ghi nhận, chưa chạy train hoặc đánh giá mới; tiếp tục khi Huy quay lại sau khi quota hồi.** Đây là ưu tiên tiếp theo thay cho việc chỉ giữ baseline để hoàn thiện app.
+Cập nhật 20/10/2026: **đang thực hiện theo yêu cầu Huy**, kế thừa phản hồi 19/10. Toxic và ASR đã có kết quả; Violence đang trích feature và chọn cấu hình. Xem [progress](PROGRESS.md) và [hướng dẫn thực nghiệm](MODEL_EXPERIMENTS.md). Huy xác nhận chưa lưu các video báo lỗi, tiếp tục với dữ liệu benchmark hiện có.
 
 ## Phản hồi cần xử lý
 

@@ -1,0 +1,110 @@
+{
+  "metrics": [
+    {
+      "config": "base-greedy",
+      "split": "dev",
+      "aggregation": "segment_max",
+      "n": 16,
+      "unavailable": 2,
+      "reference_flags": 0,
+      "asr_flags": 1,
+      "added_alerts_vs_reference": 1,
+      "missing_alerts_vs_reference": 0,
+      "matching_outputs": 13,
+      "available": 14
+    },
+    {
+      "config": "base-greedy",
+      "split": "dev",
+      "aggregation": "joined_transcript",
+      "n": 16,
+      "unavailable": 2,
+      "reference_flags": 0,
+      "asr_flags": 0,
+      "added_alerts_vs_reference": 0,
+      "missing_alerts_vs_reference": 0,
+      "matching_outputs": 14,
+      "available": 14
+    },
+    {
+      "config": "base-greedy",
+      "split": "test",
+      "aggregation": "segment_max",
+      "n": 16,
+      "unavailable": 0,
+      "reference_flags": 0,
+      "asr_flags": 2,
+      "added_alerts_vs_reference": 2,
+      "missing_alerts_vs_reference": 0,
+      "matching_outputs": 14,
+      "available": 16
+    },
+    {
+      "config": "base-greedy",
+      "split": "test",
+      "aggregation": "joined_transcript",
+      "n": 16,
+      "unavailable": 0,
+      "reference_flags": 0,
+      "asr_flags": 2,
+      "added_alerts_vs_reference": 2,
+      "missing_alerts_vs_reference": 0,
+      "matching_outputs": 14,
+      "available": 16
+    },
+    {
+      "config": "small-beam5",
+      "split": "dev",
+      "aggregation": "segment_max",
+      "n": 16,
+      "unavailable": 0,
+      "reference_flags": 0,
+      "asr_flags": 0,
+      "added_alerts_vs_reference": 0,
+      "missing_alerts_vs_reference": 0,
+      "matching_outputs": 16,
+      "available": 16
+    },
+    {
+      "config": "small-beam5",
+      "split": "dev",
+      "aggregation": "joined_transcript",
+      "n": 16,
+      "unavailable": 0,
+      "reference_flags": 0,
+      "asr_flags": 0,
+      "added_alerts_vs_reference": 0,
+      "missing_alerts_vs_reference": 0,
+      "matching_outputs": 16,
+      "available": 16
+    },
+    {
+      "config": "small-beam5",
+      "split": "test",
+      "aggregation": "segment_max",
+      "n": 16,
+      "unavailable": 0,
+      "reference_flags": 0,
+      "asr_flags": 0,
+      "added_alerts_vs_reference": 0,
+      "missing_alerts_vs_reference": 0,
+      "matching_outputs": 16,
+      "available": 16
+    },
+    {
+      "config": "small-beam5",
+      "split": "test",
+      "aggregation": "joined_transcript",
+      "n": 16,
+      "unavailable": 0,
+      "reference_flags": 0,
+      "asr_flags": 0,
+      "added_alerts_vs_reference": 0,
+      "missing_alerts_vs_reference": 0,
+      "matching_outputs": 16,
+      "available": 16
+    }
+  ],
+  "interpretation": "Agreement with classifier prediction on reference transcript, NOT Toxic accuracy or human-labelled FP/FN.",
+  "production_aggregation": "segment_max retained; joined transcript is diagnostic only without target-video labels"
+}

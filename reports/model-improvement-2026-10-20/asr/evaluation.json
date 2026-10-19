@@ -1,0 +1,82 @@
+{
+  "selected": "small-beam5",
+  "metrics": [
+    {
+      "config": "base-greedy",
+      "split": "dev",
+      "n": 16,
+      "word_errors": 240,
+      "words": 468,
+      "char_errors": 563,
+      "chars": 1597,
+      "seconds": 46.84957649977878,
+      "audio_seconds": 176.1,
+      "wer": 0.5128205128205128,
+      "cer": 0.3525360050093926,
+      "real_time_factor": 0.2660396166938034,
+      "rejected": 2
+    },
+    {
+      "config": "base-beam5",
+      "split": "dev",
+      "n": 16,
+      "word_errors": 212,
+      "words": 468,
+      "char_errors": 480,
+      "chars": 1597,
+      "seconds": 38.43234789988492,
+      "audio_seconds": 176.1,
+      "wer": 0.452991452991453,
+      "cer": 0.3005635566687539,
+      "real_time_factor": 0.21824161215153276,
+      "rejected": 2
+    },
+    {
+      "config": "small-beam5",
+      "split": "dev",
+      "n": 16,
+      "word_errors": 93,
+      "words": 468,
+      "char_errors": 176,
+      "chars": 1597,
+      "seconds": 84.37044879997848,
+      "audio_seconds": 176.1,
+      "wer": 0.1987179487179487,
+      "cer": 0.11020663744520977,
+      "real_time_factor": 0.47910533106177444,
+      "rejected": 0
+    },
+    {
+      "config": "base-greedy",
+      "split": "test",
+      "n": 16,
+      "word_errors": 178,
+      "words": 464,
+      "char_errors": 360,
+      "chars": 1607,
+      "seconds": 26.59568919998128,
+      "audio_seconds": 193.44,
+      "wer": 0.38362068965517243,
+      "cer": 0.22401991288114498,
+      "real_time_factor": 0.137488054176909,
+      "rejected": 0
+    },
+    {
+      "config": "small-beam5",
+      "split": "test",
+      "n": 16,
+      "word_errors": 92,
+      "words": 464,
+      "char_errors": 172,
+      "chars": 1607,
+      "seconds": 90.70637520006858,
+      "audio_seconds": 193.44,
+      "wer": 0.19827586206896552,
+      "cer": 0.10703173615432483,
+      "real_time_factor": 0.4689121960301312,
+      "rejected": 0
+    }
+  ],
+  "evaluated_at": "2026-10-20T00:39:35.223359+07:00",
+  "sample_manifest_sha256": "bb8603cd6edfbb10bf808ae1c57edf635bbb15c333bac8bebd32ca38d259482f"
+}

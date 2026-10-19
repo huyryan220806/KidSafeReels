@@ -16,13 +16,13 @@ LOCK = threading.Lock()
 DEFAULT_MODELS = Path(__file__).resolve().parents[1] / "models/checkpoints"
 
 
-def combine_result(visual_score, visual_threshold, audio_segments, text_model, duration, versions, warnings):
+def combine_result(visual_score, visual_threshold, audio_segments, text_model, duration, versions, warnings, visual_frame_count=8):
     evidence = []
     flagged = visual_score >= visual_threshold
     if flagged:
         evidence.append(Evidence(
             modality="visual", start_seconds=0, end_seconds=duration, label="violence", score=visual_score,
-            description="Điểm Violence ở cấp toàn video từ tối đa 8 frame lấy mẫu; chưa định vị cảnh bạo lực."))
+            description=f"Điểm Violence ở cấp toàn video từ tối đa {visual_frame_count} frame lấy mẫu; chưa định vị cảnh bạo lực."))
     text_scores = []
     for start, end, text in audio_segments:
         if not text.strip():
@@ -51,18 +51,22 @@ def combine_result(visual_score, visual_threshold, audio_segments, text_model, d
 
 class VideoService:
     def __init__(self, directory):
+        from ml.inference_config import load_config
         directory = Path(directory)
-        for name in ("resnet18-imagenet1k-v1.pth", "violence-resnet18-v1.joblib", "toxic-tfidf-v1.joblib",
-                     "faster-whisper-base/model.bin", "faster-whisper-base/tokenizer.json"):
+        config = load_config(directory)
+        for name in ("resnet18-imagenet1k-v1.pth", config["violence"], config["toxic"],
+                     f"{config['asr_directory']}/model.bin", f"{config['asr_directory']}/tokenizer.json"):
             if not (directory / name).is_file():
                 raise ModelNotReadyError(f"Thiếu artifact local: {name}. Xem docs/VIDEO_PIPELINE.md.")
         from faster_whisper import WhisperModel
         from ml.toxic_baseline import ToxicClassifier
         from ml.visual import ViolenceClassifier
         try:
-            self.visual = ViolenceClassifier(directory / "violence-resnet18-v1.joblib")
-            self.text = ToxicClassifier(directory / "toxic-tfidf-v1.joblib")
-            self.asr = WhisperModel(str(directory / "faster-whisper-base"), device="cpu", compute_type="int8",
+            self.visual = ViolenceClassifier(directory / config["violence"])
+            self.text = ToxicClassifier(directory / config["toxic"])
+            self.asr_options = config["asr_options"]
+            self.asr_version = config["asr_version"]
+            self.asr = WhisperModel(str(directory / config["asr_directory"]), device="cpu", compute_type="int8",
                                     cpu_threads=4, local_files_only=True)
         except (OSError, ValueError, RuntimeError, KeyError, EOFError, pickle.UnpicklingError) as exc:
             raise ModelNotReadyError("Không nạp được artifact model local; kiểm tra phiên bản và checksum.") from exc
@@ -70,7 +74,9 @@ class VideoService:
     def analyze(self, path):
         from ml.media import inspect_video, sample_frames
         info = inspect_video(path)
-        visual_score = self.visual.score(sample_frames(path))
+        frame_count = getattr(self.visual, "frame_count", 8)
+        frames = sample_frames(path) if frame_count == 8 else sample_frames(path, count=frame_count)
+        visual_score = self.visual.score(frames)
         warnings, segments = [], []
         if not info.has_audio:
             warnings.append("Video không có audio; Toxic chưa được đánh giá.")
@@ -83,8 +89,8 @@ class VideoService:
                     raise InvalidMediaError("Luồng audio dài quá giới hạn.")
                 if not len(audio):
                     raise ValueError("Empty decoded audio")
-                chunks, metadata = self.asr.transcribe(audio, beam_size=1, vad_filter=True,
-                    condition_on_previous_text=False)
+                chunks, metadata = self.asr.transcribe(audio, task="transcribe", vad_filter=True,
+                    condition_on_previous_text=False, **getattr(self, "asr_options", {"beam_size": 1}))
                 if metadata.language != "vi" or metadata.language_probability < 0.5:
                     warnings.append("Không xác nhận được lời nói tiếng Việt; Toxic chưa được đánh giá.")
                 else:
@@ -96,7 +102,8 @@ class VideoService:
             except (av.error.FFmpegError, RuntimeError, ValueError) as exc:
                 warnings.append(f"Không hoàn thành ASR ({type(exc).__name__}); Toxic chưa được đánh giá.")
         return combine_result(visual_score, self.visual.threshold, segments, self.text, info.duration,
-                              f"{self.visual.version}+{self.text.version}+whisper-base", warnings)
+                              f"{self.visual.version}+{self.text.version}+{getattr(self, 'asr_version', 'whisper-base')}",
+                              warnings, visual_frame_count=frame_count)
 
 
 @lru_cache(maxsize=1)

@@ -1,0 +1,153 @@
+{
+  "run_id": "model-improvement-2026-10-20",
+  "task": "toxic",
+  "seed": 42,
+  "created_at": "2026-10-20T00:32:55.302523+07:00",
+  "baseline_sha256": "e2806dbfb9f50a7a8551c9962dbe6b58cfea0c98eaba1479823e0401150e120a",
+  "selection_rule": "maximize validation macro-F1 subject to positive recall and precision >= baseline",
+  "test_policy": "No test predictions during selection. Existing benchmark test was previously reported; no new independent-test claim.",
+  "environment": {
+    "python": "3.12.10",
+    "sklearn": "1.9.1",
+    "platform": "Windows-11-10.0.26300-SP0",
+    "processor": "AMD64 Family 25 Model 68 Stepping 1, AuthenticAMD",
+    "device": "cpu"
+  },
+  "configurations": [
+    {
+      "kind": "char",
+      "C": 4,
+      "balanced": false
+    },
+    {
+      "kind": "char",
+      "C": 1,
+      "balanced": false
+    },
+    {
+      "kind": "word-char",
+      "C": 0.5,
+      "balanced": true
+    },
+    {
+      "kind": "word-char",
+      "C": 2,
+      "balanced": true
+    },
+    {
+      "kind": "word-char",
+      "C": 8,
+      "balanced": true
+    },
+    {
+      "kind": "word-char",
+      "C": 4,
+      "balanced": false
+    }
+  ],
+  "selected": {
+    "candidate": "candidate-02",
+    "n": 1975,
+    "negative": 1743,
+    "positive": 232,
+    "threshold": 0.19999999999999996,
+    "accuracy": 0.8754430379746836,
+    "balanced_accuracy": 0.7052347320315746,
+    "log_loss": 0.29272346002387545,
+    "precision_negative": 0.9309153713298791,
+    "recall_negative": 0.927710843373494,
+    "f1_negative": 0.9293103448275862,
+    "precision": 0.47058823529411764,
+    "recall": 0.4827586206896552,
+    "f1": 0.4765957446808511,
+    "macro_f1": 0.7029530447542187,
+    "roc_auc": 0.817274022197163,
+    "average_precision": 0.4624072992075084,
+    "tn": 1617,
+    "fp": 126,
+    "fn": 120,
+    "tp": 112,
+    "undefined_metrics": ""
+  },
+  "configuration": {
+    "kind": "char",
+    "C": 1,
+    "balanced": false
+  },
+  "fit_seconds": 1.2445883000036702,
+  "data_audit": {
+    "dataset": "ViCTSD",
+    "provenance": {
+      "source": "https://github.com/tarudesu/ViCTSD",
+      "revision": "e1ffb854ef7b7b7ae45a56d132c1f125e02e55e2",
+      "files": {
+        "ViCTSD_train.csv": {
+          "url": "https://raw.githubusercontent.com/tarudesu/ViCTSD/e1ffb854ef7b7b7ae45a56d132c1f125e02e55e2/ViCTSD_train.csv",
+          "sha256": "a3e73479120738fb7965b01e23d5737c25c2cde909d7c3b5a6faf52d13a3b3f2",
+          "bytes": 1690621
+        },
+        "ViCTSD_valid.csv": {
+          "url": "https://raw.githubusercontent.com/tarudesu/ViCTSD/e1ffb854ef7b7b7ae45a56d132c1f125e02e55e2/ViCTSD_valid.csv",
+          "sha256": "e3950ee6a16375d566f58d3fc1206dab76fc8e41e340bb580ca0ae2e5ea61f83",
+          "bytes": 495885
+        },
+        "ViCTSD_test.csv": {
+          "url": "https://raw.githubusercontent.com/tarudesu/ViCTSD/e1ffb854ef7b7b7ae45a56d132c1f125e02e55e2/ViCTSD_test.csv",
+          "sha256": "e341013ca7441a5f2621b9347bd933f4d920d080b9931136ee8827d0ac0b2672",
+          "bytes": 239211
+        }
+      }
+    },
+    "audit": {
+      "train": {
+        "original": 7000,
+        "retained": 6965,
+        "duplicate_rows": 35,
+        "conflicting_texts": 0,
+        "overlap_with_earlier_split": 0,
+        "toxic": 759
+      },
+      "valid": {
+        "original": 2000,
+        "retained": 1975,
+        "duplicate_rows": 8,
+        "conflicting_texts": 0,
+        "overlap_with_earlier_split": 17,
+        "toxic": 232
+      },
+      "test": {
+        "original": 1000,
+        "retained": 988,
+        "duplicate_rows": 3,
+        "conflicting_texts": 0,
+        "overlap_with_earlier_split": 9,
+        "toxic": 109
+      }
+    }
+  },
+  "baseline_validation": {
+    "n": 1975,
+    "negative": 1743,
+    "positive": 232,
+    "threshold": 0.59,
+    "accuracy": 0.8708860759493671,
+    "balanced_accuracy": 0.7026529764377708,
+    "log_loss": 0.4268629982025944,
+    "precision_negative": 0.9305555555555556,
+    "recall_negative": 0.9225473321858864,
+    "f1_negative": 0.9265341400172861,
+    "precision": 0.4534412955465587,
+    "recall": 0.4827586206896552,
+    "f1": 0.46764091858037576,
+    "macro_f1": 0.6970875292988309,
+    "roc_auc": 0.818658871940966,
+    "average_precision": 0.4472847761901441,
+    "tn": 1608,
+    "fp": 135,
+    "fn": 120,
+    "tp": 112,
+    "undefined_metrics": ""
+  },
+  "artifact_sha256": "a29682097e0c4b717f9606366e6ca4127323e6cd40718cddecc4e6d22dbdd8e0",
+  "test_evaluated": false
+}
