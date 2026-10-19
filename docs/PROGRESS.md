@@ -1,5 +1,16 @@
 # Tiến độ KidSafeReels
 
+## Ưu tiên tiếp theo theo phản hồi Huy — 19/10/2026
+
+**Đã ghi nhận, chưa chạy train/đánh giá mới; tiếp tục khi Huy quay lại sau khi quota hồi.** Kế hoạch chi tiết và checklist: [MODEL_IMPROVEMENT_PLAN.md](MODEL_IMPROVEMENT_PLAN.md).
+
+- Toxic đang cảnh báo nhầm video nói chuyện bình thường; Huy thấy transcript sai. Cần tách lỗi ASR, classifier và cách gộp đoạn để cải thiện, chưa chốt nguyên nhân cho từng clip.
+- Violence đang bỏ sót video bạo lực rõ theo phản hồi dùng app; cần kiểm tra lấy mẫu frame, recall và khác biệt dữ liệu thực tế so với RLVS.
+- Chỉ tập trung Toxic + Violence; Sexual/Dangerous hoãn khỏi đợt này, tiếp tục `null`/chưa đánh giá.
+- Yêu cầu đầu ra: kết quả train/validation/test, Accuracy, Loss, Precision/Recall/F1, confusion matrix, đồ thị và CSV; so sánh baseline/bản cải thiện và ghi lỗi điển hình.
+- Baseline chưa lưu lịch sử loss theo epoch; phải đo/log thật khi bổ sung, không dựng đường học. Giữ test khỏi vòng chọn model/ngưỡng. Nhãn pilot vẫn cần người thực hiện trước khi báo metric toàn pipeline.
+- Điểm bắt đầu lần tới: kiểm tra artifact/cache/split, bổ sung báo cáo metric/CSV/đồ thị, rồi làm các thí nghiệm cải thiện. Chưa có clip lỗi mới của Huy được lưu thành tập dữ liệu.
+
 ## Sửa mở lại app khi cổng đã được dùng — 19/10/2026
 
 - Ảnh lỗi của Huy do phiên kiểm thử trước vẫn chạy ở 8000/8501; health xác nhận API backend `model` và web đều hoạt động.
