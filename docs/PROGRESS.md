@@ -1,13 +1,16 @@
 # Tiến độ KidSafeReels
 
-## Đang thực hiện cải thiện model — 20/10/2026
+## Hoàn tất đợt thực nghiệm và cập nhật CPU v2 — 20/10/2026
 
 - Huy yêu cầu thực hiện kế hoạch và xác nhận chưa lưu các video lỗi; tiếp tục với dữ liệu hiện có.
 - Đã thêm công cụ chọn cấu hình trên validation, khóa artifact rồi đánh giá test; xuất CSV/PNG/SVG, Accuracy/Loss và các metric theo lớp. Hướng dẫn: [MODEL_EXPERIMENTS.md](MODEL_EXPERIMENTS.md).
-- Toxic: đã train 6 ứng viên. Ứng viên chọn trên validation giảm FP test 74 → 57 nhưng TP cũng giảm 53 → 48; F1 0,4492 → 0,4486. Chưa thay classifier đang dùng vì chưa cải thiện cân bằng precision/recall.
+- Toxic: đã train 6 ứng viên. Ứng viên chọn trên validation giảm FP test 74 → 57 nhưng TP cũng giảm 53 → 48; F1 0,4492 → 0,4486. Quyết định giữ classifier v1 vì recall ứng viên giảm.
 - ASR: đã so 3 cấu hình trên 16 câu dev, chốt small/beam5 rồi đánh giá 16 câu test FLEURS riêng. WER test 0,3836 → 0,1983; CER 0,2240 → 0,1070. Có CSV, hình và audit ảnh hưởng ASR lên đầu ra Toxic; chưa phải accuracy moderation.
-- Violence: đang trích feature 24 frame, so mean/max với thêm std/biến thiên liền kề; giữ nguyên nhóm/split RLVS. Chưa có kết quả test ứng viên trong checkpoint tiến độ này.
-- Đã kiểm 20 tests metric/pipeline/baseline và 9 tests cấu hình/đồng nhất feature train–inference. Chưa chạy full suite sau cùng hoặc đổi bundle hoạt động. Cache nằm local để tiếp tục nếu gián đoạn.
+- Violence: đã hoàn tất 9 ứng viên và đánh giá test sau khi tiếp tục từ cache. Candidate-04 24 frame tốt hơn nhẹ trên validation nhưng test F1 giảm 0,9598 → 0,9474; FP 9 → 12, FN 7 → 9. Giữ Violence v1, không chỉnh lại dựa trên test.
+- Đã xuất CSV tổng hợp, Accuracy/Loss và metric từng lớp cho train/validation/test, confusion matrix, PR/ROC, ngưỡng validation, learning curve theo số mẫu; PNG/SVG. Review lỗi private: Toxic 749 hàng, Violence 70 hàng; chưa tự điền nhãn/nhận xét người.
+- **CPU v2 đã kích hoạt:** hai classifier v1 + Whisper small beam5. Gói `models/checkpoints/bundle/kidsafe-cpu-v2.zip`, 9 tệp có checksum, giữ ZIP v1 để khôi phục. [Báo cáo đầy đủ](../reports/MODEL_IMPROVEMENT_2026-10-20.md), [cài v2/mở app/rollback](MODEL_UPDATE_2026-10-20.md).
+- Full suite **146 tests pass**, `pip check` pass; **13/13 HTTP/model**, **8 UI AppTest pass + 1 chưa chạy** do fixture không có evidence. Cài ZIP thật vào thư mục riêng và kiểm hash pass. API/web khởi động lại với v2 trên máy Huy; đây không phải nghiệm thu trình duyệt thủ công hoặc máy Tiến.
+- Còn nhãn pilot, ca lỗi thực tế chưa lưu, kiểm v2 trên máy Tiến, cập nhật PDF/PPTX cuối và quay demo. Không công bố độ chính xác toàn app từ benchmark. Điểm tiếp tục local: `runs/model-improvement-2026-10-20/CONTINUE.md`.
 
 ## Ưu tiên tiếp theo theo phản hồi Huy — 19/10/2026
 

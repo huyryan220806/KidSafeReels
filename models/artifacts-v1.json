@@ -1,0 +1,57 @@
+{
+  "version": "kidsafe-cpu-v1",
+  "files": [
+    {
+      "path": "toxic-tfidf-v1.joblib",
+      "bytes": 1293362,
+      "sha256": "e2806dbfb9f50a7a8551c9962dbe6b58cfea0c98eaba1479823e0401150e120a"
+    },
+    {
+      "path": "violence-resnet18-v1.joblib",
+      "bytes": 34351,
+      "sha256": "86b951f202613971fb2a25ff7555c03da9ee0a7a786fa6e468e1e4b459143c69"
+    },
+    {
+      "path": "resnet18-imagenet1k-v1.pth",
+      "bytes": 46837579,
+      "sha256": "821d93baf8655da3b5415fa4f1d62ae6fbecd1019fb3f895ed48245b6fe9c1e5"
+    },
+    {
+      "path": "asr_provenance.json",
+      "bytes": 104,
+      "sha256": "8142c6d89fe91443d0938efd2da4c845fc46913741c40ed654685cb2b96cc94a"
+    },
+    {
+      "path": "faster-whisper-base/config.json",
+      "bytes": 2309,
+      "sha256": "56a6d8110d311f19c8f0471e562832c7527f146b567275bfca59fcf7c184da9a"
+    },
+    {
+      "path": "faster-whisper-base/model.bin",
+      "bytes": 145217532,
+      "sha256": "d01c3014881c9c6f3133c182f3d2887eb6ca1c789a7538c5c007196857a0a6a9"
+    },
+    {
+      "path": "faster-whisper-base/tokenizer.json",
+      "bytes": 2203239,
+      "sha256": "fb7b63191e9bb045082c79fd742a3106a12c99513ab30df4a0d47fa6cb6fd0ab"
+    },
+    {
+      "path": "faster-whisper-base/vocabulary.txt",
+      "bytes": 459861,
+      "sha256": "34ce3fe1c5041027b3f8d42912270993f986dbc4bb34cf27f951e34a1e453913"
+    }
+  ],
+  "asr": {
+    "repo": "Systran/faster-whisper-base",
+    "revision": "ebe41f70d5b6dfa9166e2c581c45c9c0cfc57b66"
+  },
+  "toxic": {
+    "report": "reports/toxic_baseline_metrics.json",
+    "threshold": 0.59
+  },
+  "violence": {
+    "report": "reports/visual_baseline_metrics.json",
+    "threshold": 0.42999999999999994
+  }
+}

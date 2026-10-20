@@ -1,6 +1,6 @@
 # Pipeline video trên CPU
 
-Nhánh `feat/ml-video-pipeline` nối model thật vào `kidsafe.pipeline.analyze_video`. Luồng hiện tại: video → tối đa 8 frame lấy đều → ResNet18 ImageNet đóng băng → mean/max pooling → Logistic Regression Violence; audio → faster-whisper base đa ngôn ngữ → TF-IDF + Logistic Regression Toxic tiếng Việt. Hai nhánh phục vụ hai nhãn khác nhau; không lấy trung bình hai điểm.
+Nhánh tích hợp `feat/ml-release` nối model thật vào `kidsafe.pipeline.analyze_video`. Bản CPU v2: video → tối đa 8 frame lấy đều → ResNet18 ImageNet đóng băng → mean/max pooling → Logistic Regression Violence v1; audio → faster-whisper small beam5 → TF-IDF + Logistic Regression Toxic v1. Hai classifier giữ nguyên sau khi ứng viên mới không cải thiện test. Hai nhánh phục vụ hai nhãn khác nhau; không lấy trung bình hai điểm. [Báo cáo thực nghiệm](../reports/MODEL_IMPROVEMENT_2026-10-20.md), [cài v2 và rollback](MODEL_UPDATE_2026-10-20.md).
 
 ## Cài đặt
 
@@ -15,7 +15,7 @@ Tại gốc repo, dùng Python 3.12 và môi trường ảo theo README:
 
 ## Chuẩn bị model
 
-Nếu tái tạo từ đầu, các lệnh sau có tải dữ liệu/trọng số qua Internet:
+Các lệnh sau tái tạo **baseline v1** từ đầu, có tải dữ liệu/trọng số qua Internet; không chạy train ghi đè checkpoint đang dùng khi chỉ muốn mở app. Thí nghiệm v2 có quy trình riêng tại [MODEL_EXPERIMENTS.md](MODEL_EXPERIMENTS.md).
 
 ```powershell
 .\.venv\Scripts\python.exe -m ml.toxic_baseline download
@@ -27,18 +27,16 @@ Nếu tái tạo từ đầu, các lệnh sau có tải dữ liệu/trọng số
 
 RLVS archive version 1 tải thực tế khoảng 3,6 GiB, chứa hai cây thư mục có bản trùng; cần khoảng 10 GB trống cho archive, giải nén, cache và model. Downloader ghi SHA-256; training loại trùng chính xác và gom clip gần giống trước chia tập. Có thể dùng lại cache đặc trưng khi chạy lại cùng backbone/sampling, nhưng train sẽ ghi đè classifier và report. Không thay cấu hình dựa trên test đã xem.
 
-Whisper được ghim tại revision `ebe41f70d5b6dfa9166e2c581c45c9c0cfc57b66`. `ml.video_assets` giữ nguyên backbone local nếu đã có để không làm lệch checksum của classifier. Không có tải model ngầm trong request API.
+Whisper base v1 được ghim tại revision `ebe41f70d5b6dfa9166e2c581c45c9c0cfc57b66`; small v2 tại `536b0662742c02347bc0e980a01041f333bce120`. `ml.video_assets` giữ nguyên backbone local nếu đã có để không làm lệch checksum của classifier. Không có tải model ngầm trong request API.
 
 Thành viên app có thể nhận bộ artifact local từ ML lead, không phải tải RLVS hay huấn luyện lại:
 
 ```powershell
-# ML lead tạo gói local, không tải lên dịch vụ nào
-.\.venv\Scripts\python.exe -m ml.package_models
-# Máy nhận: đặt file ZIP đã nhận ở models/checkpoints rồi giải nén
-Expand-Archive -LiteralPath models/checkpoints/kidsafe-cpu-v1.zip -DestinationPath models/checkpoints
+# Máy nhận: dùng code/manifest mới và ZIP v2 Huy gửi
+.\.venv\Scripts\python.exe -m ml.release_verify --install-bundle D:/BanGiao/kidsafe-cpu-v2.zip
 ```
 
-Gói tạo tại `models/checkpoints/bundle/`, kèm SHA-256. Đối chiếu file bằng `Get-FileHash -Algorithm SHA256 <đường-dẫn-zip>` và `models/artifacts.json`. Chỉ nạp joblib của nhóm hoặc nguồn tin cậy. Không commit gói/checkpoint; không có video huấn luyện trong gói.
+Gói tạo tại `models/checkpoints/bundle/`, kèm SHA-256. Bộ cài kiểm theo `models/artifacts.json`; không giải nén đè bundle bằng tay. V2 được đóng bằng `ml.package_improved` sau thực nghiệm và chỉ kích hoạt sau kiểm thử tích hợp. Lệnh `ml.package_models` dành cho baseline v1 và từ chối ghi đè cấu hình v2. Chỉ nạp joblib của nhóm hoặc nguồn tin cậy. Không commit gói/checkpoint; không có video huấn luyện trong gói.
 
 ## Chạy video thật
 
@@ -76,6 +74,6 @@ Hoặc dùng CLI:
 
 Smoke test gọi FastAPI qua TestClient trong tiến trình, chưa kiểm thử trình duyệt hay kết nối mạng. Dùng 5 clip RLVS từ test (chọn theo thứ tự manifest, không chọn theo dự đoán), video không tiếng, video nền màu ghép một mẫu giọng nói FLEURS, video quá dài và file hỏng. Mẫu ghép chỉ kiểm tra đường đi ASR → Toxic; không dùng để đo độ chính xác moderation. JSON kết quả lưu `reports/video_smoke_results.json`.
 
-Cần tiếp tục gán nhãn tập video ngắn tiếng Việt để đo hai lớp trên cùng video, ảnh hưởng ASR, visual-only/text-only/kết hợp và độ trễ đại diện. Hai metric benchmark riêng chưa chứng minh hiệu quả hệ thống trên TikTok/Reels/Shorts. Playback/evidence và bộ test app đã tích hợp; xem `RELEASE_HANDOFF.md` và `reports/release_smoke_results.json` cho 13 ca HTTP/model mới. Máy thứ hai vẫn chưa nghiệm thu.
+Cần tiếp tục gán nhãn tập video ngắn tiếng Việt để đo hai lớp trên cùng video, ảnh hưởng ASR, visual-only/text-only/kết hợp và độ trễ đại diện. Hai metric benchmark riêng chưa chứng minh hiệu quả hệ thống trên TikTok/Reels/Shorts. V1 đã nghiệm thu trên máy Tiến ngày 18/10; v2 cần kiểm lại trên máy đó. [Kết quả v2 trên máy Huy](../reports/model-improvement-2026-10-20/integration_checks.json).
 
 Nguồn: [RLVS](https://www.kaggle.com/datasets/mohamedmustafa/real-life-violence-situations-dataset), [ResNet18](https://docs.pytorch.org/vision/stable/models/generated/torchvision.models.resnet18.html), [faster-whisper](https://github.com/SYSTRAN/faster-whisper), [FLEURS](https://huggingface.co/datasets/google/fleurs).

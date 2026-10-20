@@ -15,6 +15,8 @@ def binary_metrics(labels, scores, threshold):
     y, p = np.asarray(labels), np.asarray(scores, dtype=float)
     if y.ndim != 1 or p.shape != y.shape or not len(y):
         raise ValueError("Expected equally sized nonempty label/score vectors")
+    if not np.isfinite(threshold) or not 0 <= threshold <= 1:
+        raise ValueError("Threshold must be a finite probability")
     if not set(y).issubset({0, 1}) or not np.isfinite(p).all() or np.any((p < 0) | (p > 1)):
         raise ValueError("Invalid binary labels or probability scores")
     pred = p >= threshold
@@ -44,7 +46,7 @@ def binary_metrics(labels, scores, threshold):
 
 def write_json(path, payload):
     Path(path).parent.mkdir(parents=True, exist_ok=True)
-    Path(path).write_text(json.dumps(payload, ensure_ascii=False, indent=2, allow_nan=False), encoding="utf-8")
+    Path(path).write_text(json.dumps(payload, ensure_ascii=False, indent=2, allow_nan=False), encoding="utf-8", newline="\n")
 
 
 def write_csv(path, rows):
@@ -57,6 +59,13 @@ def write_csv(path, rows):
         writer = csv.DictWriter(stream, fieldnames=fields)
         writer.writeheader()
         writer.writerows(rows)
+
+
+def clean_svg(path):
+    """Remove renderer-only trailing spaces without changing vector content."""
+    path = Path(path)
+    path.write_text("\n".join(line.rstrip() for line in path.read_text(encoding="utf-8").splitlines()) + "\n",
+                    encoding="utf-8", newline="\n")
 
 
 def threshold_rows(labels, scores):
@@ -90,6 +99,7 @@ def plot_results(directory, rows, predictions, history):
     def save(fig, name):
         fig.savefig(directory / f"{name}.png", dpi=160, bbox_inches="tight")
         fig.savefig(directory / f"{name}.svg", bbox_inches="tight")
+        clean_svg(directory / f"{name}.svg")
         plt.close(fig)
 
     fig, axes = plt.subplots(2, 3, figsize=(13, 7), layout="constrained")
@@ -98,15 +108,16 @@ def plot_results(directory, rows, predictions, history):
             data = [next(r for r in rows if r["variant"] == variant and r["split"] == s)
                     for s in ("train", "valid", "test")]
             values = [r[metric] for r in data]
-            bars = ax.bar(np.arange(3) + (i - .5) * .35, values, .35, label=variant)
+            bars = ax.bar(np.arange(3) + (i - .5) * .35, values, .35,
+                          label="Baseline" if variant == "baseline" else "Ứng viên chọn trên validation")
             ax.bar_label(bars, fmt="%.3f", fontsize=8)
         ax.set_xticks(range(3), ["Train", "Validation", "Test"])
-        ax.set_title("Binary cross-entropy (lower is better)" if metric == "log_loss" else metric)
+        ax.set_title("Loss: binary cross-entropy (thấp hơn tốt hơn)" if metric == "log_loss" else metric)
         if metric != "log_loss":
             ax.set_ylim(0, 1.13)
         ax.grid(axis="y", alpha=.2)
     axes[0, 0].legend()
-    fig.suptitle(f"{rows[0]['task'].upper()} — benchmark comparison (not video app accuracy)")
+    fig.suptitle(f"{rows[0]['task'].upper()} — so sánh trên benchmark; chưa phải độ chính xác của app video")
     save(fig, "metrics_by_split")
 
     fig, axes = plt.subplots(1, 2, figsize=(9, 4), layout="constrained")
@@ -116,8 +127,8 @@ def plot_results(directory, rows, predictions, history):
         ax.imshow(matrix, cmap="Blues")
         for (i, j), value in np.ndenumerate(matrix):
             ax.text(j, i, str(value), ha="center", va="center", color="white" if value > matrix.max()/2 else "black")
-        ax.set(xticks=[0, 1], yticks=[0, 1], xlabel="Predicted label", ylabel="True label",
-               title=f"{variant} | test n={r['n']}")
+        ax.set(xticks=[0, 1], yticks=[0, 1], xlabel="Nhãn dự đoán", ylabel="Nhãn thật",
+               title=f"{'Baseline' if variant == 'baseline' else 'Ứng viên'} | test n={r['n']}")
     save(fig, "confusion_matrix")
 
     fig, axes = plt.subplots(1, 2, figsize=(10, 4), layout="constrained")
@@ -141,7 +152,7 @@ def plot_results(directory, rows, predictions, history):
             subset = [r for r in history if r["split"] == split]
             for ax, metric in zip(axes, ("log_loss", "accuracy")):
                 ax.plot([r["train_samples"] for r in subset], [r[metric] for r in subset], "o-", label=split)
-                ax.set(xlabel="Training samples (not epochs)", ylabel=metric)
+                ax.set(xlabel="Số mẫu huấn luyện (không phải epoch)", ylabel=metric)
                 ax.legend(); ax.grid(alpha=.2)
-        fig.suptitle("Learning curve: independently fitted subsets, fixed selected configuration")
+        fig.suptitle("Đường học: fit các tập train con độc lập, giữ cấu hình đã chọn")
         save(fig, "learning_curve")

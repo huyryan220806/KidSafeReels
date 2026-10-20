@@ -8,6 +8,8 @@ from ml.toxic_baseline import ROOT, sha256
 
 def main():
     source = ROOT / "models/checkpoints"
+    if (source / "inference-config.json").exists():
+        raise ValueError("An improved bundle is configured; use ml.package_improved instead of overwriting the active v1 manifest.")
     names = ["toxic-tfidf-v1.joblib", "violence-resnet18-v1.joblib", "resnet18-imagenet1k-v1.pth",
              "asr_provenance.json", "faster-whisper-base/config.json", "faster-whisper-base/model.bin",
              "faster-whisper-base/tokenizer.json", "faster-whisper-base/vocabulary.txt"]

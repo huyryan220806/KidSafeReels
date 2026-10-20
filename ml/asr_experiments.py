@@ -10,7 +10,7 @@ import unicodedata
 import numpy as np
 import requests
 
-from ml.experiment_metrics import write_csv, write_json
+from ml.experiment_metrics import clean_svg, write_csv, write_json
 from ml.smoke_video import FLEURS_REVISION
 from ml.toxic_baseline import ROOT, sha256
 
@@ -95,6 +95,10 @@ def prepare_small():
     target = ROOT / "models/checkpoints/faster-whisper-small"
     provenance = target / "provenance.json"
     if provenance.exists():
+        recorded = json.loads(provenance.read_text(encoding="utf-8"))
+        for entry in recorded["files"]:
+            if sha256(target / entry["path"]) != entry["sha256"]:
+                raise ValueError("Whisper small checkpoint checksum mismatch")
         return
     repo = "Systran/faster-whisper-small"
     revision = HfApi().model_info(repo).sha
@@ -177,6 +181,11 @@ def run(run_id):
     write_csv(private / "asr_predictions.csv", [{k: v for k, v in r.items() if k != "segments"} for r in individual])
     write_json(public / "evaluation.json", dict(selected=selected, metrics=summary,
                evaluated_at=datetime.now().astimezone().isoformat(), sample_manifest_sha256=sha256(DATA / "manifest.json")))
+    plot_asr(summary, public)
+    print(json.dumps(summary, indent=2), flush=True)
+
+
+def plot_asr(summary, public):
     import matplotlib
     matplotlib.use("Agg")
     import matplotlib.pyplot as plt
@@ -185,12 +194,12 @@ def run(run_id):
         bars = ax.bar(range(len(summary)), [r[metric] for r in summary])
         ax.bar_label(bars, fmt="%.3f", fontsize=8)
         ax.set_xticks(range(len(summary)), [r["config"]+"\n"+r["split"] for r in summary], rotation=30, ha="right")
-        ax.set_title(metric + " (lower is better)")
-    fig.suptitle("FLEURS Vietnamese — 16 unique prompts per split; CPU; not Toxic accuracy")
+        ax.set_title(metric + " (thấp hơn tốt hơn)")
+    fig.suptitle("FLEURS tiếng Việt — 16 câu/tập; CPU; đây không phải accuracy Toxic")
     for suffix in ("png", "svg"):
         fig.savefig(public / f"asr_comparison.{suffix}", dpi=160, bbox_inches="tight")
+    clean_svg(public / "asr_comparison.svg")
     plt.close(fig)
-    print(json.dumps(summary, indent=2), flush=True)
 
 
 if __name__ == "__main__":

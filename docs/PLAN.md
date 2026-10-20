@@ -1,6 +1,6 @@
 # Kế hoạch một tuần và phân công
 
-**Ưu tiên mới sau phản hồi dùng app ngày 19/10/2026:** cải thiện cảnh báo nhầm Toxic/ASR và bỏ sót Violence; hoãn Sexual/Dangerous trong đợt này. Huy yêu cầu kết quả train/validation/test, Accuracy/Loss và các chỉ số theo lớp, đồ thị cùng CSV để đánh giá mức chất lượng và so sánh trước/sau. Đã lưu [kế hoạch cải thiện model](MODEL_IMPROVEMENT_PLAN.md); chưa bắt đầu thí nghiệm mới, tiếp tục khi Huy quay lại sau khi quota hồi. Ưu tiên này cập nhật chỉ dẫn giữ nguyên baseline bên dưới; vẫn giữ test khỏi việc chọn model/ngưỡng và cần nhãn người thật cho metric pilot.
+**Cập nhật 20/10/2026:** đã hoàn tất đợt thực nghiệm theo phản hồi Huy: 6 cấu hình Toxic, 9 cấu hình Violence, 3 cấu hình ASR; có train/validation/test, Accuracy/Loss/F1, CSV và đồ thị. CPU v2 nâng Whisper small beam5, giữ hai classifier v1 vì ứng viên không cải thiện đủ trên test. 146 tests, 13/13 HTTP/model, 8 UI AppTest pass và 1 ca chưa chạy vì không có evidence ở fixture. [Báo cáo](../reports/MODEL_IMPROVEMENT_2026-10-20.md), [checklist cải thiện](MODEL_IMPROVEMENT_PLAN.md), [cài/mở v2](MODEL_UPDATE_2026-10-20.md). Còn nhãn pilot, ca lỗi thực tế, kiểm v2 trên máy Tiến và hoàn thiện bài nộp/demo; Sexual/Dangerous tiếp tục hoãn.
 
 **Cập nhật 19/10/2026:** đã nhận code/nghiệm thu tự động máy Tiến, merge vào `feat/ml-release` và kiểm lại trên máy Huy với 118 tests, 13 ca HTTP, 9 ca UI AppTest; có thêm kiểm tra trình duyệt thật. Còn nhãn pilot, metric chung, diễn tập và quay demo. [Biên bản merge và cách mở web](APP_MERGE_REVIEW.md).
 

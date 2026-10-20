@@ -58,3 +58,23 @@ def test_dense_inference_uses_same_feature_aggregation_as_training(tmp_path, mon
     classifier = visual.ViolenceClassifier(path)
     assert classifier.frame_count == 24
     assert classifier.score([None] * 24) == pytest.approx(model.predict_proba(features[None])[0, 1])
+
+
+def test_restoring_old_bundle_removes_unverified_new_inference_config(tmp_path):
+    import hashlib
+    import zipfile
+    from ml.release_verify import install_bundle, verify_artifacts
+    payload = b"legacy fixture"
+    manifest = {"version": "v1-test", "files": [{"path": "model.bin", "bytes": len(payload),
+                 "sha256": hashlib.sha256(payload).hexdigest()}]}
+    archive = tmp_path / "old.zip"
+    with zipfile.ZipFile(archive, "w") as zipped:
+        zipped.writestr("model.bin", payload)
+        zipped.writestr("bundle-manifest.json", json.dumps(manifest))
+    target = tmp_path / "models"
+    target.mkdir()
+    (target / "inference-config.json").write_text(json.dumps(dict(DEFAULT, version="v2")))
+    with pytest.raises(ValueError, match="unverified inference-config"):
+        verify_artifacts(target, manifest)
+    assert install_bundle(archive, target, manifest)["verified_files"] == 1
+    assert load_config(target) == DEFAULT

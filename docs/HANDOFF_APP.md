@@ -1,5 +1,7 @@
 # Bàn giao cho thành viên app — 18/10/2026
 
+**Cập nhật 20/10:** app đã merge và nghiệm thu v1 trên hai máy. Bước tiếp theo cho app là nhận [bản model CPU v2](MODEL_UPDATE_2026-10-20.md) và kiểm lại trên máy Tiến. Dùng code mới của `feat/ml-release` cùng `kidsafe-cpu-v2.zip`; gói tổng hợp 18/10 bên dưới chứa v1 và được giữ làm lịch sử. Nhãn chéo và demo vẫn cần người thực hiện.
+
 Bản này thay hướng dẫn app cũ ngày 05/10 và 16/10. **Tiếp tục từ bản đã tích hợp**, ưu tiên nghiệm thu máy thứ hai, sửa lỗi phát sinh và demo. Phạm vi một tuần giữ Violence + Toxic tiếng Việt trên CPU.
 
 ## 1. Nhận phiên bản và gói đính kèm

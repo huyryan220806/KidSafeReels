@@ -1,6 +1,6 @@
 # Kế hoạch cải thiện Toxic và Violence
 
-Cập nhật 20/10/2026: **đang thực hiện theo yêu cầu Huy**, kế thừa phản hồi 19/10. Toxic và ASR đã có kết quả; Violence đang trích feature và chọn cấu hình. Xem [progress](PROGRESS.md) và [hướng dẫn thực nghiệm](MODEL_EXPERIMENTS.md). Huy xác nhận chưa lưu các video báo lỗi, tiếp tục với dữ liệu benchmark hiện có.
+Cập nhật 20/10/2026: **đã hoàn tất đợt thực nghiệm benchmark, CSV/đồ thị và tích hợp CPU v2**. Nâng ASR small beam5; giữ hai classifier v1 vì ứng viên không cải thiện đủ trên test. Xem [báo cáo thực nghiệm](../reports/MODEL_IMPROVEMENT_2026-10-20.md), [progress](PROGRESS.md) và [hướng dẫn tái lập](MODEL_EXPERIMENTS.md). Huy xác nhận chưa lưu các video báo lỗi, tiếp tục với dữ liệu benchmark hiện có. Các mục cần clip lỗi/nhãn người bên dưới vẫn chưa hoàn tất.
 
 ## Phản hồi cần xử lý
 
@@ -29,34 +29,36 @@ Nguồn: [Toxic baseline](../reports/TOXIC_BASELINE.md), [Violence baseline](../
 
 ### 1. Chuẩn bị đo và tập ca lỗi
 
-- [ ] Kiểm tra checkpoint, cache feature, split và code hiện có để tái sử dụng, tránh tải/train lại không cần thiết.
+- [x] Kiểm tra checkpoint, cache feature, split và code hiện có để tái sử dụng, tránh tải/train lại không cần thiết.
 - [ ] Lưu các clip người dùng báo lỗi vào tập phân tích riêng khi có quyền sử dụng; ghi source/group, nhãn người thật và mốc lỗi. Clip đã xem dự đoán dùng cho phát triển/regression, không trở thành test giữ riêng mới.
 - [ ] Với Toxic, đối chiếu audio, transcript ASR và transcript được người nghe sửa; so classifier trên cả hai để tách lỗi ASR khỏi lỗi phân loại. Nếu có transcript tham chiếu, đo WER/CER và ghi cách chuẩn hóa tiếng Việt.
 - [ ] Với Violence, đối chiếu khung hình đã lấy mẫu với mốc bạo lực do người xem ghi; phân biệt không lấy trúng cảnh và lấy trúng nhưng classifier sai.
 
 ### 2. Cải thiện hai nhánh trên train/validation
 
-- [ ] Toxic: kiểm tra nhận dạng tiếng Việt, cấu hình giải mã/VAD, ngữ cảnh câu và cách gộp đoạn. Thử cấu hình có kiểm soát để giảm cảnh báo nhầm mà vẫn theo dõi recall Toxic; đo chi phí CPU.
-- [ ] Toxic classifier: so baseline với các phương án cải thiện phù hợp CPU/Colab, chọn trên validation; ghi tác động riêng của ASR và classifier trước khi ghép.
-- [ ] Violence: thử lấy mẫu dày hơn hoặc theo cửa sổ thời gian cho cảnh ngắn; xem xét đặc trưng chuyển động/model khác nếu chi phí cho phép. Khi đổi feature, bảo đảm train và inference dùng cùng tiền xử lý.
-- [ ] Ghi run ID, seed, cấu hình, phiên bản dữ liệu/model, thời gian train/inference và tiêu chí chọn cấu hình/ngưỡng trước khi đánh giá test cuối.
+- [x] Toxic: kiểm tra nhận dạng tiếng Việt, cấu hình giải mã/VAD, ngữ cảnh câu và cách gộp đoạn. Thử cấu hình có kiểm soát để giảm cảnh báo nhầm mà vẫn theo dõi recall Toxic; đo chi phí CPU.
+- [x] Toxic classifier: so baseline với các phương án cải thiện phù hợp CPU/Colab, chọn trên validation; ghi tác động riêng của ASR và classifier trước khi ghép.
+- [x] Violence: thử lấy mẫu dày hơn hoặc theo cửa sổ thời gian cho cảnh ngắn; xem xét đặc trưng chuyển động/model khác nếu chi phí cho phép. Khi đổi feature, bảo đảm train và inference dùng cùng tiền xử lý.
+- [x] Ghi run ID, seed, cấu hình, phiên bản dữ liệu/model, thời gian train/inference và tiêu chí chọn cấu hình/ngưỡng trước khi đánh giá test cuối.
 
 ### 3. Kết quả train/test, CSV và đồ thị
 
-- [ ] Xuất cho từng model và split: số mẫu từng lớp, accuracy, balanced accuracy, precision/recall/F1 từng lớp, macro-F1, log loss (binary cross-entropy từ score xác suất), confusion matrix, ROC-AUC và average precision khi split đủ hai lớp. Chỉ số không xác định để trống kèm lý do, không điền 0 thay thế.
-- [ ] CSV tổng hợp dự kiến: `metrics_by_split.csv`, `comparison.csv`, `confusion_matrix.csv`; có run ID, dataset/split, model, threshold, support và tên chỉ số rõ ràng.
-- [ ] CSV dự đoán từng mẫu: sample/group ID, split, nhãn thật, score, dự đoán, lỗi FP/FN. Giữ ở `data/private/` hoặc `runs/`; không đưa transcript/video/nhãn người dùng lên Git. Bảng tổng hợp và hình không chứa nội dung riêng tư có thể nằm trong `reports/`.
-- [ ] Đồ thị PNG/SVG: confusion matrix, so sánh Accuracy/F1/Precision/Recall và Loss giữa train/validation/test; PR curve; ROC curve nếu phù hợp; đồ thị ảnh hưởng ngưỡng trên validation; so sánh baseline với bản cải thiện.
-- [ ] Nếu model mới train theo epoch/iteration có đo thật: lưu `training_history.csv` và vẽ train/validation loss + accuracy theo bước. Hai baseline Logistic Regression hiện tại không có lịch sử epoch; báo loss cuối hoặc learning curve theo số mẫu train với nhãn trục đúng, không dựng đường epoch từ kết quả cuối và không dùng `max_iter` như số epoch đã đo.
-- [ ] Tóm tắt model đang tốt/yếu ở đâu, ví dụ FP/FN, ảnh hưởng ASR và đánh đổi latency; đối chiếu số liệu với phản hồi dùng app.
+- [x] Xuất cho từng model và split: số mẫu từng lớp, accuracy, balanced accuracy, precision/recall/F1 từng lớp, macro-F1, log loss (binary cross-entropy từ score xác suất), confusion matrix, ROC-AUC và average precision khi split đủ hai lớp. Chỉ số không xác định để trống kèm lý do, không điền 0 thay thế.
+- [x] CSV tổng hợp: `metrics_by_split.csv`, `comparison.csv`, `confusion_matrix.csv`; có run ID, dataset/split, model, threshold, support và tên chỉ số rõ ràng.
+- [x] CSV dự đoán từng mẫu: sample/group ID, split, nhãn thật, score, dự đoán, lỗi FP/FN. Giữ ở `runs/`; không đưa transcript/video/nhãn người dùng lên Git. Bảng tổng hợp và hình không chứa nội dung riêng tư nằm trong `reports/`.
+- [x] Đồ thị PNG/SVG: confusion matrix, so sánh Accuracy/F1/Precision/Recall và Loss giữa train/validation/test; PR curve; ROC curve; đồ thị ảnh hưởng ngưỡng trên validation; so sánh baseline với ứng viên mới.
+- [x] Ghi loss cuối và `learning_curve.csv` theo số mẫu train. Không có lịch sử epoch cho Logistic Regression; không dựng đường epoch hoặc dùng `max_iter` như số epoch đã đo.
+- [x] Tóm tắt điểm mạnh/yếu, FP/FN, ảnh hưởng ASR và đánh đổi latency trên benchmark. Phản hồi dùng app vẫn chưa kiểm chứng theo từng clip vì chưa lưu ca lỗi.
 
 ### 4. Đánh giá test cuối và đưa vào app
 
-- [ ] Giữ split theo video/nguồn và dữ liệu test khỏi vòng chọn model/ngưỡng. Không điều chỉnh bằng test cũ đã xem rồi gọi đó là một đánh giá độc lập mới; ghi rõ test benchmark đã từng được báo cáo.
+- [x] Giữ split theo nhóm video hiện có và dữ liệu test khỏi vòng chọn model/ngưỡng; ghi giới hạn nhóm nguồn dHash. Không điều chỉnh bằng test cũ đã xem rồi gọi đó là một đánh giá độc lập mới; ghi rõ test benchmark đã từng được báo cáo.
 - [ ] Có nhãn người thật trước khi báo metric video/pilot. Nếu cần thêm tập đích, chốt nhóm/split trước, dành phần chưa dùng cho đánh giá cuối và báo support thực tế.
-- [ ] Chốt cấu hình bằng validation, đánh giá test của cấu hình đã chọn; so trên cùng mẫu/định nghĩa và tách metric text, video benchmark, toàn pipeline.
-- [ ] Chỉ thay bundle khi có bằng chứng cải thiện phù hợp mục tiêu; giữ baseline để đối chiếu/quay lại, cập nhật checksum/version, chạy regression API/UI và ghi progress.
+- [x] Chốt cấu hình bằng validation, đánh giá test của cấu hình đã chọn; so trên cùng mẫu/định nghĩa và tách metric text, video benchmark, toàn pipeline.
+- [x] Chỉ thay bundle khi có bằng chứng cải thiện phù hợp mục tiêu: nâng ASR, giữ classifier v1; lưu baseline để quay lại, cập nhật checksum/version, chạy regression API/UI và ghi progress.
 
 ## Điểm tiếp tục
 
-Đọc tài liệu này và [PROGRESS.md](PROGRESS.md). Bắt đầu bằng kiểm tra tài nguyên và bổ sung xuất metric/CSV/đồ thị; sau đó xử lý ASR/Toxic và Violence theo các ca lỗi. Báo cáo rõ phần đã đo và phần còn chờ nhãn. Lượt ghi chú này chỉ sửa tài liệu, không đổi model, ngưỡng, schema hoặc bundle đang dùng.
+Đọc trạng thái mới nhất ở [PROGRESS.md](PROGRESS.md) và [báo cáo](../reports/MODEL_IMPROVEMENT_2026-10-20.md) trước khi chạy lại. Không lặp vòng chọn cấu hình hoặc đánh giá test của run đã hoàn tất. Cache và checkpoint tiếp tục nằm local tại `runs/model-improvement-2026-10-20/`.
+
+Các mục ca lỗi người dùng và nhãn pilot vẫn chờ người thực hiện. Đã đo WER/CER bằng transcript tham chiếu FLEURS và audit riêng tác động lên Toxic; chưa có transcript được người sửa cho các clip lỗi của Huy hoặc mốc bạo lực do người xem gán. Không đánh dấu hai việc đó hoàn tất bằng kết quả benchmark.

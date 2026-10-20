@@ -78,5 +78,6 @@
     }
   ],
   "evaluated_at": "2026-10-20T00:39:35.223359+07:00",
-  "sample_manifest_sha256": "bb8603cd6edfbb10bf808ae1c57edf635bbb15c333bac8bebd32ca38d259482f"
+  "sample_manifest_sha256": "bb8603cd6edfbb10bf808ae1c57edf635bbb15c333bac8bebd32ca38d259482f",
+  "selection_sha256": "87ab71980ad4596366f19da36d4c853c6a59d44cba32af991eea5089417011ed"
 }

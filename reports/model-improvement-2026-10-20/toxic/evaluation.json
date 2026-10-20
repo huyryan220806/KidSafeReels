@@ -1,7 +1,7 @@
 {
   "run_id": "model-improvement-2026-10-20",
   "task": "toxic",
-  "selection_sha256": "1f8a99cc010eec49f0744ea042022a386315695f24bca412a22cee1369b10773",
+  "selection_sha256": "244881540fc826b083c56c09b66a16c9e8ffdb8ea736c8c45f2e80e26debc730",
   "evaluated_at": "2026-10-20T00:35:11.621735+07:00",
   "metrics": [
     {

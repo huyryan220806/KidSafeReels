@@ -1,5 +1,11 @@
 # Tin nhắn gửi thành viên app
 
+## Bản cập nhật để gửi ngày 20/10
+
+Mình đã hoàn tất đợt thử model và xuất Accuracy/Loss/F1, CSV, đồ thị. Bản CPU v2 nâng Whisper small beam5; hai classifier Toxic/Violence giữ v1 vì ứng viên mới không cải thiện đủ trên test. Bạn lấy code mới từ `feat/ml-release`, đọc `docs/MODEL_UPDATE_2026-10-20.md`, nhận `kidsafe-cpu-v2.zip` và SHA-256 từ mình rồi cài/kiểm lại trên máy bạn. Schema và giao diện không đổi. Gói tổng hợp 18/10 chứa v1, không dùng với manifest v2. Nhãn chéo 6 clip và quay demo vẫn cần hoàn tất. Đây là nội dung để Huy gửi; chưa gửi tự động.
+
+## Tin nhắn lịch sử ngày 18/10
+
 Mình đã ghép app của bạn với model thật trên nhánh `feat/ml-release`. Bản tích hợp trên máy mình qua 117 tests và 13/13 ca HTTP/model. UI, worker và schema v1 vẫn giữ theo app; PyAV đã ghim 16.1.0 để chạy chung với ASR.
 
 Bạn đọc bàn giao tại: https://github.com/huyryan220806/KidSafeReels/blob/feat/ml-release/docs/HANDOFF_APP.md

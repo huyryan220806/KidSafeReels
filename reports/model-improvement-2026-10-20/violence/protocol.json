@@ -1,0 +1,54 @@
+{
+  "run_id": "model-improvement-2026-10-20",
+  "task": "violence",
+  "seed": 42,
+  "created_at": "2026-10-20T00:32:43.683194+07:00",
+  "baseline_sha256": "86b951f202613971fb2a25ff7555c03da9ee0a7a786fa6e468e1e4b459143c69",
+  "selection_rule": "maximize validation recall subject to FP <= baseline and macro-F1 >= baseline - 0.005",
+  "test_policy": "No test predictions during selection. Existing benchmark test was previously reported; no new independent-test claim.",
+  "environment": {
+    "python": "3.12.10",
+    "sklearn": "1.9.1",
+    "platform": "Windows-11-10.0.26300-SP0",
+    "processor": "AMD64 Family 25 Model 68 Stepping 1, AuthenticAMD",
+    "device": "cpu"
+  },
+  "configurations": [
+    {
+      "features": "baseline",
+      "C": 0.01
+    },
+    {
+      "features": "baseline",
+      "C": 0.1
+    },
+    {
+      "features": "baseline",
+      "C": 1
+    },
+    {
+      "features": "mean-max",
+      "C": 0.01
+    },
+    {
+      "features": "mean-max",
+      "C": 0.1
+    },
+    {
+      "features": "mean-max",
+      "C": 1
+    },
+    {
+      "features": "mean-max-std-diff",
+      "C": 0.01
+    },
+    {
+      "features": "mean-max-std-diff",
+      "C": 0.1
+    },
+    {
+      "features": "mean-max-std-diff",
+      "C": 1
+    }
+  ]
+}

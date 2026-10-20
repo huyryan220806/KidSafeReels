@@ -11,6 +11,8 @@ def verify_artifacts(directory=None, manifest=None):
     directory = Path(directory or ROOT / "models/checkpoints")
     manifest = manifest or read_json(ROOT / "models/artifacts.json")
     problems = []
+    if (directory / "inference-config.json").exists() and not any(e["path"] == "inference-config.json" for e in manifest["files"]):
+        problems.append("unverified inference-config.json not included in this bundle")
     for entry in manifest["files"]:
         path = directory / entry["path"]
         if not path.resolve().is_relative_to(directory.resolve()):
@@ -51,14 +53,22 @@ def install_bundle(archive, directory=None, manifest=None):
                 import shutil
                 shutil.copyfileobj(source, target)
             partial.replace(path)
+        # Restoring a v1 bundle must also restore its default inference choices.
+        config = directory / "inference-config.json"
+        if "inference-config.json" not in expected and config.is_file():
+            config.unlink()
     return verify_artifacts(directory, manifest)
 
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--install-bundle", type=Path)
+    parser.add_argument("--manifest", type=Path, help="Trusted repository manifest; defaults to the active release")
+    parser.add_argument("--model-dir", type=Path)
     args = parser.parse_args()
-    print(json.dumps(install_bundle(args.install_bundle) if args.install_bundle else verify_artifacts()))
+    manifest = read_json(args.manifest) if args.manifest else None
+    print(json.dumps(install_bundle(args.install_bundle, args.model_dir, manifest) if args.install_bundle
+                     else verify_artifacts(args.model_dir, manifest)))
 
 
 if __name__ == "__main__":

@@ -1,0 +1,117 @@
+{
+  "run_id": "model-improvement-2026-10-20",
+  "task": "violence",
+  "seed": 42,
+  "created_at": "2026-10-20T00:32:43.683194+07:00",
+  "baseline_sha256": "86b951f202613971fb2a25ff7555c03da9ee0a7a786fa6e468e1e4b459143c69",
+  "selection_rule": "maximize validation recall subject to FP <= baseline and macro-F1 >= baseline - 0.005",
+  "test_policy": "No test predictions during selection. Existing benchmark test was previously reported; no new independent-test claim.",
+  "environment": {
+    "python": "3.12.10",
+    "sklearn": "1.9.1",
+    "platform": "Windows-11-10.0.26300-SP0",
+    "processor": "AMD64 Family 25 Model 68 Stepping 1, AuthenticAMD",
+    "device": "cpu"
+  },
+  "configurations": [
+    {
+      "features": "baseline",
+      "C": 0.01
+    },
+    {
+      "features": "baseline",
+      "C": 0.1
+    },
+    {
+      "features": "baseline",
+      "C": 1
+    },
+    {
+      "features": "mean-max",
+      "C": 0.01
+    },
+    {
+      "features": "mean-max",
+      "C": 0.1
+    },
+    {
+      "features": "mean-max",
+      "C": 1
+    },
+    {
+      "features": "mean-max-std-diff",
+      "C": 0.01
+    },
+    {
+      "features": "mean-max-std-diff",
+      "C": 0.1
+    },
+    {
+      "features": "mean-max-std-diff",
+      "C": 1
+    }
+  ],
+  "selected": {
+    "candidate": "candidate-04",
+    "n": 386,
+    "negative": 188,
+    "positive": 198,
+    "threshold": 0.4499999999999999,
+    "accuracy": 0.9585492227979274,
+    "balanced_accuracy": 0.9581184182248013,
+    "log_loss": 0.1513961932319462,
+    "precision_negative": 0.9725274725274725,
+    "recall_negative": 0.9414893617021277,
+    "f1_negative": 0.9567567567567568,
+    "precision": 0.946078431372549,
+    "recall": 0.9747474747474747,
+    "f1": 0.9601990049751243,
+    "macro_f1": 0.9584778808659405,
+    "roc_auc": 0.9854126370083817,
+    "average_precision": 0.9846337233720033,
+    "tn": 177,
+    "fp": 11,
+    "fn": 5,
+    "tp": 193,
+    "undefined_metrics": ""
+  },
+  "configuration": {
+    "features": "mean-max",
+    "C": 0.01
+  },
+  "fit_seconds": 0.28564519999781623,
+  "data_audit": {
+    "dataset": "RLVS",
+    "manifest_sha256": "212eaec321f1a9f3bd73f247e02a04398e9329c883f8a279859ae1f5948a62b8",
+    "backbone_sha256": "821d93baf8655da3b5415fa4f1d62ae6fbecd1019fb3f895ed48245b6fe9c1e5",
+    "features": "mean-max",
+    "frame_count": 24,
+    "rows_canonical_sha256": "632ba213d1ce77a74162879248fb84cd0b26f057630d7b2242c35417dbaa3aee"
+  },
+  "baseline_validation": {
+    "n": 386,
+    "negative": 188,
+    "positive": 198,
+    "threshold": 0.42999999999999994,
+    "accuracy": 0.9559585492227979,
+    "balanced_accuracy": 0.9555931656995487,
+    "log_loss": 0.1614609038761223,
+    "precision_negative": 0.9672131147540983,
+    "recall_negative": 0.9414893617021277,
+    "f1_negative": 0.954177897574124,
+    "precision": 0.9458128078817734,
+    "recall": 0.9696969696969697,
+    "f1": 0.9576059850374065,
+    "macro_f1": 0.9558919413057652,
+    "roc_auc": 0.9856275521169138,
+    "average_precision": 0.9840927753534815,
+    "tn": 177,
+    "fp": 11,
+    "fn": 6,
+    "tp": 192,
+    "undefined_metrics": ""
+  },
+  "artifact_sha256": "6b8a840e7b370f4fcfc14e724ca1e0cebd404d6a880db180d630dd0035b9b7a9",
+  "test_evaluated": false,
+  "selected_at": "2026-10-20T01:04:38.198537+07:00"
+}

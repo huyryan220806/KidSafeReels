@@ -17,7 +17,7 @@ from sklearn.model_selection import StratifiedShuffleSplit, GroupShuffleSplit
 from sklearn.pipeline import FeatureUnion, make_pipeline
 from sklearn.preprocessing import StandardScaler
 
-from ml.experiment_metrics import (binary_metrics, choose_operating_point, plot_results,
+from ml.experiment_metrics import (binary_metrics, choose_operating_point, clean_svg, plot_results,
                                    threshold_rows, write_csv, write_json)
 from ml.toxic_baseline import ROOT, DATA, clean_splits, read_split, sha256
 
@@ -70,7 +70,7 @@ def load_visual(features="baseline", needed=SPLITS):
                 if cache.exists():
                     embeddings = np.load(cache, allow_pickle=False)
                 else:
-                    video = ROOT / "data/raw/rlvs" / row["path"]
+                    video = ROOT / "data/raw/rlvs" / row["path"].replace("\\", "/")
                     if sha256(video) != row["sha256"]:
                         raise ValueError(f"Video checksum mismatch: {row['path']}")
                     if encoder is None:
@@ -86,7 +86,9 @@ def load_visual(features="baseline", needed=SPLITS):
                 print(f"{features} {split}: {i + 1}/{len(selected)} ({time.perf_counter()-started:.1f}s)", flush=True)
         data[split] = dict(x=np.array(matrix), y=np.array([r["label"] for r in selected]),
                            ids=[r["sha256"] for r in selected], groups=[r["group_id"] for r in selected])
-    return data, {"dataset": "RLVS", "manifest_sha256": sha256(path), "backbone_sha256": backbone_hash,
+    canonical = hashlib.sha256(json.dumps(rows, sort_keys=True, separators=(",", ":")).encode()).hexdigest()
+    return data, {"dataset": "RLVS", "manifest_sha256": sha256(path), "rows_canonical_sha256": canonical,
+                  "backbone_sha256": backbone_hash,
                   "features": features, "frame_count": 8 if features == "baseline" else FRAME_COUNT}
 
 
@@ -165,7 +167,10 @@ def select(run_id, task):
         artifact.update(sampling=f"uniform{FRAME_COUNT}-{config['features']}-v2", frame_count=FRAME_COUNT,
                         aggregation=config["features"])
     joblib.dump(artifact, private / "selected.joblib")
+    if task == "violence":
+        audit.update(features=config["features"], frame_count=8 if config["features"] == "baseline" else FRAME_COUNT)
     selection = {**policy, "selected": selected, "configuration": config, "fit_seconds": fit_seconds,
+                 "selected_at": datetime.now().astimezone().isoformat(),
                  "data_audit": audit, "baseline_validation": base_metrics,
                  "artifact_sha256": sha256(private / "selected.joblib"), "test_evaluated": False}
     write_json(public / "selection.json", selection)
@@ -258,16 +263,35 @@ def plot_thresholds(public, selection):
     ax.legend(); ax.grid(alpha=.2)
     for suffix in ("png", "svg"):
         fig.savefig(public / f"validation_threshold.{suffix}", dpi=160)
+    clean_svg(public / "validation_threshold.svg")
     plt.close(fig)
+
+
+def render(run_id, task):
+    """Redraw existing measurements without fitting or evaluating test again."""
+    import csv
+    private, public = locations(run_id, task)
+    evaluation = json.loads((public / "evaluation.json").read_text(encoding="utf-8"))
+    predictions = {}
+    for variant in ("baseline", "selected"):
+        with (private / f"{variant}_predictions.csv").open(encoding="utf-8-sig") as stream:
+            data = list(csv.DictReader(stream))
+        predictions[variant] = {split: (np.array([int(r['label']) for r in data if r['split'] == split]),
+                                        np.array([float(r['score']) for r in data if r['split'] == split])) for split in SPLITS}
+    with (public / "learning_curve.csv").open(encoding="utf-8-sig") as stream:
+        history = [dict(r, train_samples=int(r['train_samples']), log_loss=float(r['log_loss']),
+                        accuracy=float(r['accuracy'])) for r in csv.DictReader(stream)]
+    plot_results(public, evaluation["metrics"], predictions, history)
+    plot_thresholds(public, json.loads((public / "selection.json").read_text(encoding="utf-8")))
 
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("command", choices=["select", "evaluate"])
+    parser.add_argument("command", choices=["select", "evaluate", "render"])
     parser.add_argument("--task", choices=["toxic", "violence"], required=True)
     parser.add_argument("--run-id", required=True)
     args = parser.parse_args()
-    (select if args.command == "select" else evaluate)(args.run_id, args.task)
+    {"select": select, "evaluate": evaluate, "render": render}[args.command](args.run_id, args.task)
 
 
 if __name__ == "__main__":
