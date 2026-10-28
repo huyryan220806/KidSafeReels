@@ -15,6 +15,7 @@ htmlcov/
 data/raw/
 data/processed/
 data/private/
+data/Video_Train/
 models/checkpoints/
 runs/
 uploads/

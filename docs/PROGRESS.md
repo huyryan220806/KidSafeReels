@@ -1,5 +1,15 @@
 # Tiến độ KidSafeReels
 
+## Tiếp nhận đủ hai nhóm lời nói speech200 — 28/10/2026
+
+- Huy bổ sung 100 clip bình thường tại `data/Video_Train/Toxic/KidSafeReels-100-Clip-LoiNoi/Non_Toxic`. Bộ hiện tại: **200 clip, 132 video nguồn, 65 phút 41 giây**; 100 Toxic từ 74 nguồn và 100 bình thường từ 58 nguồn theo mô tả người cung cấp. Metadata cả hai bộ có nhãn chuẩn trống; giữ `user_reported_clip_label` riêng, không tự gọi là 200 nhãn người đã duyệt.
+- **200/200 hash/kích thước/thời lượng và giải mã toàn bộ hình + tiếng pass**. Không trùng SHA trong speech200, không trùng ID nguồn giữa hai nhóm, không chồng khoảng cắt trong một nguồn. dHash 1 fps phát hiện 28 cặp cần xem, trong đó **7 cặp khác ID nguồn**, 0 cặp giữa hai lớp gợi ý; đây là gợi ý gần trùng, không phải xác nhận bản đăng lại hoặc bằng chứng tuyệt đối không trùng.
+- 50 file Violence trùng SHA hoàn toàn với AIRTLab đã dùng đánh giá ngoài; không tính thành dữ liệu mới, không đưa vào train để rồi vẫn dùng test AIRTLab cũ.
+- Đã tạo manifest mới `speech200-intake-v2`, giữ nguyên manifest speech100 trước đó. Phiếu Huy **200**, app **40** (20 mỗi nhóm mô tả, 40 ID nguồn), thứ tự trộn/mã video trung tính. HTML/video không lộ nhãn nguồn, ASR hoặc dự đoán. Có lưu bản nháp, xuất/nạp JSON, bằng chứng có mốc, kiểm cấu trúc và ZIP riêng cho app. Chưa gửi file/tin nhắn thay Huy.
+- **31 tests pass** cho intake/nhãn/đường dẫn/gói ẩn nhãn; kiểm trình duyệt thật: video có metadata và không lỗi, đổi clip, khôi phục bản nháp, chặn nhãn thiếu xác nhận/bằng chứng hoặc nhãn 0 có bằng chứng Toxic, xuất/nạp JSON trống. Phiếu thật vẫn **0/200**, app **0/40**; dữ liệu kiểm thử giao diện tách riêng, không tính thành nhãn thật. Không chạy lại suite model/app vì không đổi pipeline.
+- Bộ local: `data/private/speech200-2026-10-28/`, gói `speech200-app-review.zip`; raw/nguồn/phiếu không lên Git. [Hướng dẫn mở và nhãn](SPEECH200_ANNOTATION.md), [báo cáo số liệu](../reports/SPEECH200_INTAKE_2026-10-28.md). Điểm tiếp tục local: `runs/speech200-2026-10-28/CONTINUE.md`.
+- **Chưa train hoặc có Accuracy/Loss mới trên speech200.** Cần nghe duyệt nhãn/bằng chứng, xử lý nguồn gần trùng rồi khóa split theo nguồn trước ASR/đặc trưng model. Không gán mọi câu của clip Toxic thành Toxic. Model app vẫn CPU v3; mục tiêu tiếp theo là đo giảm false positive trên lời nói bình thường bằng test giữ riêng.
+
 ## Hoàn tất CPU v3 bằng PhoBERT và ResNet3D — 28/10/2026
 
 - Huy yêu cầu tiếp tục nâng chất lượng. Đã hoàn tất môi trường CUDA riêng `.venv-train`; app vẫn CPU, thêm Transformers/PyVi và khóa phụ thuộc tương thích Whisper.

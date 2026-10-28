@@ -2,6 +2,8 @@
 
 Mini project môn **Học máy và ứng dụng**: hỗ trợ người lớn sàng lọc nội dung video ngắn trước khi cho trẻ xem.
 
+**Dữ liệu lời nói mới 28/10:** đã tiếp nhận 100 clip Toxic + 100 clip nói chuyện bình thường theo mô tả Huy, kiểm hash/giải mã 200/200. Có [phiếu rà soát và hướng dẫn tiếp tục](docs/SPEECH200_ANNOTATION.md), [báo cáo intake](reports/SPEECH200_INTAKE_2026-10-28.md). Chưa có nhãn từng clip đã duyệt hoặc lượt train mới từ bộ này; model vẫn v3.
+
 **Dữ liệu pilot D1–D2:** đã có 25 đoạn từ 8 nguồn có giấy phép, chia theo nhóm và tiền xử lý thật. Huy gán 25 clip, thành viên app gán chéo 6; nhãn đang chờ người xác nhận. Xem [progress để tiếp tục](docs/PROGRESS.md), [cách chạy lại/gói gán nhãn](docs/PILOT_DATA.md) và [kết quả D1–D2](reports/PILOT_D1_D2.md).
 
 **Bản cập nhật 28/10/2026: CPU v3 dùng PhoBERT + R3D-18 + Whisper small beam5.** Toxic test F1 44,92% → 53,39%; Violence RLVS test F1 95,98% → 97,97%. AIRTLab ngoài train chỉ đạt 53% Accuracy, nên chưa coi là model tốt trên mọi bối cảnh; Toxic còn quá khớp và loss tăng. Xem [báo cáo Accuracy/Loss/F1 và đồ thị](reports/MODEL_IMPROVEMENT_2026-10-28.md), [CSV tổng hợp](reports/model-improvement-2026-10-28/metrics_by_split.csv) và [cài v3/khôi phục v2](docs/MODEL_UPDATE_2026-10-28.md). Chưa đánh giá toàn hệ thống trên tập video ngắn tiếng Việt; Sexual/Dangerous chưa được hỗ trợ. Mock vẫn là mặc định nếu không dùng launcher model.
