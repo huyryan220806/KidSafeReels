@@ -1,0 +1,51 @@
+{
+  "recorded_at": "2026-10-28T09:40:49.593865+07:00",
+  "python": "3.12.10",
+  "platform": "Windows-11-10.0.26300-SP0",
+  "scope": "Actual Streamlit AppTest + real HTTP API + real CPU model, no pilot inference. Not browser/manual acceptance.",
+  "passed": 8,
+  "not_run": 1,
+  "total": 9,
+  "cases": [
+    {
+      "case": "initial-requires-upload",
+      "passed": true
+    },
+    {
+      "case": "ui-real-http-both-modalities",
+      "passed": true,
+      "mode": "model"
+    },
+    {
+      "case": "download-widgets-with-current-txt-json",
+      "passed": true,
+      "limit": "Widgets and report generation, not browser download."
+    },
+    {
+      "case": "evidence-player-start-time",
+      "passed": null,
+      "limit": "No evidence returned for this fixture."
+    },
+    {
+      "case": "result-survives-widget-rerun",
+      "passed": true
+    },
+    {
+      "case": "new-file-clears-old-result",
+      "passed": true
+    },
+    {
+      "case": "corrupt-file-ui-error",
+      "passed": true
+    },
+    {
+      "case": "api-offline-ui-message",
+      "passed": true
+    },
+    {
+      "case": "missing-artifacts-real-worker-no-fallback",
+      "passed": true,
+      "http_mapping": 503
+    }
+  ]
+}

@@ -1,0 +1,29 @@
+{
+  "passed": false,
+  "summaries": {
+    "toxic": {
+      "n": 32,
+      "load_seconds": 25.847870900004636,
+      "first_seconds": 0.3776739000022644,
+      "warm_median_seconds": 0.059356099998694845,
+      "warm_p95_seconds": 0.12587025000539143,
+      "max_score_difference": 2.0563602447509766e-06,
+      "all_decisions_match": true
+    },
+    "violence": {
+      "n": 10,
+      "load_seconds": 1.0816417999885743,
+      "first_seconds": 7.483736299996963,
+      "warm_median_seconds": 2.5590535000083037,
+      "warm_p95_seconds": 2.7496921999991173,
+      "max_score_difference": 0.0002931503774852018,
+      "all_decisions_match": true
+    }
+  },
+  "torch": "2.14.1+cpu",
+  "device": "cpu",
+  "threads": 4,
+  "processor": "AMD64 Family 25 Model 68 Stepping 1, AuthenticAMD",
+  "manifest_sha256": "89a9123a4d0f74e9cbabfafc6c6cc0d1d35c8cb1a50faa1d40a9e3a2f077e299",
+  "limit": "Small deterministic train subset, one pass; classifier preprocessing+inference only, excludes ASR/API. Not target-video quality metrics."
+}

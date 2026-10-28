@@ -1,0 +1,63 @@
+{
+  "metrics": [
+    {
+      "dataset": "AIRTLab100-source-labels",
+      "variant": "baseline",
+      "split": "external",
+      "n": 100,
+      "negative": 50,
+      "positive": 50,
+      "threshold": 0.42999999999999994,
+      "accuracy": 0.49,
+      "balanced_accuracy": 0.49,
+      "log_loss": 1.5300234684789458,
+      "precision_negative": 0.4666666666666667,
+      "recall_negative": 0.14,
+      "f1_negative": 0.2153846153846154,
+      "precision": 0.49411764705882355,
+      "recall": 0.84,
+      "f1": 0.6222222222222222,
+      "macro_f1": 0.4188034188034188,
+      "roc_auc": 0.5292,
+      "average_precision": 0.5463097582312478,
+      "tn": 7,
+      "fp": 43,
+      "fn": 8,
+      "tp": 42,
+      "undefined_metrics": ""
+    },
+    {
+      "dataset": "AIRTLab100-source-labels",
+      "variant": "selected",
+      "split": "external",
+      "n": 100,
+      "negative": 50,
+      "positive": 50,
+      "threshold": 0.4099999999999999,
+      "accuracy": 0.53,
+      "balanced_accuracy": 0.53,
+      "log_loss": 0.9891519555584849,
+      "precision_negative": 0.5789473684210527,
+      "recall_negative": 0.22,
+      "f1_negative": 0.3188405797101449,
+      "precision": 0.5185185185185185,
+      "recall": 0.84,
+      "f1": 0.6412213740458015,
+      "macro_f1": 0.4800309768779732,
+      "roc_auc": 0.562,
+      "average_precision": 0.5931796488559713,
+      "tn": 11,
+      "fp": 39,
+      "fn": 8,
+      "tp": 42,
+      "undefined_metrics": ""
+    }
+  ],
+  "selection_sha256": "8b792ba9c916dd25439164d3b26a104253820cfa8c336f93bd44618958b051b4",
+  "evaluated_at": "2026-10-28T00:56:40.337515+07:00",
+  "limitations": [
+    "Author benchmark labels, not KidSafeReels human labels",
+    "One staged acquisition context; not target short-video accuracy",
+    "Entire set held out of fitting/threshold choice; do not retune using these outcomes"
+  ]
+}

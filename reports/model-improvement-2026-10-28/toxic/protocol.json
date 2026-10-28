@@ -1,0 +1,127 @@
+{
+  "run_id": "model-improvement-2026-10-28",
+  "task": "toxic",
+  "seed": 42,
+  "epochs": 6,
+  "batch_size": 8,
+  "gradient_accumulation": 2,
+  "learning_rate": 2e-05,
+  "weight_decay": 0.01,
+  "warmup_fraction": 0.1,
+  "max_length": 192,
+  "loss": "CrossEntropyLoss weights [1,sqrt(train_negative/train_positive)]",
+  "selection": "max validation macro-F1 subject to precision and recall >= v1; epochs and thresholds on validation only",
+  "test_policy": "Previously reported benchmark, not a new independent target test; no test inference before selection",
+  "training": "all PhoBERT layers, fp16 AMP, gradient clipping 1.0",
+  "segmentation": "PyVi 0.1.1 on existing normalized text",
+  "pretrained": {
+    "repo": "vinai/phobert-base",
+    "revision": "01daacda68afe13d83023d16ec647239e344a1e6",
+    "license": "MIT",
+    "files": [
+      {
+        "path": "README.md",
+        "bytes": 2183,
+        "sha256": "2cb34fea651ea41128c58e25ea3ba9d22f839f7ffd7a1f5d5c09d1b6956182ae"
+      },
+      {
+        "path": "bpe.codes",
+        "bytes": 1135173,
+        "sha256": "9dfe53fb8abbddd3387da99641c36e00bee757a3679aad9cf0a7cdc4b30f6ef8"
+      },
+      {
+        "path": "config.json",
+        "bytes": 557,
+        "sha256": "71df79a67a65b1ee472938d0dff77297c0d77e20fef1af41e0013b1d384efb0d"
+      },
+      {
+        "path": "pytorch_model.bin",
+        "bytes": 542923308,
+        "sha256": "a0b0f0912c710147fbaac015b0a4011216a0061a56c03b840b639e40d3bb49cc"
+      },
+      {
+        "path": "vocab.txt",
+        "bytes": 895321,
+        "sha256": "dffd7543c401fb6567253ae7c3313004532c33d062525250049c616544bad777"
+      }
+    ]
+  },
+  "baseline_validation": {
+    "n": 1975,
+    "negative": 1743,
+    "positive": 232,
+    "threshold": 0.59,
+    "accuracy": 0.8708860759493671,
+    "balanced_accuracy": 0.7026529764377708,
+    "log_loss": 0.4268629982025944,
+    "precision_negative": 0.9305555555555556,
+    "recall_negative": 0.9225473321858864,
+    "f1_negative": 0.9265341400172861,
+    "precision": 0.4534412955465587,
+    "recall": 0.4827586206896552,
+    "f1": 0.46764091858037576,
+    "macro_f1": 0.6970875292988309,
+    "roc_auc": 0.818658871940966,
+    "average_precision": 0.4472847761901441,
+    "tn": 1608,
+    "fp": 135,
+    "fn": 120,
+    "tp": 112,
+    "undefined_metrics": ""
+  },
+  "data_audit": {
+    "dataset": "ViCTSD",
+    "provenance": {
+      "source": "https://github.com/tarudesu/ViCTSD",
+      "revision": "e1ffb854ef7b7b7ae45a56d132c1f125e02e55e2",
+      "files": {
+        "ViCTSD_train.csv": {
+          "url": "https://raw.githubusercontent.com/tarudesu/ViCTSD/e1ffb854ef7b7b7ae45a56d132c1f125e02e55e2/ViCTSD_train.csv",
+          "sha256": "a3e73479120738fb7965b01e23d5737c25c2cde909d7c3b5a6faf52d13a3b3f2",
+          "bytes": 1690621
+        },
+        "ViCTSD_valid.csv": {
+          "url": "https://raw.githubusercontent.com/tarudesu/ViCTSD/e1ffb854ef7b7b7ae45a56d132c1f125e02e55e2/ViCTSD_valid.csv",
+          "sha256": "e3950ee6a16375d566f58d3fc1206dab76fc8e41e340bb580ca0ae2e5ea61f83",
+          "bytes": 495885
+        },
+        "ViCTSD_test.csv": {
+          "url": "https://raw.githubusercontent.com/tarudesu/ViCTSD/e1ffb854ef7b7b7ae45a56d132c1f125e02e55e2/ViCTSD_test.csv",
+          "sha256": "e341013ca7441a5f2621b9347bd933f4d920d080b9931136ee8827d0ac0b2672",
+          "bytes": 239211
+        }
+      }
+    },
+    "audit": {
+      "train": {
+        "original": 7000,
+        "retained": 6965,
+        "duplicate_rows": 35,
+        "conflicting_texts": 0,
+        "overlap_with_earlier_split": 0,
+        "toxic": 759
+      },
+      "valid": {
+        "original": 2000,
+        "retained": 1975,
+        "duplicate_rows": 8,
+        "conflicting_texts": 0,
+        "overlap_with_earlier_split": 17,
+        "toxic": 232
+      },
+      "test": {
+        "original": 1000,
+        "retained": 988,
+        "duplicate_rows": 3,
+        "conflicting_texts": 0,
+        "overlap_with_earlier_split": 9,
+        "toxic": 109
+      }
+    }
+  },
+  "environment": {
+    "torch": "2.10.0+cu128",
+    "gpu": "NVIDIA GeForce RTX 4060 Laptop GPU"
+  },
+  "started_at": "2026-10-28T00:41:06.671864+07:00"
+}

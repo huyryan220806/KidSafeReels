@@ -1,6 +1,6 @@
 # Pipeline video trên CPU
 
-Nhánh tích hợp `feat/ml-release` nối model thật vào `kidsafe.pipeline.analyze_video`. Bản CPU v2: video → tối đa 8 frame lấy đều → ResNet18 ImageNet đóng băng → mean/max pooling → Logistic Regression Violence v1; audio → faster-whisper small beam5 → TF-IDF + Logistic Regression Toxic v1. Hai classifier giữ nguyên sau khi ứng viên mới không cải thiện test. Hai nhánh phục vụ hai nhãn khác nhau; không lấy trung bình hai điểm. [Báo cáo thực nghiệm](../reports/MODEL_IMPROVEMENT_2026-10-20.md), [cài v2 và rollback](MODEL_UPDATE_2026-10-20.md).
+Nhánh tích hợp `feat/ml-release` nối model thật vào `kidsafe.pipeline.analyze_video`. Bản CPU v3: video → 5 cửa sổ × 16 frame ở 15 fps → R3D-18 Kinetics400 đóng băng → mean/max pooling → Logistic Regression Violence; audio → faster-whisper small beam5 → PyVi + PhoBERT fine-tune Toxic. Ngưỡng đã chọn trên validation là 0,41 và 0,78. Hai nhánh phục vụ hai nhãn khác nhau; không lấy trung bình hai điểm. [Báo cáo thực nghiệm](../reports/MODEL_IMPROVEMENT_2026-10-28.md), [cài v3 và rollback](MODEL_UPDATE_2026-10-28.md).
 
 ## Cài đặt
 
@@ -11,7 +11,7 @@ Tại gốc repo, dùng Python 3.12 và môi trường ảo theo README:
 .\.venv\Scripts\python.exe -m pip install torch==2.14.1 torchvision==0.29.1 --index-url https://download.pytorch.org/whl/cpu
 ```
 
-Đã chọn CPU cho cả hai nhánh, ASR dùng int8, 4 luồng. Máy hiện tại có RTX 4060 Laptop nhưng thí nghiệm này không sử dụng GPU. PyAV kèm thư viện FFmpeg; không cần cài lệnh `ffmpeg` riêng. Ghim PyAV 16.1.0 vì faster-whisper 1.2.1 chưa tương thích với `av.open` của PyAV 19; có test giải mã WAV để bắt lỗi này. Cài gói video chỉ ở máy chạy API/model; máy chỉ chạy giao diện có thể dùng `requirements.txt`.
+Inference dùng CPU cho cả hai nhánh, ASR dùng int8, 4 luồng. Lượt train 28/10 dùng RTX 4060 Laptop trong `.venv-train` riêng; máy app không cần GPU. PyAV kèm thư viện FFmpeg; không cần cài lệnh `ffmpeg` riêng. Ghim PyAV 16.1.0 vì faster-whisper 1.2.1 chưa tương thích với `av.open` của PyAV 19; có test giải mã WAV để bắt lỗi này. Cài gói video chỉ ở máy chạy API/model; máy chỉ chạy giao diện có thể dùng `requirements.txt`.
 
 ## Chuẩn bị model
 
@@ -32,11 +32,11 @@ Whisper base v1 được ghim tại revision `ebe41f70d5b6dfa9166e2c581c45c9c0cf
 Thành viên app có thể nhận bộ artifact local từ ML lead, không phải tải RLVS hay huấn luyện lại:
 
 ```powershell
-# Máy nhận: dùng code/manifest mới và ZIP v2 Huy gửi
-.\.venv\Scripts\python.exe -m ml.release_verify --install-bundle D:/BanGiao/kidsafe-cpu-v2.zip
+# Máy nhận: dùng code/manifest mới và ZIP v3 Huy gửi
+.\.venv\Scripts\python.exe -m ml.release_verify --install-bundle D:/BanGiao/kidsafe-cpu-v3.zip
 ```
 
-Gói tạo tại `models/checkpoints/bundle/`, kèm SHA-256. Bộ cài kiểm theo `models/artifacts.json`; không giải nén đè bundle bằng tay. V2 được đóng bằng `ml.package_improved` sau thực nghiệm và chỉ kích hoạt sau kiểm thử tích hợp. Lệnh `ml.package_models` dành cho baseline v1 và từ chối ghi đè cấu hình v2. Chỉ nạp joblib của nhóm hoặc nguồn tin cậy. Không commit gói/checkpoint; không có video huấn luyện trong gói.
+Gói tạo tại `models/checkpoints/bundle/`, kèm SHA-256. Bộ cài kiểm theo `models/artifacts.json`; không giải nén đè bundle bằng tay. V3 được đóng bằng `ml.package_deep` và chỉ kích hoạt sau kiểm thử đúng checksum bundle. Giữ ZIP/manifest v2 để rollback. Các lệnh đóng baseline v1/v2 không dành cho v3. Chỉ nạp joblib của nhóm hoặc nguồn tin cậy. Không commit gói/checkpoint; không có video huấn luyện trong gói.
 
 ## Chạy video thật
 
@@ -58,7 +58,7 @@ Hoặc dùng CLI:
 ## Kết quả và lỗi
 
 - Hỗ trợ video ≤60 giây, diện tích frame ≤3840×2160; API nhận ≤50 MiB. File hỏng/không đọc được/thời lượng vượt giới hạn trả 422 ở chế độ model. Bản app tích hợp 18/10 có worker với timeout media 30 giây và model 180 giây. Chưa nghiệm thu triển khai public.
-- Violence là điểm toàn clip từ frame thưa. Evidence visual bao phủ `[0, duration]` và nói rõ chưa định vị cảnh; không diễn giải thành toàn bộ khoảng này đều có bạo lực.
+- Violence là điểm toàn clip từ 5 cửa sổ chuyển động; hành động giữa các cửa sổ vẫn có thể bị bỏ sót. Evidence visual bao phủ `[0, duration]` và nói rõ chưa định vị cảnh; không diễn giải thành toàn bộ khoảng này đều có bạo lực.
 - Toxic chỉ chạy khi có audio và ASR nhận diện tiếng Việt với điểm ngôn ngữ ≥0,5. Chỉ dùng đoạn có `no_speech_prob < 0,6`; điểm video là max điểm từng đoạn. Các bộ lọc ASR này là cấu hình ban đầu, chưa hiệu chỉnh trên video tiếng Việt. Timestamp đến từ ASR và được giới hạn trong clip, có thể sai lệch.
 - Không tiếng/không nhận ra tiếng Việt/ASR lỗi: Toxic = `null`, kèm lý do. Lỗi ASR không làm mất điểm visual đã có. Sexual và Dangerous Acts luôn `null`.
 - Vượt ngưỡng bất kỳ nhánh → `flagged`; còn lại → `review`. Chưa trả `no_risk_detected` ở bản này vì chưa đánh giá trên tập video đích. Score chưa được calibration.
@@ -74,6 +74,6 @@ Hoặc dùng CLI:
 
 Smoke test gọi FastAPI qua TestClient trong tiến trình, chưa kiểm thử trình duyệt hay kết nối mạng. Dùng 5 clip RLVS từ test (chọn theo thứ tự manifest, không chọn theo dự đoán), video không tiếng, video nền màu ghép một mẫu giọng nói FLEURS, video quá dài và file hỏng. Mẫu ghép chỉ kiểm tra đường đi ASR → Toxic; không dùng để đo độ chính xác moderation. JSON kết quả lưu `reports/video_smoke_results.json`.
 
-Cần tiếp tục gán nhãn tập video ngắn tiếng Việt để đo hai lớp trên cùng video, ảnh hưởng ASR, visual-only/text-only/kết hợp và độ trễ đại diện. Hai metric benchmark riêng chưa chứng minh hiệu quả hệ thống trên TikTok/Reels/Shorts. V1 đã nghiệm thu trên máy Tiến ngày 18/10; v2 cần kiểm lại trên máy đó. [Kết quả v2 trên máy Huy](../reports/model-improvement-2026-10-20/integration_checks.json).
+Cần tiếp tục gán nhãn tập video ngắn tiếng Việt để đo hai lớp trên cùng video, ảnh hưởng ASR, visual-only/text-only/kết hợp và độ trễ đại diện. Hai metric benchmark riêng chưa chứng minh hiệu quả hệ thống trên TikTok/Reels/Shorts. V1 đã nghiệm thu trên máy Tiến ngày 18/10; v3 cần kiểm lại trên máy đó. [Kết quả v3 trên máy Huy](../reports/model-improvement-2026-10-28/integration_checks.json). V3 đã có 13/13 HTTP/model và 8 UI AppTest pass + 1 chưa chạy; không coi là kiểm trình duyệt thủ công.
 
 Nguồn: [RLVS](https://www.kaggle.com/datasets/mohamedmustafa/real-life-violence-situations-dataset), [ResNet18](https://docs.pytorch.org/vision/stable/models/generated/torchvision.models.resnet18.html), [faster-whisper](https://github.com/SYSTRAN/faster-whisper), [FLEURS](https://huggingface.co/datasets/google/fleurs).

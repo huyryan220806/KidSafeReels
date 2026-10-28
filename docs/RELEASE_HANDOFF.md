@@ -1,5 +1,7 @@
 # Bàn giao bản tích hợp CPU - 18/10/2026
 
+**Bản đang dùng 28/10: CPU v3.** Đọc [bàn giao PhoBERT + R3D-18](MODEL_UPDATE_2026-10-28.md), dùng ZIP v3 với manifest mới. Có 152 tests, 13/13 HTTP/model và 8 UI AppTest pass + 1 chưa chạy. Chưa kiểm trên máy Tiến. Nội dung v1/v2 dưới đây chỉ giữ làm lịch sử.
+
 **Bản mới 20/10:** đọc [cập nhật CPU v2](MODEL_UPDATE_2026-10-20.md) để cài `kidsafe-cpu-v2.zip`, xem kết quả thực nghiệm và cách khôi phục. Hướng dẫn/checksum/số đo bên dưới là lịch sử v1; không dùng ZIP v1 với manifest đang trỏ v2.
 
 **Cập nhật 19/10:** đã merge app `47326a6` trở lại `feat/ml-release`. Dùng [cách mở web và biên bản review](APP_MERGE_REVIEW.md) cho trạng thái mới nhất. Nội dung dưới đây giữ mốc bàn giao 18/10 để đối chiếu.

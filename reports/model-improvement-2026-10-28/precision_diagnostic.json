@@ -1,0 +1,9 @@
+{
+  "torch": "2.10.0+cu128",
+  "windows_equal": true,
+  "cudnn_tf32": true,
+  "matmul_tf32": false,
+  "gpu_tf32_True": 0.18835680425196719,
+  "gpu_tf32_False": 0.1886506016215598,
+  "cpu": 0.18864994867306137
+}

@@ -1,5 +1,7 @@
 # Kế hoạch một tuần và phân công
 
+**Cập nhật 28/10/2026:** CPU v3 đã thay hai classifier bằng PhoBERT fine-tune và R3D-18 + LR sau kiểm thử. Có kết quả test/đồ thị/CSV, 152 tests, 13/13 HTTP và 8 UI AppTest pass (1 chưa chạy do fixture không có evidence). Nhãn nguồn AIRTLab được xác minh riêng; Accuracy 53% cho thấy khác biệt bối cảnh còn lớn. [Báo cáo mới](../reports/MODEL_IMPROVEMENT_2026-10-28.md), [mở app/bàn giao v3](MODEL_UPDATE_2026-10-28.md). Việc còn lại: nhãn pilot/ca lỗi đích, kiểm máy Tiến, cập nhật PDF/PPTX và demo. Các mốc dưới là lịch sử.
+
 **Cập nhật 20/10/2026:** đã hoàn tất đợt thực nghiệm theo phản hồi Huy: 6 cấu hình Toxic, 9 cấu hình Violence, 3 cấu hình ASR; có train/validation/test, Accuracy/Loss/F1, CSV và đồ thị. CPU v2 nâng Whisper small beam5, giữ hai classifier v1 vì ứng viên không cải thiện đủ trên test. 146 tests, 13/13 HTTP/model, 8 UI AppTest pass và 1 ca chưa chạy vì không có evidence ở fixture. [Báo cáo](../reports/MODEL_IMPROVEMENT_2026-10-20.md), [checklist cải thiện](MODEL_IMPROVEMENT_PLAN.md), [cài/mở v2](MODEL_UPDATE_2026-10-20.md). Còn nhãn pilot, ca lỗi thực tế, kiểm v2 trên máy Tiến và hoàn thiện bài nộp/demo; Sexual/Dangerous tiếp tục hoãn.
 
 **Cập nhật 19/10/2026:** đã nhận code/nghiệm thu tự động máy Tiến, merge vào `feat/ml-release` và kiểm lại trên máy Huy với 118 tests, 13 ca HTTP, 9 ca UI AppTest; có thêm kiểm tra trình duyệt thật. Còn nhãn pilot, metric chung, diễn tập và quay demo. [Biên bản merge và cách mở web](APP_MERGE_REVIEW.md).

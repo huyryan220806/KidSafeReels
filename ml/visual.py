@@ -63,6 +63,29 @@ class ViolenceClassifier:
         if not path.is_file():
             raise ModelNotReadyError("Thiếu classifier Violence. Chạy python -m ml.train_visual.")
         artifact = joblib.load(path)
+        if artifact.get("temporal_backbone"):
+            from ml.temporal_visual import SAMPLING, TemporalEncoder
+            from ml.toxic_baseline import sha256
+            mode = artifact.get("configuration", {}).get("features")
+            if (artifact["sklearn_version"] != sklearn.__version__
+                    or artifact["sampling"] != SAMPLING or mode not in {"temporal", "static-temporal"}
+                    or artifact["temporal_backbone"] != "r3d18-kinetics400.pth"):
+                raise ModelNotReadyError("Cấu hình chuyển động không tương thích.")
+            backbone = path.parent / artifact["temporal_backbone"]
+            if not backbone.is_file() or sha256(backbone) != artifact["temporal_backbone_sha256"]:
+                raise ModelNotReadyError("Backbone chuyển động không khớp classifier.")
+            torch.set_num_threads(4)
+            self.temporal_encoder = TemporalEncoder(backbone, device="cpu")
+            self.encoder = None
+            if mode == "static-temporal":
+                static = path.parent / BACKBONE.name
+                if not static.is_file() or sha256(static) != artifact["backbone_sha256"]:
+                    raise ModelNotReadyError("Backbone hình ảnh không khớp classifier.")
+                self.encoder = VisualEncoder(static)
+            self.model, self.threshold, self.version = artifact["model"], artifact["threshold"], artifact["version"]
+            self.frame_count = 80 if mode == "temporal" else 88
+            self.is_temporal = True
+            return
         dense_modes = {f"uniform24-{mode}-v2": mode for mode in ("mean-max", "mean-max-std-diff")}
         if artifact["sklearn_version"] != sklearn.__version__ or artifact["sampling"] not in {SAMPLING_VERSION, *dense_modes}:
             raise ModelNotReadyError("Phiên bản artifact Violence không tương thích.")
@@ -82,4 +105,12 @@ class ViolenceClassifier:
     def score(self, frames):
         feature = (aggregate_features(self.encoder.encode_frames(frames), self.aggregation)
                    if self.aggregation else self.encoder.encode(frames))
+        return float(self.model.predict_proba(feature[None, :])[0, 1])
+
+    def score_video(self, path):
+        from ml.temporal_visual import sample_windows
+        from ml.media import sample_frames
+        feature = self.temporal_encoder.encode(sample_windows(path))
+        if self.encoder is not None:
+            feature = np.concatenate([self.encoder.encode(sample_frames(path)), feature])
         return float(self.model.predict_proba(feature[None, :])[0, 1])

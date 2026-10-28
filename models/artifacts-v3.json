@@ -1,0 +1,241 @@
+{
+  "version": "kidsafe-cpu-v3",
+  "run_id": "model-improvement-2026-10-28",
+  "files": [
+    {
+      "path": "faster-whisper-small/config.json",
+      "bytes": 2370,
+      "sha256": "b55496ac7940a7ae47d2c01eab40edfd8701feec1229d9cce3b40014383fb828"
+    },
+    {
+      "path": "faster-whisper-small/model.bin",
+      "bytes": 483546902,
+      "sha256": "3e305921506d8872816023e4c273e75d2419fb89b24da97b4fe7bce14170d671"
+    },
+    {
+      "path": "faster-whisper-small/provenance.json",
+      "bytes": 644,
+      "sha256": "1d7b6153bc23b223be98522811860a07de953ec380289a24cd76d600b9f9cfc2"
+    },
+    {
+      "path": "faster-whisper-small/tokenizer.json",
+      "bytes": 2203239,
+      "sha256": "fb7b63191e9bb045082c79fd742a3106a12c99513ab30df4a0d47fa6cb6fd0ab"
+    },
+    {
+      "path": "faster-whisper-small/vocabulary.txt",
+      "bytes": 459861,
+      "sha256": "34ce3fe1c5041027b3f8d42912270993f986dbc4bb34cf27f951e34a1e453913"
+    },
+    {
+      "path": "inference-config.json",
+      "bytes": 274,
+      "sha256": "894c3f92f340b593ede490a506dcbd10229c944977a52f54f298a0969132e257"
+    },
+    {
+      "path": "r3d18-kinetics400.pth",
+      "bytes": 133566219,
+      "sha256": "cbfa1e66bfb4a8f22bd7b93ba72232448c33abb9e7b969f2b88f3664249c2d87"
+    },
+    {
+      "path": "resnet18-imagenet1k-v1.pth",
+      "bytes": 46837579,
+      "sha256": "821d93baf8655da3b5415fa4f1d62ae6fbecd1019fb3f895ed48245b6fe9c1e5"
+    },
+    {
+      "path": "toxic-phobert-v3/added_tokens.json",
+      "bytes": 25,
+      "sha256": "6887f87ac991379ea91aedb4dd5e1af4f6ee38693ec0ca1c2b6209559ce283d8"
+    },
+    {
+      "path": "toxic-phobert-v3/bpe.codes",
+      "bytes": 1135173,
+      "sha256": "9dfe53fb8abbddd3387da99641c36e00bee757a3679aad9cf0a7cdc4b30f6ef8"
+    },
+    {
+      "path": "toxic-phobert-v3/config.json",
+      "bytes": 749,
+      "sha256": "691c693cc0800e2fb04598e9abcd8084c693e1c2a39d594eec29e1b5697ef82f"
+    },
+    {
+      "path": "toxic-phobert-v3/kidsafe-config.json",
+      "bytes": 198,
+      "sha256": "743c87687e6d891c80b9a750868af652b14d68022b925634da8dc8ac6dd4f797"
+    },
+    {
+      "path": "toxic-phobert-v3/model.safetensors",
+      "bytes": 540023384,
+      "sha256": "d33e173b9d0279da7d3e8260c5296143baa5661b5362a0493a00929806f15f6d"
+    },
+    {
+      "path": "toxic-phobert-v3/special_tokens_map.json",
+      "bytes": 176,
+      "sha256": "eaf93cc0da3f87f0b8b13b433234465ee99aede80e008704ea480062035c2cee"
+    },
+    {
+      "path": "toxic-phobert-v3/tokenizer_config.json",
+      "bytes": 1258,
+      "sha256": "59de4d1982406e28457bf1ae11d83baaac9fda053729ba259c387cd835012a28"
+    },
+    {
+      "path": "toxic-phobert-v3/vocab.txt",
+      "bytes": 895321,
+      "sha256": "dffd7543c401fb6567253ae7c3313004532c33d062525250049c616544bad777"
+    },
+    {
+      "path": "violence-r3d18-v3.joblib",
+      "bytes": 34602,
+      "sha256": "85dd985886b7013e7f6600698e2c0c2bc7cb71683f5ace893c720b8c74cd36b6"
+    }
+  ],
+  "asr": {
+    "repo": "Systran/faster-whisper-small",
+    "revision": "536b0662742c02347bc0e980a01041f333bce120",
+    "files": [
+      {
+        "path": "config.json",
+        "sha256": "b55496ac7940a7ae47d2c01eab40edfd8701feec1229d9cce3b40014383fb828"
+      },
+      {
+        "path": "model.bin",
+        "sha256": "3e305921506d8872816023e4c273e75d2419fb89b24da97b4fe7bce14170d671"
+      },
+      {
+        "path": "tokenizer.json",
+        "sha256": "fb7b63191e9bb045082c79fd742a3106a12c99513ab30df4a0d47fa6cb6fd0ab"
+      },
+      {
+        "path": "vocabulary.txt",
+        "sha256": "34ce3fe1c5041027b3f8d42912270993f986dbc4bb34cf27f951e34a1e453913"
+      }
+    ]
+  },
+  "classifiers": {
+    "toxic": {
+      "accepted": true,
+      "baseline_test": {
+        "run_id": "model-improvement-2026-10-28",
+        "task": "toxic",
+        "dataset": "ViCTSD",
+        "variant": "baseline",
+        "model_version": "toxic-tfidf-v1",
+        "split": "test",
+        "predict_batch_seconds": 0.20231750000675675,
+        "n": 988,
+        "negative": 879,
+        "positive": 109,
+        "threshold": 0.59,
+        "accuracy": 0.868421052631579,
+        "balanced_accuracy": 0.7010259782279696,
+        "log_loss": 0.41925964362384804,
+        "precision_negative": 0.9349593495934959,
+        "recall_negative": 0.9158134243458476,
+        "f1_negative": 0.9252873563218391,
+        "precision": 0.41732283464566927,
+        "recall": 0.48623853211009177,
+        "f1": 0.4491525423728814,
+        "macro_f1": 0.6872199493473603,
+        "roc_auc": 0.8409055327676362,
+        "average_precision": 0.4783500978006988,
+        "tn": 805,
+        "fp": 74,
+        "fn": 56,
+        "tp": 53,
+        "undefined_metrics": ""
+      },
+      "candidate_test": {
+        "run_id": "model-improvement-2026-10-28",
+        "task": "toxic",
+        "dataset": "ViCTSD",
+        "variant": "selected",
+        "model_version": "toxic-phobert-model-improvement-2026-10-28",
+        "split": "test",
+        "predict_batch_seconds": 2.385777399991639,
+        "n": 988,
+        "negative": 879,
+        "positive": 109,
+        "threshold": 0.7799999999999999,
+        "accuracy": 0.895748987854251,
+        "balanced_accuracy": 0.7404943064992537,
+        "log_loss": 0.46414468819757276,
+        "precision_negative": 0.9429223744292238,
+        "recall_negative": 0.9397042093287827,
+        "f1_negative": 0.9413105413105413,
+        "precision": 0.5267857142857143,
+        "recall": 0.5412844036697247,
+        "f1": 0.5339366515837104,
+        "macro_f1": 0.7376235964471258,
+        "roc_auc": 0.8671342538956905,
+        "average_precision": 0.5755195568942882,
+        "tn": 826,
+        "fp": 53,
+        "fn": 50,
+        "tp": 59,
+        "undefined_metrics": ""
+      }
+    },
+    "violence": {
+      "accepted": true,
+      "baseline_test": {
+        "run_id": "model-improvement-2026-10-28",
+        "task": "violence",
+        "dataset": "RLVS",
+        "variant": "baseline",
+        "model_version": "violence-resnet18-v1",
+        "split": "test",
+        "predict_batch_seconds": 0.02186980000260519,
+        "n": 386,
+        "negative": 188,
+        "positive": 198,
+        "threshold": 0.42999999999999994,
+        "accuracy": 0.9585492227979274,
+        "balanced_accuracy": 0.9583870621104664,
+        "log_loss": 0.12207257075791607,
+        "precision_negative": 0.9623655913978495,
+        "recall_negative": 0.9521276595744681,
+        "f1_negative": 0.9572192513368984,
+        "precision": 0.955,
+        "recall": 0.9646464646464646,
+        "f1": 0.9597989949748744,
+        "macro_f1": 0.9585091231558864,
+        "roc_auc": 0.9913496668815818,
+        "average_precision": 0.9916507255187348,
+        "tn": 179,
+        "fp": 9,
+        "fn": 7,
+        "tp": 191,
+        "undefined_metrics": ""
+      },
+      "candidate_test": {
+        "run_id": "model-improvement-2026-10-28",
+        "task": "violence",
+        "dataset": "RLVS",
+        "variant": "selected",
+        "model_version": "violence-temporal-model-improvement-2026-10-28",
+        "split": "test",
+        "predict_batch_seconds": 0.02360919999773614,
+        "n": 386,
+        "negative": 188,
+        "positive": 198,
+        "threshold": 0.4099999999999999,
+        "accuracy": 0.9792746113989638,
+        "balanced_accuracy": 0.979395013969482,
+        "log_loss": 0.07600150155194402,
+        "precision_negative": 0.9736842105263158,
+        "recall_negative": 0.9840425531914894,
+        "f1_negative": 0.9788359788359788,
+        "precision": 0.9846938775510204,
+        "recall": 0.9747474747474747,
+        "f1": 0.9796954314720813,
+        "macro_f1": 0.9792657051540301,
+        "roc_auc": 0.9981194928003438,
+        "average_precision": 0.998303431321965,
+        "tn": 185,
+        "fp": 3,
+        "fn": 5,
+        "tp": 193,
+        "undefined_metrics": ""
+      }
+    }
+  }
+}

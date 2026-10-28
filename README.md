@@ -4,7 +4,7 @@ Mini project môn **Học máy và ứng dụng**: hỗ trợ người lớn sà
 
 **Dữ liệu pilot D1–D2:** đã có 25 đoạn từ 8 nguồn có giấy phép, chia theo nhóm và tiền xử lý thật. Huy gán 25 clip, thành viên app gán chéo 6; nhãn đang chờ người xác nhận. Xem [progress để tiếp tục](docs/PROGRESS.md), [cách chạy lại/gói gán nhãn](docs/PILOT_DATA.md) và [kết quả D1–D2](reports/PILOT_D1_D2.md).
 
-**Bản cập nhật 20/10/2026: CPU v2 dùng Whisper small beam5, giữ hai classifier v1.** Đã train/chọn cấu hình và đo train/validation/test cho Toxic, Violence, ASR; ứng viên classifier mới chưa tốt hơn trên test nên không thay baseline. Xem [báo cáo Accuracy/Loss/F1 và đồ thị](reports/MODEL_IMPROVEMENT_2026-10-20.md), [CSV tổng hợp](reports/model-improvement-2026-10-20/metrics_by_split.csv) và [cài bản v2/khôi phục v1](docs/MODEL_UPDATE_2026-10-20.md). Chưa đánh giá toàn hệ thống trên tập video ngắn tiếng Việt; Sexual/Dangerous chưa được hỗ trợ. Mock vẫn là mặc định nếu không dùng launcher model.
+**Bản cập nhật 28/10/2026: CPU v3 dùng PhoBERT + R3D-18 + Whisper small beam5.** Toxic test F1 44,92% → 53,39%; Violence RLVS test F1 95,98% → 97,97%. AIRTLab ngoài train chỉ đạt 53% Accuracy, nên chưa coi là model tốt trên mọi bối cảnh; Toxic còn quá khớp và loss tăng. Xem [báo cáo Accuracy/Loss/F1 và đồ thị](reports/MODEL_IMPROVEMENT_2026-10-28.md), [CSV tổng hợp](reports/model-improvement-2026-10-28/metrics_by_split.csv) và [cài v3/khôi phục v2](docs/MODEL_UPDATE_2026-10-28.md). Chưa đánh giá toàn hệ thống trên tập video ngắn tiếng Việt; Sexual/Dangerous chưa được hỗ trợ. Mock vẫn là mặc định nếu không dùng launcher model.
 
 App đã ghép giao diện mới, worker có timeout, kiểm tra media và evidence từ nhánh app. Bản tích hợp có 13/13 ca HTTP/model thật pass. Xem [bàn giao release](docs/RELEASE_HANDOFF.md), [báo cáo kỹ thuật](reports/TECHNICAL_REPORT.md) và [quy trình đánh giá sau gán nhãn](docs/EVALUATION_GUIDE.md).
 
@@ -22,10 +22,10 @@ App đã ghép giao diện mới, worker có timeout, kiểm tra media và evide
 
 Máy thành viên app đã có gói model: mở `Chay-KidSafeReels.cmd` hoặc chạy `powershell -ExecutionPolicy Bypass -File scripts/run-model.ps1`. Lệnh này ưu tiên `.venv-model`, dùng `.venv` nếu máy đã cài model ở đó, kiểm checksum rồi khởi động backend model thật. Bản kiểm tra trên máy Tiến được ghi riêng tại [nghiệm thu máy app](docs/APP_ACCEPTANCE_TIEN.md).
 
-Cài model trên máy mới, dùng ZIP `kidsafe-cpu-v2.zip` Huy gửi cùng code mới của `feat/ml-release`:
+Cài model trên máy mới, dùng ZIP `kidsafe-cpu-v3.zip` Huy gửi cùng code mới của `feat/ml-release`:
 
 ```powershell
-powershell -ExecutionPolicy Bypass -File scripts/setup-model.ps1 -ModelBundle "D:\BanGiao\kidsafe-cpu-v2.zip"
+powershell -ExecutionPolicy Bypass -File scripts/setup-model.ps1 -ModelBundle "D:\BanGiao\kidsafe-cpu-v3.zip"
 powershell -ExecutionPolicy Bypass -File scripts/run-model.ps1
 ```
 

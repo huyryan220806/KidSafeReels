@@ -1,0 +1,15 @@
+{
+  "run_id": "model-improvement-2026-10-28",
+  "declared_before_test_inference": true,
+  "toxic": {
+    "validation": "selected checkpoint must satisfy predeclared precision and recall constraints",
+    "benchmark": "test macro_f1 strictly improves; f1, precision and recall do not decrease versus v2 classifier"
+  },
+  "violence": {
+    "validation": "selection must be a non-baseline candidate satisfying predeclared constraints",
+    "benchmark": "RLVS test macro_f1 strictly improves; f1 and recall do not decrease",
+    "external": "AIRTLab source-label macro_f1 and recall do not decrease; no tuning against these results"
+  },
+  "runtime": "CPU inference, offline local artifacts and existing API contract must pass integration; retain v2 rollback",
+  "interpretation": "Gate is an engineering release check, not proof of independent target-domain generalization. RLVS and ViCTSD test benchmarks have been reported before. AIRTLab is staged and has one acquisition context."
+}

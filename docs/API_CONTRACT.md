@@ -46,7 +46,7 @@ Worker dùng lại trong một tiến trình API để cache model; một lượ
 - `scores`: điểm [0,1]; `null` = chưa đánh giá, `0` = đã đánh giá và trả điểm 0. Không gọi là xác suất nếu chưa calibration.
 - `evaluated_labels`: đúng tập nhãn có điểm khác null, không trùng lặp; app kiểm tra bất biến này.
 - `decision`: `flagged` khi vượt ngưỡng do ML chọn; `review` khi bất định/thiếu đầu vào cần thiết; `no_risk_detected` khi các kiểm tra trong phạm vi hoàn tất và dưới ngưỡng. Không có nhãn được đánh giá thì bắt buộc `review`. App không chọn hoặc đổi ngưỡng.
-- Model CPU v1/v2 chỉ trả `flagged` hoặc `review`; chưa trả `no_risk_detected` trước đánh giá pilot có nhãn. Thiếu Toxic vẫn có thể `flagged` nếu Violence vượt ngưỡng.
+- Model CPU v1/v2/v3 chỉ trả `flagged` hoặc `review`; chưa trả `no_risk_detected` trước đánh giá pilot có nhãn. Thiếu Toxic vẫn có thể `flagged` nếu Violence vượt ngưỡng. V3 thay classifier nội bộ bằng PhoBERT/R3D-18, giữ nguyên mọi trường schema v1 và evidence visual ở cấp toàn clip.
 - `mode` phải khớp backend yêu cầu. Mock luôn `review`, mọi điểm null, evidence rỗng. Không chuyển sang mock khi model lỗi.
 - `evidence`: `{modality, start_seconds, end_seconds, label, score, description}`; modality `visual/audio_text/ocr`. Timestamp hữu hạn, không âm, end ≥ start và không vượt thời lượng clip. Nhãn evidence phải được đánh giá. Bằng chứng phải do ML tạo từ frame/transcript thật.
 - Không có track audio: app thêm warning, từ chối `audio_text` evidence. Huy trả text score null nếu không có nguồn OCR thay thế; quyết định `review` nếu chưa có nhãn khác vượt ngưỡng. Có track audio không đồng nghĩa có lời nói.

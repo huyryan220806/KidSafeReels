@@ -34,6 +34,25 @@ def test_visual_evidence_is_clip_level():
     assert "toàn video" in result.evidence[0].description
 
 
+def test_temporal_service_reads_video_windows_without_using_static_frame_path(monkeypatch):
+    pytest.importorskip("cv2")
+    pytest.importorskip("av")
+    from types import SimpleNamespace
+    from ml import media
+    service = VideoService.__new__(VideoService)
+    service.visual = SimpleNamespace(is_temporal=True, frame_count=80,
+        score_video=lambda path: .9, threshold=.41, version="temporal-test")
+    service.text = SimpleNamespace(version="text-test")
+    monkeypatch.setattr(media, "inspect_video", lambda path: media.VideoInfo(2, False))
+    def unexpected(*args, **kwargs):
+        raise AssertionError("Temporal service used the static frame path")
+    monkeypatch.setattr(media, "sample_frames", unexpected)
+    result = service.analyze("fixture.mp4")
+    assert result.scores.violence == .9 and result.scores.toxic_language is None
+    assert result.evidence[0].start_seconds == 0 and result.evidence[0].end_seconds == 2
+    assert "80 frame" in result.evidence[0].description
+
+
 def test_missing_artifacts_fail_before_download(tmp_path):
     with pytest.raises(ModelNotReadyError):
         VideoService(tmp_path)

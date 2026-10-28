@@ -59,11 +59,11 @@ class VideoService:
             if not (directory / name).is_file():
                 raise ModelNotReadyError(f"Thiếu artifact local: {name}. Xem docs/VIDEO_PIPELINE.md.")
         from faster_whisper import WhisperModel
-        from ml.toxic_baseline import ToxicClassifier
+        from ml.deep_inference import load_text_classifier
         from ml.visual import ViolenceClassifier
         try:
             self.visual = ViolenceClassifier(directory / config["violence"])
-            self.text = ToxicClassifier(directory / config["toxic"])
+            self.text = load_text_classifier(directory / config["toxic"])
             self.asr_options = config["asr_options"]
             self.asr_version = config["asr_version"]
             self.asr = WhisperModel(str(directory / config["asr_directory"]), device="cpu", compute_type="int8",
@@ -75,8 +75,11 @@ class VideoService:
         from ml.media import inspect_video, sample_frames
         info = inspect_video(path)
         frame_count = getattr(self.visual, "frame_count", 8)
-        frames = sample_frames(path) if frame_count == 8 else sample_frames(path, count=frame_count)
-        visual_score = self.visual.score(frames)
+        if getattr(self.visual, "is_temporal", False):
+            visual_score = self.visual.score_video(path)
+        else:
+            frames = sample_frames(path) if frame_count == 8 else sample_frames(path, count=frame_count)
+            visual_score = self.visual.score(frames)
         warnings, segments = [], []
         if not info.has_audio:
             warnings.append("Video không có audio; Toxic chưa được đánh giá.")

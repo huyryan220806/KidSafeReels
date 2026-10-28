@@ -1,0 +1,12 @@
+# Isolated training environment; install CUDA torch separately as documented.
+transformers==4.57.1
+huggingface-hub==0.36.0
+pyvi==0.1.1
+scikit-learn==1.9.1
+joblib==1.6.0
+numpy==2.5.4
+matplotlib==3.10.9
+opencv-python-headless==5.0.0.93
+av==16.1.0
+pydantic>=2.10,<3
+requests>=2.32,<3

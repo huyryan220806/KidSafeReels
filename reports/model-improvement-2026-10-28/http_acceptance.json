@@ -1,0 +1,159 @@
+{
+  "recorded_at": "2026-10-28T09:40:08.725096+07:00",
+  "machine": "Huy / Ryzen 5 7535HS / CPU v3 / Windows Python 3.12.10",
+  "python": "3.12.10",
+  "platform": "Windows-11-10.0.26300-SP0",
+  "scope": "Actual HTTP + spawned worker + CPU models. Synthetic visuals and FLEURS Vietnamese speech only. No pilot inference or quality metrics.",
+  "speech_sha256": "c21aff3925134a7cf4f8c06fe131f98219e6958b3e8bc556523df5ea9babee4a",
+  "passed": 13,
+  "total": 13,
+  "cases": [
+    {
+      "case": "silent.mp4",
+      "expected_http": 200,
+      "actual_http": 200,
+      "request_seconds": 21.0126,
+      "cold_worker": true,
+      "mode": "model",
+      "decision": "review",
+      "evaluated_labels": [
+        "violence"
+      ],
+      "evidence_count": 0,
+      "server_seconds": 20.9937,
+      "passed": true
+    },
+    {
+      "case": "tone.mp4",
+      "expected_http": 200,
+      "actual_http": 200,
+      "request_seconds": 5.5921,
+      "cold_worker": false,
+      "mode": "model",
+      "decision": "review",
+      "evaluated_labels": [
+        "violence"
+      ],
+      "evidence_count": 0,
+      "server_seconds": 5.5734,
+      "passed": true
+    },
+    {
+      "case": "video.mov",
+      "expected_http": 200,
+      "actual_http": 200,
+      "request_seconds": 2.6099,
+      "cold_worker": false,
+      "mode": "model",
+      "decision": "review",
+      "evaluated_labels": [
+        "violence"
+      ],
+      "evidence_count": 0,
+      "server_seconds": 2.5898,
+      "passed": true
+    },
+    {
+      "case": "video.webm",
+      "expected_http": 200,
+      "actual_http": 200,
+      "request_seconds": 2.6745,
+      "cold_worker": false,
+      "mode": "model",
+      "decision": "review",
+      "evaluated_labels": [
+        "violence"
+      ],
+      "evidence_count": 0,
+      "server_seconds": 2.6545,
+      "passed": true
+    },
+    {
+      "case": "boundary.mp4",
+      "expected_http": 200,
+      "actual_http": 200,
+      "request_seconds": 2.708,
+      "cold_worker": false,
+      "mode": "model",
+      "decision": "review",
+      "evaluated_labels": [
+        "violence"
+      ],
+      "evidence_count": 0,
+      "server_seconds": 2.6885,
+      "passed": true
+    },
+    {
+      "case": "vietnamese-speech",
+      "expected_http": 200,
+      "actual_http": 200,
+      "request_seconds": 9.5056,
+      "cold_worker": false,
+      "mode": "model",
+      "decision": "review",
+      "evaluated_labels": [
+        "violence",
+        "toxic_language"
+      ],
+      "evidence_count": 0,
+      "server_seconds": 9.4828,
+      "passed": true
+    },
+    {
+      "case": "speech-warm-repeat",
+      "expected_http": 200,
+      "actual_http": 200,
+      "request_seconds": 9.1795,
+      "cold_worker": false,
+      "mode": "model",
+      "decision": "review",
+      "evaluated_labels": [
+        "violence",
+        "toxic_language"
+      ],
+      "evidence_count": 0,
+      "server_seconds": 9.1709,
+      "passed": true
+    },
+    {
+      "case": "too-long",
+      "expected_http": 422,
+      "actual_http": 422,
+      "request_seconds": 0.0366,
+      "cold_worker": false,
+      "passed": true
+    },
+    {
+      "case": "corrupt",
+      "expected_http": 422,
+      "actual_http": 422,
+      "request_seconds": 0.0219,
+      "cold_worker": false,
+      "passed": true
+    },
+    {
+      "case": "empty",
+      "expected_http": 400,
+      "actual_http": 400,
+      "passed": true
+    },
+    {
+      "case": "missing-field",
+      "expected_http": 422,
+      "actual_http": 422,
+      "passed": true
+    },
+    {
+      "case": "wrong-extension",
+      "expected_http": 415,
+      "actual_http": 415,
+      "passed": true
+    },
+    {
+      "case": "container-mismatch",
+      "expected_http": 415,
+      "actual_http": 415,
+      "passed": true
+    }
+  ]
+}

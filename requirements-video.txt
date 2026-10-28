@@ -5,6 +5,9 @@ opencv-python-headless==5.0.0.93
 # faster-whisper 1.2.1 uses metadata_errors, removed by newer PyAV.
 av==16.1.0
 ctranslate2==4.8.3
-huggingface-hub==2.2.0
+huggingface-hub==0.36.0
+# CPU PhoBERT adapter; compatible shared tokenizer/Whisper dependencies.
+transformers==4.57.1
+pyvi==0.1.1
 requests>=2.32,<3
 pydantic>=2.10,<3

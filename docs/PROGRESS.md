@@ -1,5 +1,17 @@
 # Tiến độ KidSafeReels
 
+## Hoàn tất CPU v3 bằng PhoBERT và ResNet3D — 28/10/2026
+
+- Huy yêu cầu tiếp tục nâng chất lượng. Đã hoàn tất môi trường CUDA riêng `.venv-train`; app vẫn CPU, thêm Transformers/PyVi và khóa phụ thuộc tương thích Whisper.
+- PhoBERT đã train đủ 6 epoch, chọn epoch 4/ngưỡng 0,78 trên validation. Test Toxic F1 44,92% → 53,39%, Accuracy 86,84% → 89,57%; FP 74 → 53, FN 56 → 50. Có đường học/CSV thật; loss tăng 0,4193 → 0,4641 và có quá khớp, ghi rõ trong báo cáo.
+- Violence: đã chọn R3D-18 Kinetics400, 5 cửa sổ × 16 frame/video ở 15 fps, LR C=0,01/ngưỡng 0,41 trên validation. Test RLVS Accuracy 95,85% → 97,93%, F1 95,98% → 97,97%; FP 9 → 3, FN 7 → 5. Test không dùng để điều chỉnh ngưỡng.
+- Huy cung cấp Drive có 100 video AIRTLab (50/50 theo nhãn nguồn), xác nhận nhãn dự án chưa rõ. Dành cả bối cảnh AIRTLab làm đánh giá bổ sung theo nhãn nguồn sau khi khóa model, không chia ngẫu nhiên vào train/validation. Không coi là nhãn độc lập của nhóm hoặc video tiếng Việt tự nhiên.
+- AIRTLab đã xác minh 100/100 clip với Git blob tác giả; không phát hiện trùng qua SHA/dHash. Đánh giá nhãn nguồn: Accuracy 49% → 53%, FP 43 → 39/50, FN giữ 8/50; khác biệt bối cảnh vẫn rất lớn. Không dùng kết quả này để chỉnh ngưỡng hoặc trộn vào train.
+- **CPU v3 đã kích hoạt**, giữ Whisper small beam5 và hai nhãn còn lại null. ZIP 17 tệp/1,01 GiB, giữ ZIP/manifest v2 để khôi phục. [Cách mở/bàn giao v3](MODEL_UPDATE_2026-10-28.md), [báo cáo](../reports/MODEL_IMPROVEMENT_2026-10-28.md), [quy trình tái tạo](MODEL_IMPROVEMENT_2026-10-28.md).
+- Kiểm chứng: **152 tests pass**, pip check, cài ZIP vào thư mục riêng và checksum pass; **13/13 HTTP/model**, **8 UI AppTest pass + 1 chưa chạy** vì speech fixture không có evidence. CPU Toxic median ~0,059 giây/bình luận; Violence ~2,56 giây/clip ở mẫu nhỏ, chưa gồm ASR/API.
+- Sai khác score CPU/GPU ban đầu do cuDNN TF32: giữ báo cáo kiểm tra ban đầu failed, có diagnostic xác nhận frame giống hệt. So GPU FP32 trên 386 test và CPU trên 20 mẫu gần ngưỡng không đổi quyết định; CPU/FP32 lệch tối đa 8,23e-7. Không chỉnh model/ngưỡng để vượt kiểm tra.
+- Còn nhãn pilot/ca lỗi tiếng Việt, kiểm v3 trên máy Tiến, cập nhật PDF/PPTX và quay demo. Điểm tiếp tục: `runs/model-improvement-2026-10-28/CONTINUE.md`; không huấn luyện lại run-id này hoặc dùng AIRTLab đã xem như test mới.
+
 ## Hoàn tất đợt thực nghiệm và cập nhật CPU v2 — 20/10/2026
 
 - Huy yêu cầu thực hiện kế hoạch và xác nhận chưa lưu các video lỗi; tiếp tục với dữ liệu hiện có.

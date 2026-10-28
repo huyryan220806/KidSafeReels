@@ -1,0 +1,6 @@
+{
+  "private_file": "runs/model-improvement-2026-10-28/toxic/error_review.csv",
+  "rows": 682,
+  "labels": "existing benchmark annotations; no user-video or pilot labels",
+  "warning": "Review is descriptive after frozen evaluation. Do not tune thresholds against test errors."
+}

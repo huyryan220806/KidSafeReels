@@ -1,5 +1,7 @@
 # Kế hoạch cải thiện Toxic và Violence
 
+Cập nhật 28/10/2026: **đã hoàn tất lượt PhoBERT + R3D-18 và kích hoạt CPU v3**. Có train 6 epoch thật, test/CSV/đồ thị, kiểm thử CPU/API/UI và rollback v2. Toxic F1 tăng lên 53,39%, Violence RLVS F1 lên 97,97%; AIRTLab chỉ 53% Accuracy và Toxic còn quá khớp. [Báo cáo mới](../reports/MODEL_IMPROVEMENT_2026-10-28.md), [bàn giao v3](MODEL_UPDATE_2026-10-28.md). Chưa có nhãn pilot/ca lỗi tiếng Việt hoặc kiểm v3 trên máy Tiến.
+
 Cập nhật 20/10/2026: **đã hoàn tất đợt thực nghiệm benchmark, CSV/đồ thị và tích hợp CPU v2**. Nâng ASR small beam5; giữ hai classifier v1 vì ứng viên không cải thiện đủ trên test. Xem [báo cáo thực nghiệm](../reports/MODEL_IMPROVEMENT_2026-10-20.md), [progress](PROGRESS.md) và [hướng dẫn tái lập](MODEL_EXPERIMENTS.md). Huy xác nhận chưa lưu các video báo lỗi, tiếp tục với dữ liệu benchmark hiện có. Các mục cần clip lỗi/nhãn người bên dưới vẫn chưa hoàn tất.
 
 ## Phản hồi cần xử lý
