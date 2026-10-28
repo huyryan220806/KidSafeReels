@@ -51,6 +51,7 @@ Worker dùng lại trong một tiến trình API để cache model; một lượ
 - `evidence`: `{modality, start_seconds, end_seconds, label, score, description}`; modality `visual/audio_text/ocr`. Timestamp hữu hạn, không âm, end ≥ start và không vượt thời lượng clip. Nhãn evidence phải được đánh giá. Bằng chứng phải do ML tạo từ frame/transcript thật.
 - Không có track audio: app thêm warning, từ chối `audio_text` evidence. Huy trả text score null nếu không có nguồn OCR thay thế; quyết định `review` nếu chưa có nhãn khác vượt ngưỡng. Có track audio không đồng nghĩa có lời nói.
 - `model_version`: định danh artifact + cấu hình/ngưỡng; cần tái hiện được. App hiển thị nguyên giá trị.
+- Từ bản sửa ASR ngày 28/10, kết quả có hậu tố `+asr-native-filter-v2`: pipeline dùng segment không rỗng được decoder chấp nhận, không lọc lại chỉ bằng `no_speech_prob`; vẫn kiểm tiếng Việt/VAD. Không đổi trường hoặc trọng số/ngưỡng. Xem [báo cáo sửa lỗi](../reports/ASR_FILTER_FIX_2026-10-28.md).
 - `processing_seconds`: thời gian endpoint xử lý sau khi framework nhận multipart, gồm kiểm tra media/pipeline. UI đo riêng thời gian từ lúc gọi HTTP đến lúc nhận và validate kết quả.
 
 ## Mã lỗi

@@ -25,6 +25,8 @@ Một clip Toxic có thể chứa nhiều câu bình thường: không gán 1 ch
 
 132 ID YouTube chỉ là nhóm nguồn tạm. Audit SHA phát hiện tệp trùng chính xác, dHash ở 1 fps gợi ý hình gần trùng; cả hai không chứng minh video khác ID là khác buổi nói/stream. Danh sách cần rà soát nằm ở `duplicate_review.json` local. Kiểm reupload/nguồn gốc trước khi khóa split và chạy ASR/trích đặc trưng model; không chia ngẫu nhiên từng clip. Cùng video, buổi nói hoặc bản đăng lại đã xác định phải chung split.
 
+**Ngoại lệ chẩn đoán đã ghi nhận 28/10:** Huy báo ba ca lỗi `vi-speech-048/019/022`; đã dùng riêng chúng để chẩn đoán/sửa code. `development-exposure-user-failures-2026-10-28.json` local ghi 3 clip đã chạy và 11 clip liên quan bị loại khỏi test độc lập tương lai. Khi chia nguồn phải đọc record này; không đổi manifest/phiếu trống thành nhãn thật. Huy đã xem đầu ra các ca này nên không gọi việc gán lại của Huy trên chúng là gán nhãn mù. ASR/bộ lọc và kết quả xem [báo cáo](../reports/ASR_FILTER_FIX_2026-10-28.md).
+
 Lộ trình tiếp theo:
 
 1. Huy nghe 200, app nghe độc lập 40; đối chiếu/phân xử bất đồng, loại clip không rõ ngôn ngữ hoặc nhãn. Giữ cả phiếu gốc.

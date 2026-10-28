@@ -1,5 +1,7 @@
 # Bàn giao CPU v3 — PhoBERT + R3D-18
 
+**Sửa code suy luận cùng ngày:** gate sau ASR đã được sửa để không loại các đoạn decoder đã chấp nhận. Lấy code mới và dừng/mở lại app; ZIP trọng số v3 giữ nguyên. Phiên bản kết quả thêm `+asr-native-filter-v2`. [Chẩn đoán ba ca và giới hạn còn lại](../reports/ASR_FILTER_FIX_2026-10-28.md). Worker trên máy Huy đã nạp lại; kết quả cũ trong UI cần bấm kiểm tra lại.
+
 Bundle mới dùng PhoBERT-base fine-tune (epoch 4/ngưỡng 0,78), R3D-18 Kinetics400 đóng băng + LR (ngưỡng 0,41), Whisper small beam5 giữ nguyên. Toàn bộ inference trong app chạy CPU; không cần NVIDIA trên máy Tiến. Code giữ schema v1, xử lý null và evidence cấp clip. Sexual/Dangerous chưa hỗ trợ.
 
 ## Kết quả để trình bày đúng

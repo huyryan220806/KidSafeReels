@@ -1,5 +1,14 @@
 # Tiến độ KidSafeReels
 
+## Sửa lọc nhầm lời nói sau chẩn đoán ca lỗi — 28/10/2026
+
+- Huy chỉ rõ `vi-speech-048`, `019`, `022`. Đã tái hiện bằng local và API model thật. `048`/`019`: decoder trả 6/4 đoạn nhưng gate `no_speech_prob < 0.6` lọc lại làm mất tất cả; `022` đã tới classifier nhưng score thấp.
+- Đã bỏ gate thứ hai, dùng segment không rỗng do decoder/VAD chấp nhận, giữ kiểm tiếng Việt. Trọng số/ngưỡng/schema không đổi; phiên bản kết quả thêm `+asr-native-filter-v2`. Nạp lại worker hiện hành để app dùng code sửa.
+- Qua HTTP: **048 null → 0,901374 / flagged; 019 null → 0,002520 / review; 022 giữ 0,022752 / review**. Một lỗi nhận diện đã khắc phục, hai ca vẫn bỏ sót theo phản hồi người dùng; chưa có kết quả train/test mới hoặc bằng chứng giảm FP chung.
+- Regression tái hiện trước sửa (1 failed/4 passed), sau sửa **63 tests pass** cho pipeline/config/API/web. Ba ca thật qua HTTP, thêm kiểm im lặng/âm đơn tần và hai pilot train; chi tiết [báo cáo sửa lỗi](../reports/ASR_FILTER_FIX_2026-10-28.md).
+- Trước suy luận đã ghi exposure riêng và giữ **11 clip liên quan** khỏi test độc lập tương lai. Manifest/phiếu gốc giữ nguyên; không tự gán nhãn hoặc dùng ASR làm transcript chuẩn. Raw chẩn đoán ở `runs/speech-toxic-diagnostic-2026-10-28/`.
+- Bước tiếp: sửa transcript/bằng chứng ba ca, hoàn tất nhãn speech200 và nhóm nguồn, tạo split giữ riêng test rồi train/evaluate theo protocol mới. Các thí nghiệm ASR cũ giữ bộ lọc cũ để tái tạo; không dùng số đo cũ cho hành vi mới.
+
 ## Tiếp nhận đủ hai nhóm lời nói speech200 — 28/10/2026
 
 - Huy bổ sung 100 clip bình thường tại `data/Video_Train/Toxic/KidSafeReels-100-Clip-LoiNoi/Non_Toxic`. Bộ hiện tại: **200 clip, 132 video nguồn, 65 phút 41 giây**; 100 Toxic từ 74 nguồn và 100 bình thường từ 58 nguồn theo mô tả người cung cấp. Metadata cả hai bộ có nhãn chuẩn trống; giữ `user_reported_clip_label` riêng, không tự gọi là 200 nhãn người đã duyệt.

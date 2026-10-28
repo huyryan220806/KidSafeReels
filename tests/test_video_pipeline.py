@@ -156,3 +156,35 @@ def test_failed_asr_preserves_visual_and_unknown_toxic(monkeypatch):
     assert result.scores.toxic_language is None
     assert result.decision == "review"
     assert any("ASR" in warning and "ValueError" in warning for warning in result.warnings)
+
+
+@pytest.mark.parametrize("language,probability,texts,expected", [
+    ("vi", .9, ["lời nói do decoder trả về"], .8),
+    ("vi", .9, ["   "], None),
+    ("vi", .9, [], None),
+    ("en", .9, ["speech"], None),
+    ("vi", .49, ["không chắc ngôn ngữ"], None),
+])
+def test_asr_native_filter_not_overridden_by_no_speech_probability(monkeypatch, language, probability, texts, expected):
+    """Whisper already applies joint no-speech/log-probability filtering before yielding."""
+    pytest.importorskip("av")
+    pytest.importorskip("cv2")
+    whisper_audio = pytest.importorskip("faster_whisper.audio")
+    from types import SimpleNamespace
+    import numpy as np
+    from ml import media
+    service = VideoService.__new__(VideoService)
+    service.visual = SimpleNamespace(is_temporal=True, score_video=lambda path: .1,
+                                     frame_count=80, threshold=.41, version="visual-test")
+    service.text = FakeText()
+    service.text.version = "text-test"
+    service.asr_version = "asr-test"
+    service.asr = SimpleNamespace(transcribe=lambda *args, **kwargs: (
+        iter([SimpleNamespace(start=0., end=2., text=t, no_speech_prob=.9, avg_logprob=-.4) for t in texts]),
+        SimpleNamespace(language=language, language_probability=probability)))
+    monkeypatch.setattr(media, "inspect_video", lambda path: media.VideoInfo(3, True))
+    monkeypatch.setattr(whisper_audio, "decode_audio", lambda *args, **kwargs: np.ones(48000, dtype=np.float32))
+    result = service.analyze("fixture.mp4")
+    assert result.scores.toxic_language == expected
+    assert result.decision == ("flagged" if expected is not None else "review")
+    assert ("toxic_language" in result.evaluated_labels) == (expected is not None)

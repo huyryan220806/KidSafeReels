@@ -14,6 +14,7 @@ from kidsafe.schemas import AnalysisResult, Evidence, RiskScores
 
 LOCK = threading.Lock()
 DEFAULT_MODELS = Path(__file__).resolve().parents[1] / "models/checkpoints"
+ASR_FILTER_VERSION = "asr-native-filter-v2"
 
 
 def combine_result(visual_score, visual_threshold, audio_segments, text_model, duration, versions, warnings, visual_frame_count=8):
@@ -97,7 +98,9 @@ class VideoService:
                 if metadata.language != "vi" or metadata.language_probability < 0.5:
                     warnings.append("Không xác nhận được lời nói tiếng Việt; Toxic chưa được đánh giá.")
                 else:
-                    segments = [(s.start, s.end, s.text) for s in chunks if s.no_speech_prob < 0.6]
+                    # faster-whisper already filters silence jointly with avg_logprob.
+                    # A second no_speech_prob-only gate discards accepted speech, e.g. rap.
+                    segments = [(s.start, s.end, s.text) for s in chunks if s.text.strip()]
                     if not segments:
                         warnings.append("Không nhận được lời nói đủ rõ; Toxic chưa được đánh giá.")
             except InvalidMediaError:
@@ -105,7 +108,7 @@ class VideoService:
             except (av.error.FFmpegError, RuntimeError, ValueError) as exc:
                 warnings.append(f"Không hoàn thành ASR ({type(exc).__name__}); Toxic chưa được đánh giá.")
         return combine_result(visual_score, self.visual.threshold, segments, self.text, info.duration,
-                              f"{self.visual.version}+{self.text.version}+{getattr(self, 'asr_version', 'whisper-base')}",
+                              f"{self.visual.version}+{self.text.version}+{getattr(self, 'asr_version', 'whisper-base')}+{ASR_FILTER_VERSION}",
                               warnings, visual_frame_count=frame_count)
 
 

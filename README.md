@@ -2,6 +2,8 @@
 
 Mini project môn **Học máy và ứng dụng**: hỗ trợ người lớn sàng lọc nội dung video ngắn trước khi cho trẻ xem.
 
+**Sửa lỗi ASR 28/10:** đã sửa bước lọc bỏ nhầm lời nói trước Toxic. `vi-speech-048` nay được cảnh báo, hai ca người dùng khác vẫn cần cải thiện; giữ trọng số v3/ngưỡng cũ. Kết quả mới có hậu tố `+asr-native-filter-v2`; sau cập nhật code cần mở lại app. [Chi tiết và bước tiếp theo](reports/ASR_FILTER_FIX_2026-10-28.md).
+
 **Dữ liệu lời nói mới 28/10:** đã tiếp nhận 100 clip Toxic + 100 clip nói chuyện bình thường theo mô tả Huy, kiểm hash/giải mã 200/200. Có [phiếu rà soát và hướng dẫn tiếp tục](docs/SPEECH200_ANNOTATION.md), [báo cáo intake](reports/SPEECH200_INTAKE_2026-10-28.md). Chưa có nhãn từng clip đã duyệt hoặc lượt train mới từ bộ này; model vẫn v3.
 
 **Dữ liệu pilot D1–D2:** đã có 25 đoạn từ 8 nguồn có giấy phép, chia theo nhóm và tiền xử lý thật. Huy gán 25 clip, thành viên app gán chéo 6; nhãn đang chờ người xác nhận. Xem [progress để tiếp tục](docs/PROGRESS.md), [cách chạy lại/gói gán nhãn](docs/PILOT_DATA.md) và [kết quả D1–D2](reports/PILOT_D1_D2.md).
