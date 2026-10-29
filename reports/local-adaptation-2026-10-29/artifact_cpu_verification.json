@@ -1,0 +1,81 @@
+{
+  "active_baselines_unchanged": true,
+  "toxic_files_verified": 8,
+  "violence_files_verified": 2,
+  "violence_cpu_checks": [
+    {
+      "sample_sha256": "1b34b44f96b67ea3df351c2c9d59545fe75e31d2b57a313714c6159baae480c7",
+      "gpu_cached_score": 0.640373170375824,
+      "cpu_score": 0.640373170375824,
+      "absolute_difference": 0.0,
+      "passed": true
+    },
+    {
+      "sample_sha256": "b9b06d54a28edab1dcd24701a54d0762325138cffd111ffe6452dcbf9b8d82b2",
+      "gpu_cached_score": 0.6408713459968567,
+      "cpu_score": 0.6408712863922119,
+      "absolute_difference": 5.960464477539063e-08,
+      "passed": true
+    },
+    {
+      "sample_sha256": "7d85ee10da1c30de40bcc1bdc9687e4bf7441a9438bc4d5eb3b5ab19c892f85f",
+      "gpu_cached_score": 0.6489251852035522,
+      "cpu_score": 0.6489256024360657,
+      "absolute_difference": 4.172325134277344e-07,
+      "passed": true
+    },
+    {
+      "sample_sha256": "5ece21bf2f7ecc9d66763d4285760b21c2b8a449e01e087b2a7ea2c96a2a0e52",
+      "gpu_cached_score": 0.6564592719078064,
+      "cpu_score": 0.6564592123031616,
+      "absolute_difference": 5.960464477539063e-08,
+      "passed": true
+    },
+    {
+      "sample_sha256": "4c94625d8b6c4a6b75e67fa1a1a605f88e452e2688bf0883dac7973d77a0c6a8",
+      "gpu_cached_score": 0.6626328825950623,
+      "cpu_score": 0.6626325845718384,
+      "absolute_difference": 2.980232238769531e-07,
+      "passed": true
+    },
+    {
+      "sample_sha256": "cc6529c92edd9867392874c3fa8443d667cacbca797575c454fa7091718dac4e",
+      "gpu_cached_score": 0.6627752184867859,
+      "cpu_score": 0.6627753376960754,
+      "absolute_difference": 1.1920928955078125e-07,
+      "passed": true
+    },
+    {
+      "sample_sha256": "8c29407318317f1571793944c888fc1b8e979985245a03001685daf1d2eb96aa",
+      "gpu_cached_score": 0.6148706078529358,
+      "cpu_score": 0.6148707866668701,
+      "absolute_difference": 1.7881393432617188e-07,
+      "passed": true
+    },
+    {
+      "sample_sha256": "2a751d87746adda7c63c0c55a67eccca5d956dd1dd46ec51e431bfd27cf08731",
+      "gpu_cached_score": 0.5972562432289124,
+      "cpu_score": 0.5972564816474915,
+      "absolute_difference": 2.384185791015625e-07,
+      "passed": true
+    },
+    {
+      "sample_sha256": "47d4ea7ec27aaa1e0c9f8dec8bd4cf0aeb5453ea3a6310249bb1b3266a95e351",
+      "gpu_cached_score": 0.6958035826683044,
+      "cpu_score": 0.6958038806915283,
+      "absolute_difference": 2.980232238769531e-07,
+      "passed": true
+    },
+    {
+      "sample_sha256": "74c4b355de1ede08a8dce755ee1f0b4ac76110bef839024e8ab291135cf4cdcf",
+      "gpu_cached_score": 0.7018458843231201,
+      "cpu_score": 0.701845645904541,
+      "absolute_difference": 2.384185791015625e-07,
+      "passed": true
+    }
+  ],
+  "scope": "Ten AIRTLab TRAIN clips near frozen threshold; technical parity only, not a test-accuracy estimate",
+  "passed": true,
+  "max_absolute_difference": 4.172325134277344e-07,
+  "deployment": "Both candidates saved separately; active app retains v3 + hybrid"
+}

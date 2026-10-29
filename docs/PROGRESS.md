@@ -1,5 +1,14 @@
 # Tiến độ KidSafeReels
 
+## Hoàn tất train speech200 + AIRTLab100 — 29/10/2026
+
+- Theo yêu cầu Huy, đã train thực sự và lưu checkpoint mới trong run `local-adaptation-2026-10-29`. Speech100 Toxic +100 bình thường dùng **nhãn yếu cấp clip từ người cung cấp**, chưa đổi phiếu `human_label` trống thành gold. Gom nguồn/SHA/dHash, khóa142/28/30;11 clip liên quan ca đã xem vào train. ASR đủ điều kiện138/28/29, không gán thiếu ASR thành0.
+- PhoBERT v3 fine-tune hai encoder block cuối + classifier,5epoch MIL max logit cấp clip; chọn epoch5/ngưỡng0,32 bằng validation. Có history loss/accuracy/F1 thật và metrics train/validation/test GPU. Kiểm CPU giữ riêng30clip: **hybrid F1 60%→72,22%, FP6→8, FN6→2**; model-only loss trên29clip có ASR1,7724→0,7604. Nhãn yếu và ASR còn sai nên chưa xác nhận giảm báo nhầm.
+- Violence fit4 cấu hình R3D frozen-feature +LR trên **RLVS1157 + AIRTLab100**. AIRTLab cả bối cảnh vào train, không còn là externaltest của ứng viên này. Chọn C0,01/ngưỡng0,64 trên validation nhưng không đạt điều kiện FP/Recall baseline. **RLVS testF1 97,97%→95,83%, FN5→14**. AIRTLab accuracy91% là số đo train, không phải test.
+- **Giữ app CPUv3 + hybrid**, lưu hai ứng viên riêng; không chỉnh ngưỡng theo kết quả test hoặc tự nâng model yếu hơn. Checkpoint: `runs/local-adaptation-2026-10-29/toxic/selected/`, `violence/selected.joblib` + backbone; raw/transcript/weights không Git.
+- **244 tests pass**, `pip check` môi trường train pass;17 artifact đang dùng và8tệpToxic/2tệpViolence mới đúng checksum. Kiểm CPU Violence10 mẫu train gần ngưỡng khớp10/10, lệchmax4,17e-7. Có CSV/PNG/SVG/loss/history và10 bất đồng CPU cần nghe duyệt trong `cpu_error_review.csv` local.
+- [Báo cáo và CSV/đồ thị](../reports/LOCAL_ADAPTATION_2026-10-29.md), [cách tái tạo/resume](LOCAL_ADAPTATION_2026-10-29.md). Điểm tiếp tục local `runs/local-adaptation-2026-10-29/CONTINUE.md`. Không chạy lại holdout đã xem để dò ngưỡng; việc còn lại là nhãn thật/bằng chứng dev, dữ liệu Violence ngoài bối cảnh và kiểm ứng viên tiếp theo theo protocol mới.
+
 ## Triển khai Toxic hybrid theo hướng Huy chốt — 29/10/2026
 
 - Whisper → transcript tiếng Việt → PhoBERT + bộ luật từ/cụm từ đã tích hợp vào pipeline và app. Bộ khởi đầu có 14 luật cảnh báo, 4 viết tắt chỉ review; khớp Unicode giữ dấu/ranh giới từ, có điều kiện chất lượng ASR cho cảnh báo mới từ luật. Không thêm hai nhãn ngoài phạm vi hoặc thay trọng số/ngưỡng CPU v3.

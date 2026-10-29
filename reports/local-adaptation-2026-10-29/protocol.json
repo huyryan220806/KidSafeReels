@@ -1,0 +1,65 @@
+{
+  "run_id": "local-adaptation-2026-10-29",
+  "created_utc": "2026-10-29T06:50:48.444613+00:00",
+  "seed": 42,
+  "authorization": "User requested training on supplied 200 speech and 100 violence clips",
+  "label_policy": "Speech: user-reported weak clip labels, not human-verified segment labels. Violence: verified author labels.",
+  "split_policy": "Speech source-ID + exact SHA + transitive dHash candidate groups; 11 exposed clips forced into train; balance labels only",
+  "independent_test_caveat": "User previously tried an unknown number of clips. Source groups are provisional, speakers may overlap; not blind gold evaluation.",
+  "violence_policy": "All AIRTLab100 repurposed to training as one group; previous external metrics remain historical only. RLVS train/valid/test unchanged.",
+  "manifest_sha256": "0d095338e3d33fc9a92b47e49c5008c29a972d5219f447791ffe49cbf7caa4d7",
+  "source_speech_sha256": "034eef5128a02a21ead3ae76045868b162bb928f9cba059bc27bd5407f459439",
+  "source_airtlab_sha256": "2767d4e9e4e15534eeaabdbb778e581db0967345d7ab7a5d6dec2eaff948aff3",
+  "rlvs_split_sha256": "212eaec321f1a9f3bd73f247e02a04398e9329c883f8a279859ae1f5948a62b8",
+  "model_files": {
+    "added_tokens.json": "6887f87ac991379ea91aedb4dd5e1af4f6ee38693ec0ca1c2b6209559ce283d8",
+    "bpe.codes": "9dfe53fb8abbddd3387da99641c36e00bee757a3679aad9cf0a7cdc4b30f6ef8",
+    "config.json": "691c693cc0800e2fb04598e9abcd8084c693e1c2a39d594eec29e1b5697ef82f",
+    "kidsafe-config.json": "743c87687e6d891c80b9a750868af652b14d68022b925634da8dc8ac6dd4f797",
+    "model.safetensors": "d33e173b9d0279da7d3e8260c5296143baa5661b5362a0493a00929806f15f6d",
+    "special_tokens_map.json": "eaf93cc0da3f87f0b8b13b433234465ee99aede80e008704ea480062035c2cee",
+    "tokenizer_config.json": "59de4d1982406e28457bf1ae11d83baaac9fda053729ba259c387cd835012a28",
+    "vocab.txt": "dffd7543c401fb6567253ae7c3313004532c33d062525250049c616544bad777"
+  },
+  "violence_baseline_sha256": "85dd985886b7013e7f6600698e2c0c2bc7cb71683f5ace893c720b8c74cd36b6",
+  "asr": {
+    "model": "faster-whisper-small",
+    "model_sha256": "3e305921506d8872816023e4c273e75d2419fb89b24da97b4fe7bce14170d671",
+    "device": "cuda",
+    "compute_type": "float16",
+    "beam_size": 5,
+    "temperature": 0,
+    "vad_filter": true,
+    "condition_on_previous_text": false,
+    "language_gate": "vi with probability >= 0.5",
+    "caveat": "GPU FP16 transcripts may differ from the CPU INT8 app; no claim of production CPU pipeline accuracy"
+  },
+  "toxic_training": {
+    "initialization": "PhoBERT v3",
+    "epochs": 5,
+    "trainable": "last two encoder blocks + classifier",
+    "encoder_lr": 5e-06,
+    "classifier_lr": 2e-05,
+    "weight_decay": 0.01,
+    "accumulation_clips": 8,
+    "max_length": 192,
+    "objective": "BCEWithLogitsLoss on max(segment positive-minus-negative logit) per clip; no inherited positive label for every segment",
+    "missing_asr": "Exclude from probabilistic fitting/metrics and report coverage; retain missing as null",
+    "selection": "Validation only: precision and recall >= baseline when possible, then macro-F1, F1, lower log loss, earlier epoch; 0.05..0.95 thresholds",
+    "rules": "Frozen hybrid lexicon unchanged; rules not used to manufacture labels"
+  },
+  "violence_training": {
+    "representation": "frozen R3D18 temporal mean/max, same as v3",
+    "train": "RLVS train1157 + AIRTLab100, source labels",
+    "configurations": [
+      0.001,
+      0.01,
+      0.1,
+      1.0
+    ],
+    "class_weight": "balanced",
+    "selection": "RLVS validation only: FP <= baseline and recall >= baseline if feasible, then macro-F1/F1",
+    "test": "Previously reported RLVS test386, never used in selection; AIRTLab metric is training only"
+  },
+  "deployment": "Save candidates separately; do not replace active artifacts automatically based on weak-label evaluation"
+}

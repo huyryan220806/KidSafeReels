@@ -89,7 +89,7 @@ def choose_operating_point(task, rows, baseline):
     return max(eligible, key=key)
 
 
-def plot_results(directory, rows, predictions, history):
+def plot_results(directory, rows, predictions, history, *, label_description="Nhãn thật", scope_note=None):
     import matplotlib
     matplotlib.use("Agg")
     import matplotlib.pyplot as plt
@@ -117,7 +117,7 @@ def plot_results(directory, rows, predictions, history):
             ax.set_ylim(0, 1.13)
         ax.grid(axis="y", alpha=.2)
     axes[0, 0].legend()
-    fig.suptitle(f"{rows[0]['task'].upper()} — so sánh trên benchmark; chưa phải độ chính xác của app video")
+    fig.suptitle(scope_note or f"{rows[0]['task'].upper()} — so sánh trên benchmark; chưa phải độ chính xác của app video")
     save(fig, "metrics_by_split")
 
     fig, axes = plt.subplots(1, 2, figsize=(9, 4), layout="constrained")
@@ -127,8 +127,10 @@ def plot_results(directory, rows, predictions, history):
         ax.imshow(matrix, cmap="Blues")
         for (i, j), value in np.ndenumerate(matrix):
             ax.text(j, i, str(value), ha="center", va="center", color="white" if value > matrix.max()/2 else "black")
-        ax.set(xticks=[0, 1], yticks=[0, 1], xlabel="Nhãn dự đoán", ylabel="Nhãn thật",
+        ax.set(xticks=[0, 1], yticks=[0, 1], xlabel="Nhãn dự đoán", ylabel=label_description,
                title=f"{'Baseline' if variant == 'baseline' else 'Ứng viên'} | test n={r['n']}")
+    if scope_note:
+        fig.suptitle(scope_note, fontsize=10)
     save(fig, "confusion_matrix")
 
     fig, axes = plt.subplots(1, 2, figsize=(10, 4), layout="constrained")
@@ -144,6 +146,8 @@ def plot_results(directory, rows, predictions, history):
     axes[1].set(xlabel="False-positive rate", ylabel="True-positive rate", title="Test ROC")
     for ax in axes:
         ax.legend(); ax.grid(alpha=.2)
+    if scope_note:
+        fig.suptitle(scope_note, fontsize=10)
     save(fig, "test_curves")
 
     if history:

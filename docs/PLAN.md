@@ -1,5 +1,7 @@
 # Kế hoạch một tuần và phân công
 
+**Train bổ sung theo yêu cầu 29/10 đã hoàn tất:** speech200 nhãn yếu đã chia nhóm142/28/30 và train5epoch; AIRTLab100 chuyển toàn nhóm vào train +RLVS1157, không còn là externaltest ứng viên. Có đánh giá CPU/GPU, CSV và đồ thị. Hai ứng viên chưa thay app vì Toxic tăng FP và Violence giảm Recall. [Báo cáo](../reports/LOCAL_ADAPTATION_2026-10-29.md), [tiếp tục](LOCAL_ADAPTATION_2026-10-29.md). Nhãn người duyệt vẫn còn thiếu; việc train lần này không hoàn tất yêu cầu đánh giá gold.
+
 **Toxic hybrid 29/10:** đã triển khai hướng Huy chốt: Whisper tiếng Việt → PhoBERT + luật từ/cụm từ, giải thích nguồn cảnh báo trên app/TXT. `022` được cảnh báo thêm, `019` vẫn review; ViCTSD test F1 giữ 53,39%. Có ablation CSV/đồ thị, không train mới. [Thiết kế và chạy](TOXIC_HYBRID.md), [báo cáo](../reports/TOXIC_HYBRID_2026-10-29.md). Tiếp theo vẫn là nhãn speech200/nhóm nguồn và test đích giữ riêng; không dùng các ca đã xem làm test độc lập.
 
 **Dữ liệu mới 28/10:** đã tiếp nhận/kiểm tra 200 clip lời nói (100 Toxic + 100 bình thường theo mô tả Huy). Huy rà soát 200, app rà soát độc lập 40; có phiếu local/ZIP và audit 7 cặp gần trùng khác ID nguồn. [Hướng dẫn speech200](SPEECH200_ANNOTATION.md). Hoàn tất nhãn/nhóm nguồn trước khóa split, ASR và lượt train tiếp theo; chưa có Accuracy/Loss mới từ bộ này.

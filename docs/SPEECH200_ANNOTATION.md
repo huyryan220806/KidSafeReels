@@ -1,5 +1,7 @@
 # Rà soát 200 clip lời nói — 28/10/2026
 
+**Cập nhật29/10:** Huy yêu cầu train ngay với dữ liệu hiện có. Đã thực hiện một lượt **học từ nhãn yếu cấp clip**, giữ phiếu nghe duyệt và `human_label` nguyên trạng. Có split theo nhóm142/28/30, MILmaxlogit,5epoch và [báo cáo kết quả](../reports/LOCAL_ADAPTATION_2026-10-29.md). Không coi nhãn yếu/ASR là gold hoặc gán nhãn clip cho mọi câu; hướng dẫn nghe duyệt dưới đây vẫn cần cho bước cải thiện tiếp. Holdout của lượt này đã được đánh giá, không còn là test chưa xem cho các lần chỉnh model sau.
+
 Huy đã bổ sung 100 clip nói chuyện bình thường trong `data/Video_Train/Toxic/KidSafeReels-100-Clip-LoiNoi/Non_Toxic`, bên cạnh 100 clip được mô tả là Toxic. Có 74 video nguồn ở nhóm đầu và 58 ở nhóm mới, tổng 132 ID YouTube khác nhau. Lời mô tả của Huy được lưu ở `user_reported_clip_label` (100 nhãn 1, 100 nhãn 0). Metadata cả hai bộ ghi nhãn gợi ý bằng ASR/từ khóa, `labels.toxic_language=null`; chưa có phiếu nghe duyệt từng clip. Không biến nhãn gợi ý thành nhãn chuẩn đã được người kiểm tra.
 
 Đây là bộ mới `speech200-intake-v2`. Giữ nguyên manifest speech100 cũ; không ghi đè phiếu đã nộp. Kết quả kiểm tra kỹ thuật thực tế nằm ở [báo cáo intake](../reports/SPEECH200_INTAKE_2026-10-28.json).

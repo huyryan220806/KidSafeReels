@@ -1,0 +1,27 @@
+{
+  "pytest": {
+    "passed": 244,
+    "failed": 0,
+    "seconds": 168.96,
+    "command": "python -m pytest -q",
+    "environment": ".venv CPU"
+  },
+  "training_pip_check": "passed",
+  "active_release": {
+    "version": "kidsafe-cpu-v3",
+    "verified_files": 17
+  },
+  "source_sha256": {
+    "ml/local_adaptation.py": "e5c810b763d934b25f6d503728ea6b95d324c5a194b3e9e97137fff2a12a6681",
+    "ml/speech_mil.py": "a313daf843cad14529a5e723e996ef867f31a33557e519fdfe443074406ad409",
+    "ml/local_violence.py": "3676970f5231af2131f6e3b2077a6792fe054daa4a9a5fe2f9d0a613cff30329",
+    "ml/speech_cpu_check.py": "c29d580d764564170fd564409e675caebf70e9c52035fd8685910d9ba1543fb6",
+    "ml/adaptation_audit.py": "513a37a158f11933204c2b5a0beedf9341ed6ec44467976a03e89d624e76d44a",
+    "ml/adaptation_report.py": "b7527228a433cdb98deead75cc62ecef15982e16033241c4da9650b594761b3a",
+    "ml/experiment_metrics.py": "476e81d6f0c7c79eb016ce06095b3cf432152da86ed2fa09d87245ebf39b5edb",
+    "requirements-training.txt": "987eb6fbd59f4fca46be18a72158fb6336e8c925cc59cabed6e9e6e7ca264b3c",
+    "requirements-training.lock.txt": "f3c5c8ebd90472a00b9d1decfa8d3eda1c350b93619ad503ffb612b73fa58ee8"
+  },
+  "candidate_status": "Saved and verified locally; not activated in app",
+  "raw_data_policy": "Videos, transcripts, source URLs, labels per clip and checkpoints kept out of Git"
+}

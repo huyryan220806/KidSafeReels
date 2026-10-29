@@ -1,0 +1,12 @@
+{
+  "selected_sha256": "15be42104d3b0daf5e5d5d374ddd65eb55ff83368e5ff890126276fe82e65459",
+  "scope": "Toxic branch only, frozen speech test groups",
+  "label_status": "user-reported weak clip labels",
+  "asr": "Whisper small CPU INT8 beam5, Vietnamese gate, VAD",
+  "methods": [
+    "model_only",
+    "hybrid"
+  ],
+  "missing_asr": "null, excluded probability metrics; review in decision metrics",
+  "policy": "post-selection deployment check; no tuning based on these results"
+}

@@ -1,5 +1,7 @@
 # Model card — KidSafeReels CPU v3
 
+**Ứng viên train bổ sung29/10 đã lưu riêng:** PhoBERT MIL từ speech200 nhãn yếu và Violence LR thêm100AIRTLab. Không thay phiên bản phục vụ này: Toxic CPU hybrid tăng báo nhầm, Violence giảm RecallRLVS. [Báo cáo ứng viên](LOCAL_ADAPTATION_2026-10-29.md). AIRTLab vẫn là đánh giá ngoài lịch sử của v3, nhưng là dữ liệu train đối với ứng viên mới; không trộn hai vai trò.
+
 **Inference cập nhật 29/10:** thêm bộ luật Toxic song song PhoBERT, không train lại; mặc định hybrid, có `model_only` để đối chiếu. [Thiết kế](../docs/TOXIC_HYBRID.md), [ablation](TOXIC_HYBRID_2026-10-29.md). ViCTSD test của hybrid bằng PhoBERT (F1 53,39%), rule-only chỉ bắt 1/109 mẫu Toxic. `vi-speech-022` được cảnh báo thêm trong ba ca phát triển đã xem; chưa có metric toàn pipeline trên test video đích.
 
 Cập nhật 28/10/2026: PhoBERT fine-tune + R3D-18/LR + Whisper small beam5, inference hoàn toàn CPU. [Artifact/checksum](../models/artifacts.json), [báo cáo số đo và hình](MODEL_IMPROVEMENT_2026-10-28.md), [cài/mở/rollback](../docs/MODEL_UPDATE_2026-10-28.md). V1/v2 được giữ để đối chiếu, không trộn nghiệm thu máy Tiến cũ với v3.

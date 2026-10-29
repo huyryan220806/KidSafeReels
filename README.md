@@ -2,6 +2,8 @@
 
 Mini project môn **Học máy và ứng dụng**: hỗ trợ người lớn sàng lọc nội dung video ngắn trước khi cho trẻ xem.
 
+**Train dữ liệu bổ sung 29/10 đã xong:**5epoch PhoBERT trên nhãn yếu speech200,4 cấu hình Violence với100AIRTLab thêm vào train. Có [Accuracy/Loss/F1, CSV và đồ thị](reports/LOCAL_ADAPTATION_2026-10-29.md), [cách tái tạo](docs/LOCAL_ADAPTATION_2026-10-29.md). **App giữ v3 + hybrid:** Toxic CPU hybrid tăng F1 nhưng FP6→8; Violence RLVS giảm F1 và FN5→14. Hai checkpoint ứng viên lưu riêng, chưa phát hành thay app.
+
 **Toxic hybrid 29/10:** Whisper → PhoBERT + bộ luật từ/cụm từ đã chạy trên app. Clip lỗi `022` chuyển sang cảnh báo, `048` vẫn cảnh báo, `019` còn cần xử lý. Điểm model giữ nguyên; app giải thích khi cảnh báo từ bộ luật. ViCTSD test F1 vẫn 53,39%, chưa có bằng chứng tăng chất lượng tổng thể hoặc giảm FP. [Cách dùng/baseline](docs/TOXIC_HYBRID.md), [CSV/đồ thị/kết quả](reports/TOXIC_HYBRID_2026-10-29.md). Sau cập nhật cần dừng và mở lại app; không có lượt train mới trên speech200.
 
 **Sửa lỗi ASR 28/10:** đã sửa bước lọc bỏ nhầm lời nói trước Toxic. `vi-speech-048` nay được cảnh báo, hai ca người dùng khác vẫn cần cải thiện; giữ trọng số v3/ngưỡng cũ. Kết quả mới có hậu tố `+asr-native-filter-v2`; sau cập nhật code cần mở lại app. [Chi tiết và bước tiếp theo](reports/ASR_FILTER_FIX_2026-10-28.md).
