@@ -1,5 +1,11 @@
 # Tiến độ KidSafeReels
 
+## Toxic ưu tiên giảm báo nhầm, giữ Violence v3 — đang thực hiện 29/10/2026
+
+- Theo Huy chốt: giữ nguyên Violence v3/ngưỡng0,41; cải thiện riêng Toxic. Đã khóa protocol `toxic-precision-2026-10-29`, tái dùng split142/28/30; không mở test cũ cho đợt này.
+- Đã chuẩn bị phiếu nghe duyệt10 clip (4train+6validation,10nhóm nguồn,175giây),5nghi FP+5nghi FN theo nhãn nguồn. **0/10 nhãn người**, không tự sửa nhãn theo dự đoán. Phiếu local cổng8767; có xuất/nạp JSON và kiểm bằng chứng. [Hướng dẫn](TOXIC_PRECISION_2026-10-29.md).
+- Đang tạo lại ASR CPU INT8 trên170clip train/validation, cache từng clip. Kế tiếp fine-tune MIL5epoch tăng loss âm tính lên2, chọn theo ràng buộc FP/Recall validation, kiểm lại CPU và lưu ứng viên riêng. Chưa có kết quả train mới; app vẫn v3+hybrid.
+
 ## Hoàn tất train speech200 + AIRTLab100 — 29/10/2026
 
 - Theo yêu cầu Huy, đã train thực sự và lưu checkpoint mới trong run `local-adaptation-2026-10-29`. Speech100 Toxic +100 bình thường dùng **nhãn yếu cấp clip từ người cung cấp**, chưa đổi phiếu `human_label` trống thành gold. Gom nguồn/SHA/dHash, khóa142/28/30;11 clip liên quan ca đã xem vào train. ASR đủ điều kiện138/28/29, không gán thiếu ASR thành0.

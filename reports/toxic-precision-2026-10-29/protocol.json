@@ -1,0 +1,54 @@
+{
+  "run_id": "toxic-precision-2026-10-29",
+  "frozen_utc": "2026-10-29T12:35:50.898544+00:00",
+  "manifest_sha256": "0d095338e3d33fc9a92b47e49c5008c29a972d5219f447791ffe49cbf7caa4d7",
+  "seed": 42,
+  "violence_sha256": "85dd985886b7013e7f6600698e2c0c2bc7cb71683f5ace893c720b8c74cd36b6",
+  "violence_policy": "keep active v3, no training or threshold changes",
+  "model_files": {
+    "added_tokens.json": "6887f87ac991379ea91aedb4dd5e1af4f6ee38693ec0ca1c2b6209559ce283d8",
+    "bpe.codes": "9dfe53fb8abbddd3387da99641c36e00bee757a3679aad9cf0a7cdc4b30f6ef8",
+    "config.json": "691c693cc0800e2fb04598e9abcd8084c693e1c2a39d594eec29e1b5697ef82f",
+    "kidsafe-config.json": "743c87687e6d891c80b9a750868af652b14d68022b925634da8dc8ac6dd4f797",
+    "model.safetensors": "d33e173b9d0279da7d3e8260c5296143baa5661b5362a0493a00929806f15f6d",
+    "special_tokens_map.json": "eaf93cc0da3f87f0b8b13b433234465ee99aede80e008704ea480062035c2cee",
+    "tokenizer_config.json": "59de4d1982406e28457bf1ae11d83baaac9fda053729ba259c387cd835012a28",
+    "vocab.txt": "dffd7543c401fb6567253ae7c3313004532c33d062525250049c616544bad777"
+  },
+  "lexicon_sha256": "56b3a177c7b230ced198535cf2a7c99e09c917e4364f8d31f92c39e25ae821b0",
+  "asr": {
+    "model": "small",
+    "device": "cpu",
+    "compute_type": "int8",
+    "cpu_threads": 3,
+    "beam_size": 5,
+    "temperature": 0,
+    "vad_filter": true,
+    "condition_on_previous_text": false,
+    "task": "transcribe",
+    "language_gate": "vi and probability >= 0.5",
+    "segments": "all decoder-accepted nonempty segments; no second no_speech filter"
+  },
+  "training": {
+    "initial": "active PhoBERT v3",
+    "epochs": 5,
+    "negative_weight": 2.0,
+    "encoder_lr": 5e-06,
+    "classifier_lr": 2e-05,
+    "accumulate_clips": 8,
+    "weight_decay": 0.01,
+    "trainable": "last two encoder blocks and classifier",
+    "pooling": "max segment log odds",
+    "labels": "user-reported weak clip labels; no invented human annotations"
+  },
+  "selection": {
+    "split": "valid only",
+    "thresholds": "0.05 through 0.95 step 0.01",
+    "constraints": "hybrid FP <= baseline hybrid FP; hybrid recall >= baseline hybrid recall; model-only FP <= baseline model-only FP",
+    "rank": "eligible first, lowest hybrid FP, highest hybrid recall, lowest log loss, earliest epoch",
+    "if_no_eligible": "retain active v3, candidate only"
+  },
+  "test_policy": "Do not transcribe, select on or evaluate the previously seen test in this run. No new independent test claim.",
+  "deployment": "candidate only until manual review and broader regression; do not auto-activate",
+  "review_policy": "ten train/validation disagreements only; human labels start blank; not an accuracy sample"
+}
