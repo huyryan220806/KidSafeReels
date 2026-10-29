@@ -11,6 +11,12 @@ ICONS = {
 }
 
 
+def toxic_method_note(result):
+    if result["mode"] == "model" and "+toxic-hybrid-" in result["model_version"]:
+        return "Ngôn ngữ độc hại được kiểm tra bằng model và bộ luật từ/cụm từ. Chỉ số hiển thị là điểm model; cảnh báo từ bộ luật có thể xuất hiện dù điểm này thấp. Nguồn cảnh báo nằm trong mô tả từng đoạn."
+    return None
+
+
 def header(health):
     if health is None:
         status, style = "Chưa kết nối", "offline"
@@ -104,6 +110,8 @@ def report_text(result, filename):
     for label, score in result["scores"].items():
         value = "Chưa đánh giá" if score is None else f"Có kết quả; chỉ số phân tích {score:.3f}"
         lines.append(f"- {LABELS[label]}: {value}")
+    if toxic_method_note(result):
+        lines += ["", toxic_method_note(result)]
     lines += ["", "LƯU Ý", *[f"- {warning}" for warning in result["warnings"]], "", "CÁC ĐOẠN CẦN XEM LẠI"]
     for item in result["evidence"]:
         lines.append(f"- {timestamp(item['start_seconds'])}–{timestamp(item['end_seconds'])} | {LABELS[item['label']]} | {MODALITIES[item['modality']]}: {item['description']}")

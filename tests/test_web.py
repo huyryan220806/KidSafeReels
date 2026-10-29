@@ -79,6 +79,26 @@ def test_model_evidence_seeks_video_and_zero_is_not_null(video_files):
         assert "analysis_result" in page.session_state
 
 
+def test_hybrid_rule_warning_is_visible_even_with_low_model_score(video_files):
+    result = synthetic_result().model_dump()
+    result["model_version"] += "+toxic-hybrid-v1-test"
+    result["scores"]["violence"] = .01
+    result["scores"]["toxic_language"] = .02
+    result["evaluated_labels"].append("toxic_language")
+    result["evidence"] = [{"modality": "audio_text", "label": "toxic_language", "score": .02,
+                           "start_seconds": .2, "end_seconds": .8,
+                           "description": "Bộ luật từ/cụm từ phát hiện: ví dụ kiểm thử tổng hợp."}]
+    with patch("requests.post", return_value=response_with(result)):
+        page = page_with_upload(video_files)
+        analyze_button(page).click().run()
+    assert not page.exception
+    assert page.session_state["analysis_result"]["decision"] == "flagged"
+    assert any("bộ luật" in block.value for block in page.caption)
+    assert any("Bộ luật từ/cụm từ phát hiện" in block.value for block in page.markdown)
+    assert "0.020" in list(page.table[0].value["Chỉ số phân tích"])
+    assert len(page.get("download_button")) == 2
+
+
 @pytest.mark.parametrize("exception,text", [
     (requests.Timeout(), "Hết thời gian"),
     (requests.ConnectionError(), "Chưa kết nối"),

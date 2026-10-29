@@ -1,5 +1,7 @@
 # Hướng dẫn sử dụng và demo app
 
+**Toxic hybrid 29/10:** launcher model mặc định kết hợp PhoBERT và bộ luật. Cảnh báo có thể xuất hiện dù chỉ số Toxic thấp vì chỉ số vẫn là điểm PhoBERT; đọc nguồn cảnh báo trong mô tả từng đoạn. Web/TXT đều có giải thích này. Sau cập nhật code hoặc đổi mode cần dừng API/web cũ rồi mở lại; [hướng dẫn hybrid/model-only](TOXIC_HYBRID.md).
+
 **Giao diện cập nhật 17/10/2026:** bố cục dành cho phụ huynh với ba bước Chọn video → Kiểm tra nội dung → Xem kết quả. Nút thao tác chính là **Kiểm tra video**. **Lưu kết quả về máy** tải bản tóm tắt tiếng Việt dạng TXT; JSON và chỉ số chi tiết nằm trong mục **Chi tiết phân tích**. Hướng dẫn lần đầu và thông tin kết nối nằm cuối trang. Mô phỏng luôn được ghi rõ và không hiển thị điểm đánh giá giả.
 
 ## Khởi động trên Windows

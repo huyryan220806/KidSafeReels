@@ -26,3 +26,18 @@ def test_mock_report_always_marks_simulation(video_files):
     report = report_text(result, "video.mp4")
     assert "KẾT QUẢ MÔ PHỎNG" in report
     assert "chưa đánh giá nội dung video" in report
+
+
+def test_hybrid_report_explains_low_model_score_and_rule_evidence():
+    from apps.web.design import toxic_method_note
+    from ml.inference import combine_result
+    from ml.toxic_rules import load_rules
+    from types import SimpleNamespace
+    text = SimpleNamespace(predict=lambda text: {"score": .02, "flagged": False})
+    result = combine_result(.1, .41, [(0, 1, "đồ ngu", {"avg_logprob": -.4, "compression_ratio": 1.2})],
+                            text, 2, "fixture+" + load_rules().version, [], toxic_rules=load_rules()).model_dump()
+    report = report_text(result, "fixture.mp4")
+    assert "0.020" in report and "Bộ luật từ/cụm từ" in report
+    assert "Chỉ số hiển thị là điểm model" in toxic_method_note(result)
+    result["mode"] = "mock"
+    assert toxic_method_note(result) is None

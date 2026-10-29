@@ -10,7 +10,7 @@ import streamlit as st
 
 from apps.validation import validate_result
 from apps.web.client import LABELS, MODALITIES, analyze_upload, check_health, error_message, timestamp
-from apps.web.design import decision_card, empty_result, filename_card, header, hero, report_text, score_cards, steps
+from apps.web.design import decision_card, empty_result, filename_card, header, hero, report_text, score_cards, steps, toxic_method_note
 
 st.set_page_config(page_title="KidSafeReels · Cùng con xem điều hay", page_icon="🛡️", layout="wide")
 st.markdown(f"<style>{Path(__file__).with_name('style.css').read_text(encoding='utf-8')}</style>", unsafe_allow_html=True)
@@ -134,6 +134,8 @@ with right, st.container(key="results_panel"):
             st.markdown(decision_card(result), unsafe_allow_html=True)
             st.markdown("**Các nhóm nội dung**")
             st.markdown(score_cards(result["scores"]), unsafe_allow_html=True)
+            if toxic_method_note(result):
+                st.caption(toxic_method_note(result))
             st.caption("“Có kết quả” chỉ có nghĩa nhóm đó đã được phân tích. “Chưa đánh giá” không đồng nghĩa không có rủi ro.")
             warnings = list(dict.fromkeys(result["warnings"]))
             if warnings:

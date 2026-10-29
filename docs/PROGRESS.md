@@ -1,5 +1,15 @@
 # Tiến độ KidSafeReels
 
+## Triển khai Toxic hybrid theo hướng Huy chốt — 29/10/2026
+
+- Whisper → transcript tiếng Việt → PhoBERT + bộ luật từ/cụm từ đã tích hợp vào pipeline và app. Bộ khởi đầu có 14 luật cảnh báo, 4 viết tắt chỉ review; khớp Unicode giữ dấu/ranh giới từ, có điều kiện chất lượng ASR cho cảnh báo mới từ luật. Không thêm hai nhãn ngoài phạm vi hoặc thay trọng số/ngưỡng CPU v3.
+- Điểm Toxic/evidence vẫn là điểm PhoBERT thật; app/TXT ghi rõ nguồn cảnh báo khi bộ luật khớp nhưng điểm thấp. Schema 1.0 giữ nguyên. Kết quả hybrid có hậu tố `+toxic-hybrid-v1-56b3a177c7b2`; launcher mặc định hybrid, có `-ToxicMode model_only` sau khi dừng/mở lại để so baseline.
+- Ba ca phát triển được replay rồi chạy HTTP: **048 flagged → flagged; 019 review → review; 022 review → flagged**. Score max giữ 0,901374 / 0,002520 / 0,022752. Không tính 2/3 ca đã xem thành Accuracy; 11 clip liên quan vẫn bị loại khỏi test độc lập tương lai.
+- Khóa lexicon/protocol trước ablation ViCTSD cũ, tái dùng cache PhoBERT thật có kiểm ID/nhãn/ngưỡng/checksum. Hybrid test **Accuracy 89,57%, F1 53,39%, FP 53/FN 50**, bằng model-only; rule-only chỉ bắt 1/109 Toxic. Validation cũng không tăng. Có CSV/JSON/PNG/SVG; không có xác suất/loss gộp hoặc lượt train mới. [Báo cáo](../reports/TOXIC_HYBRID_2026-10-29.md).
+- Kiểm chứng: **238 tests pass**, **7/7 HTTP** (3 ca lỗi, im lặng/âm đơn tần, 2 pilot train), 17 artifact đúng checksum. Web thật clip022: cảnh báo/nguồn luật/điểm 0,023/mốc phát 10 giây; TXT và JSON tải qua trình duyệt được kiểm lại. Ảnh/transcript/downloads lưu private trong run, không Git.
+- [Thiết kế/cách mở/baseline](TOXIC_HYBRID.md), [bàn giao cập nhật cho app](TOXIC_HYBRID_HANDOFF.md). Điểm tiếp tục local: `runs/toxic-hybrid-2026-10-29/CONTINUE.md`.
+- **Còn:** nghe đối chiếu/sửa transcript chuẩn ca019 và dev; duyệt nhãn speech200/nguồn gần trùng, khóa split theo nguồn, train/evaluate nếu đủ dữ liệu. Chưa chứng minh giảm FP hoặc cải thiện toàn pipeline trên test video đích. Không mở rộng luật theo test vừa xem; không tự điền nhãn người thật.
+
 ## Sửa lọc nhầm lời nói sau chẩn đoán ca lỗi — 28/10/2026
 
 - Huy chỉ rõ `vi-speech-048`, `019`, `022`. Đã tái hiện bằng local và API model thật. `048`/`019`: decoder trả 6/4 đoạn nhưng gate `no_speech_prob < 0.6` lọc lại làm mất tất cả; `022` đã tới classifier nhưng score thấp.

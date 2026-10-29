@@ -1,0 +1,25 @@
+{
+  "version": "toxic-lexicon-v1",
+  "language": "vi",
+  "provenance": "Project-authored seed rules from the project annotation definition; not learned labels or a validated comprehensive dictionary.",
+  "rules": [
+    {"id": "explicit-dit", "term": "địt", "action": "flag", "category": "profanity"},
+    {"id": "explicit-du", "term": "đụ", "action": "flag", "category": "profanity"},
+    {"id": "explicit-deo", "term": "đéo", "action": "flag", "category": "profanity"},
+    {"id": "explicit-lon", "term": "lồn", "action": "flag", "category": "profanity"},
+    {"id": "explicit-cac", "term": "cặc", "action": "flag", "category": "profanity"},
+    {"id": "explicit-buoi", "term": "buồi", "action": "flag", "category": "profanity"},
+    {"id": "insult-do-ngu", "term": "đồ ngu", "action": "flag", "category": "insult"},
+    {"id": "insult-thang-ngu", "term": "thằng ngu", "action": "flag", "category": "insult"},
+    {"id": "insult-do-cho", "term": "đồ chó", "action": "flag", "category": "insult"},
+    {"id": "insult-thang-cho", "term": "thằng chó", "action": "flag", "category": "insult"},
+    {"id": "insult-con-di", "term": "con đĩ", "action": "flag", "category": "insult"},
+    {"id": "insult-do-khon", "term": "đồ khốn", "action": "flag", "category": "insult"},
+    {"id": "insult-do-mat-day", "term": "đồ mất dạy", "action": "flag", "category": "insult"},
+    {"id": "insult-thang-mat-day", "term": "thằng mất dạy", "action": "flag", "category": "insult"},
+    {"id": "abbreviation-dm", "term": "đm", "action": "review", "category": "ambiguous_abbreviation"},
+    {"id": "abbreviation-dcm", "term": "đcm", "action": "review", "category": "ambiguous_abbreviation"},
+    {"id": "abbreviation-vcl", "term": "vcl", "action": "review", "category": "ambiguous_abbreviation"},
+    {"id": "abbreviation-vkl", "term": "vkl", "action": "review", "category": "ambiguous_abbreviation"}
+  ]
+}

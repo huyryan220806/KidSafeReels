@@ -2,6 +2,8 @@
 
 Mini project môn **Học máy và ứng dụng**: hỗ trợ người lớn sàng lọc nội dung video ngắn trước khi cho trẻ xem.
 
+**Toxic hybrid 29/10:** Whisper → PhoBERT + bộ luật từ/cụm từ đã chạy trên app. Clip lỗi `022` chuyển sang cảnh báo, `048` vẫn cảnh báo, `019` còn cần xử lý. Điểm model giữ nguyên; app giải thích khi cảnh báo từ bộ luật. ViCTSD test F1 vẫn 53,39%, chưa có bằng chứng tăng chất lượng tổng thể hoặc giảm FP. [Cách dùng/baseline](docs/TOXIC_HYBRID.md), [CSV/đồ thị/kết quả](reports/TOXIC_HYBRID_2026-10-29.md). Sau cập nhật cần dừng và mở lại app; không có lượt train mới trên speech200.
+
 **Sửa lỗi ASR 28/10:** đã sửa bước lọc bỏ nhầm lời nói trước Toxic. `vi-speech-048` nay được cảnh báo, hai ca người dùng khác vẫn cần cải thiện; giữ trọng số v3/ngưỡng cũ. Kết quả mới có hậu tố `+asr-native-filter-v2`; sau cập nhật code cần mở lại app. [Chi tiết và bước tiếp theo](reports/ASR_FILTER_FIX_2026-10-28.md).
 
 **Dữ liệu lời nói mới 28/10:** đã tiếp nhận 100 clip Toxic + 100 clip nói chuyện bình thường theo mô tả Huy, kiểm hash/giải mã 200/200. Có [phiếu rà soát và hướng dẫn tiếp tục](docs/SPEECH200_ANNOTATION.md), [báo cáo intake](reports/SPEECH200_INTAKE_2026-10-28.md). Chưa có nhãn từng clip đã duyệt hoặc lượt train mới từ bộ này; model vẫn v3.

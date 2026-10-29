@@ -45,13 +45,14 @@ Worker dùng lại trong một tiến trình API để cache model; một lượ
 
 - `scores`: điểm [0,1]; `null` = chưa đánh giá, `0` = đã đánh giá và trả điểm 0. Không gọi là xác suất nếu chưa calibration.
 - `evaluated_labels`: đúng tập nhãn có điểm khác null, không trùng lặp; app kiểm tra bất biến này.
-- `decision`: `flagged` khi vượt ngưỡng do ML chọn; `review` khi bất định/thiếu đầu vào cần thiết; `no_risk_detected` khi các kiểm tra trong phạm vi hoàn tất và dưới ngưỡng. Không có nhãn được đánh giá thì bắt buộc `review`. App không chọn hoặc đổi ngưỡng.
+- `decision`: `flagged` khi vượt ngưỡng do ML chọn hoặc bộ luật Toxic trong pipeline tạo cảnh báo; `review` khi bất định/thiếu đầu vào cần thiết; `no_risk_detected` khi các kiểm tra trong phạm vi hoàn tất và dưới ngưỡng. Không có nhãn được đánh giá thì bắt buộc `review`. App không chọn hoặc đổi ngưỡng/quyết định.
 - Model CPU v1/v2/v3 chỉ trả `flagged` hoặc `review`; chưa trả `no_risk_detected` trước đánh giá pilot có nhãn. Thiếu Toxic vẫn có thể `flagged` nếu Violence vượt ngưỡng. V3 thay classifier nội bộ bằng PhoBERT/R3D-18, giữ nguyên mọi trường schema v1 và evidence visual ở cấp toàn clip.
 - `mode` phải khớp backend yêu cầu. Mock luôn `review`, mọi điểm null, evidence rỗng. Không chuyển sang mock khi model lỗi.
 - `evidence`: `{modality, start_seconds, end_seconds, label, score, description}`; modality `visual/audio_text/ocr`. Timestamp hữu hạn, không âm, end ≥ start và không vượt thời lượng clip. Nhãn evidence phải được đánh giá. Bằng chứng phải do ML tạo từ frame/transcript thật.
 - Không có track audio: app thêm warning, từ chối `audio_text` evidence. Huy trả text score null nếu không có nguồn OCR thay thế; quyết định `review` nếu chưa có nhãn khác vượt ngưỡng. Có track audio không đồng nghĩa có lời nói.
 - `model_version`: định danh artifact + cấu hình/ngưỡng; cần tái hiện được. App hiển thị nguyên giá trị.
 - Từ bản sửa ASR ngày 28/10, kết quả có hậu tố `+asr-native-filter-v2`: pipeline dùng segment không rỗng được decoder chấp nhận, không lọc lại chỉ bằng `no_speech_prob`; vẫn kiểm tiếng Việt/VAD. Không đổi trường hoặc trọng số/ngưỡng. Xem [báo cáo sửa lỗi](../reports/ASR_FILTER_FIX_2026-10-28.md).
+- Từ 29/10, mặc định Toxic hybrid thêm hậu tố `+toxic-hybrid-v1-<12 ký tự SHA lexicon>`. `scores.toxic_language` giữ max điểm PhoBERT, `evidence.score` giữ điểm PhoBERT của đoạn tương ứng. Luật có thể tạo `flagged` khi điểm model thấp: không suy lại quyết định từ score trên app. `evidence.description` ghi nguồn model/bộ luật/gợi ý nghe lại và đoạn ASR; gợi ý review không tự cảnh báo. Thông báo UI/TXT giải thích rõ ý nghĩa điểm. Không thêm trường hoặc đổi schema 1.0; [quy tắc, giới hạn và mode baseline](TOXIC_HYBRID.md).
 - `processing_seconds`: thời gian endpoint xử lý sau khi framework nhận multipart, gồm kiểm tra media/pipeline. UI đo riêng thời gian từ lúc gọi HTTP đến lúc nhận và validate kết quả.
 
 ## Mã lỗi

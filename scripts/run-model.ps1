@@ -1,9 +1,10 @@
-param([string]$PythonPath, [switch]$OpenBrowser)
+param([string]$PythonPath, [switch]$OpenBrowser, [ValidateSet('hybrid','model_only')][string]$ToxicMode = 'hybrid')
 $ErrorActionPreference = 'Stop'
 $projectRoot = Split-Path -Parent $PSScriptRoot
 Push-Location -LiteralPath $projectRoot
 $previousBackend = $env:KIDSAFE_BACKEND
 $previousModelDir = $env:KIDSAFE_MODEL_DIR
+$previousToxicMode = $env:KIDSAFE_TOXIC_MODE
 try {
     if ($PythonPath) {
         $modelPython = (Resolve-Path -LiteralPath $PythonPath).Path
@@ -22,6 +23,7 @@ try {
     & $modelPython -m ml.release_verify
     if ($LASTEXITCODE -ne 0) { throw 'Model thieu hoac sai checksum. Hay nhan lai goi model tu Huy.' }
     $env:KIDSAFE_BACKEND = 'model'
+    $env:KIDSAFE_TOXIC_MODE = $ToxicMode
     $launchArgs = @('-m', 'scripts.run_app')
     if ($OpenBrowser) { $launchArgs += '--open-browser' }
     & $modelPython @launchArgs
@@ -29,5 +31,6 @@ try {
 } finally {
     $env:KIDSAFE_BACKEND = $previousBackend
     $env:KIDSAFE_MODEL_DIR = $previousModelDir
+    $env:KIDSAFE_TOXIC_MODE = $previousToxicMode
     Pop-Location
 }

@@ -11,13 +11,14 @@ from uuid import uuid4
 
 from kidsafe.errors import InvalidMediaError, ModelNotReadyError
 from kidsafe.schemas import AnalysisResult, Evidence, RiskScores
+from ml.toxic_rules import MODES, lexical_decision, load_rules
 
 LOCK = threading.Lock()
 DEFAULT_MODELS = Path(__file__).resolve().parents[1] / "models/checkpoints"
 ASR_FILTER_VERSION = "asr-native-filter-v2"
 
 
-def combine_result(visual_score, visual_threshold, audio_segments, text_model, duration, versions, warnings, visual_frame_count=8):
+def combine_result(visual_score, visual_threshold, audio_segments, text_model, duration, versions, warnings, visual_frame_count=8, *, toxic_rules=None):
     evidence = []
     flagged = visual_score >= visual_threshold
     if flagged:
@@ -25,24 +26,43 @@ def combine_result(visual_score, visual_threshold, audio_segments, text_model, d
             modality="visual", start_seconds=0, end_seconds=duration, label="violence", score=visual_score,
             description=f"Điểm Violence ở cấp toàn video từ tối đa {visual_frame_count} frame lấy mẫu; chưa định vị cảnh bạo lực."))
     text_scores = []
-    for start, end, text in audio_segments:
+    for segment in audio_segments:
+        start, end, text = segment[:3]
+        quality = segment[3] if len(segment) > 3 else None
         if not text.strip():
             continue
         prediction = text_model.predict(text)
         text_scores.append(prediction["score"])
+        lexical = lexical_decision(toxic_rules.match(text), quality) if toxic_rules else None
+        descriptions = []
         if prediction["flagged"]:
-            flagged = True
+            descriptions.append("Model Toxic vượt ngưỡng.")
+        if lexical and lexical["matches"]:
+            terms = ", ".join(f'“{m["term"]}”' for m in lexical["matches"])
+            if lexical["flagged"]:
+                descriptions.append(f"Bộ luật từ/cụm từ phát hiện: {terms}.")
+            elif not lexical["audio_eligible"]:
+                descriptions.append(f"Từ/cụm cần nghe lại: {terms}; tín hiệu ASR chưa đủ để bộ luật tự cảnh báo.")
+            else:
+                descriptions.append(f"Viết tắt cần xem ngữ cảnh: {terms}; bộ luật không tự cảnh báo.")
+        if descriptions:
+            flagged |= prediction["flagged"] or bool(lexical and lexical["flagged"])
+            descriptions.append(f"Transcript ASR (có thể sai): {text.strip()}")
+            descriptions.append("Mốc bao phủ đoạn ASR, không phải thời điểm chính xác của từng từ.")
             evidence.append(Evidence(
                 modality="audio_text", start_seconds=max(0, min(duration, start)),
                 end_seconds=max(0, min(duration, max(start, end))), label="toxic_language",
-                score=prediction["score"], description=f"Đoạn ASR được model đánh dấu: {text.strip()}"))
+                score=prediction["score"], description=" ".join(descriptions)))
     scores = RiskScores(violence=visual_score, toxic_language=max(text_scores) if text_scores else None)
     return AnalysisResult(
         analysis_id=str(uuid4()), mode="model", model_version=versions,
         decision="flagged" if flagged else "review", scores=scores,
         evaluated_labels=[key for key, score in scores.model_dump().items() if score is not None],
         evidence=evidence,
-        warnings=warnings + [
+        warnings=warnings + ([
+            "Cảnh báo Toxic kết hợp model và bộ luật từ/cụm từ. Chỉ số Toxic là điểm model, không phải điểm bộ luật; bộ luật có thể cảnh báo khi điểm model thấp.",
+            "Bộ luật đối chiếu transcript tự động; hãy nghe lại đoạn được chỉ ra vì ASR có thể chép sai. Gợi ý xem lại không tự tạo cảnh báo.",
+        ] if toxic_rules else []) + [
             "Bản thử nghiệm: chưa đánh giá toàn pipeline trên video ngắn tiếng Việt; dưới ngưỡng vẫn cần kiểm tra.",
             "Sexual và Dangerous Acts chưa được hỗ trợ.",
             "Toxic lấy điểm cao nhất theo đoạn ASR; ngưỡng mới được chọn trên bình luận, chưa hiệu chỉnh cho video.",
@@ -51,9 +71,16 @@ def combine_result(visual_score, visual_threshold, audio_segments, text_model, d
 
 
 class VideoService:
-    def __init__(self, directory):
+    def __init__(self, directory, *, toxic_mode=None):
         from ml.inference_config import load_config
         directory = Path(directory)
+        self.toxic_mode = toxic_mode if toxic_mode is not None else os.getenv("KIDSAFE_TOXIC_MODE", "hybrid")
+        if self.toxic_mode not in MODES:
+            raise ModelNotReadyError("KIDSAFE_TOXIC_MODE phải là hybrid hoặc model_only.")
+        try:
+            self.toxic_rules = load_rules() if self.toxic_mode == "hybrid" else None
+        except (OSError, ValueError, KeyError, TypeError) as exc:
+            raise ModelNotReadyError("Không nạp được bộ luật Toxic; kiểm tra code và lexicon.") from exc
         config = load_config(directory)
         for name in ("resnet18-imagenet1k-v1.pth", config["violence"], config["toxic"],
                      f"{config['asr_directory']}/model.bin", f"{config['asr_directory']}/tokenizer.json"):
@@ -100,16 +127,21 @@ class VideoService:
                 else:
                     # faster-whisper already filters silence jointly with avg_logprob.
                     # A second no_speech_prob-only gate discards accepted speech, e.g. rap.
-                    segments = [(s.start, s.end, s.text) for s in chunks if s.text.strip()]
+                    segments = [(s.start, s.end, s.text,
+                                 {"avg_logprob": s.avg_logprob, "compression_ratio": getattr(s, "compression_ratio", None)})
+                                for s in chunks if s.text.strip()]
                     if not segments:
                         warnings.append("Không nhận được lời nói đủ rõ; Toxic chưa được đánh giá.")
             except InvalidMediaError:
                 raise
             except (av.error.FFmpegError, RuntimeError, ValueError) as exc:
                 warnings.append(f"Không hoàn thành ASR ({type(exc).__name__}); Toxic chưa được đánh giá.")
+        rules = getattr(self, "toxic_rules", None)
+        version = f"{self.visual.version}+{self.text.version}+{getattr(self, 'asr_version', 'whisper-base')}+{ASR_FILTER_VERSION}"
+        if rules:
+            version += "+" + rules.version
         return combine_result(visual_score, self.visual.threshold, segments, self.text, info.duration,
-                              f"{self.visual.version}+{self.text.version}+{getattr(self, 'asr_version', 'whisper-base')}+{ASR_FILTER_VERSION}",
-                              warnings, visual_frame_count=frame_count)
+                              version, warnings, visual_frame_count=frame_count, toxic_rules=rules)
 
 
 @lru_cache(maxsize=1)
