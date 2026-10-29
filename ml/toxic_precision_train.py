@@ -226,7 +226,55 @@ def cpu_check():
     print(metrics, flush=True)
 
 
+def regression_check():
+    """Frozen-threshold written-text regression and rule-only dev diagnostics; no test."""
+    from ml.deep_toxic import predict as predict_comments
+    from ml.toxic_baseline import ROOT
+    private, public, protocol, manifest = load()
+    if (public/'written-validation.csv').exists():
+        raise ValueError('Regression already recorded')
+    selected = private/'toxic/selected'; selection = read(public/'selection.json')
+    for name, digest in selection['files'].items():
+        if sha256(selected/name) != digest:
+            raise ValueError('Selected model changed')
+    source = ROOT/'runs/model-improvement-2026-10-28/toxic/tokens-valid.json'
+    audit = dict(scope='Known ViCTSD validation only, not new independent test',
+        tokens_sha256=sha256(source), selected_sha256=selection['files']['model.safetensors'],
+        policy='Fixed thresholds from existing configs; report regression without changing selection',
+        speech_ablation='Rule-only and baseline-only recalibration diagnostic on same development validation; no change to selected candidate')
+    audit_path = public/'regression-protocol.json'
+    if audit_path.exists() and read(audit_path) != audit:
+        raise ValueError('Regression protocol mismatch')
+    write_json(audit_path, audit)
+    torch.set_num_threads(4); torch.backends.cuda.matmul.allow_tf32=False; torch.backends.cudnn.allow_tf32=False
+    device = 'cuda' if torch.cuda.is_available() else 'cpu'
+    tokenizer = AutoTokenizer.from_pretrained(BASE, local_files_only=True)
+    cache = read(source)
+    if cache['max_length'] != 192:
+        raise ValueError('Unexpected validation tokenization')
+    metrics, predictions = [], {}
+    for variant, directory in (('baseline', BASE), ('selected', selected)):
+        model = AutoModelForSequenceClassification.from_pretrained(directory, local_files_only=True).to(device)
+        scores = predict_comments(model, cache['rows'], tokenizer, device)
+        predictions[variant] = scores
+        metrics.append(dict(variant=variant, dataset='ViCTSD known validation',
+            **binary_metrics([r['labels'] for r in cache['rows']], scores, read(directory/'kidsafe-config.json')['threshold'])))
+        del model
+    write_csv(public/'written-validation.csv', metrics)
+    np.savez(private/'toxic/written-validation.npz', **predictions)
+    clips, _ = encode_clips(private, manifest, tokenizer, ('valid',))
+    flags, missing = components(clips, manifest)
+    with np.load(private/'toxic/baseline-train-valid.npz', allow_pickle=False) as baseline:
+        scores = baseline['valid']
+    base = read(public/'baseline-validation.json')
+    point, _ = operating_point(labels(clips['valid']), scores, flags['valid'], missing['valid'], base['model_only'], base['hybrid'])
+    rules_only = decision_metrics(list(labels(clips['valid']))+missing['valid'], list(flags['valid'])+[False]*len(missing['valid']))
+    write_json(public/'validation-ablation.json', dict(baseline_rethreshold=point, rule_only=rules_only,
+        scope='Descriptive development diagnostics only; does not replace frozen model selection'))
+    print(dict(written_validation=metrics, rules_only=rules_only, baseline_rethreshold_hybrid_fp=point['hybrid_fp']), flush=True)
+
+
 if __name__ == '__main__':
-    parser = argparse.ArgumentParser(description=__doc__); parser.add_argument('command', choices=['train','cpu-check'])
+    parser = argparse.ArgumentParser(description=__doc__); parser.add_argument('command', choices=['train','cpu-check','regression-check'])
     args = parser.parse_args()
-    train() if args.command == 'train' else cpu_check()
+    {'train':train, 'cpu-check':cpu_check, 'regression-check':regression_check}[args.command]()

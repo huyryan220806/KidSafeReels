@@ -1,0 +1,8 @@
+{
+  "total": 7,
+  "passed": 7,
+  "recovery_cases": 3,
+  "scope": "Seven known development/regression cases through live CPU API; pass means expected behavior, not accuracy",
+  "model_version": "violence-temporal-model-improvement-2026-10-28+toxic-phobert-model-improvement-2026-10-28+whisper-small-beam5+asr-native-filter-v2+asr-repeat-recovery-v1+toxic-hybrid-v1-56b3a177c7b2",
+  "limitations": "Includes a known unresolved Toxic miss; raw traces remain private"
+}

@@ -1,0 +1,5 @@
+﻿variant,split,total,fp,fn
+baseline,train,4,2,1
+baseline,valid,6,2,2
+selected,train,4,2,1
+selected,valid,6,0,2

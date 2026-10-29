@@ -1,0 +1,4 @@
+﻿variant,n,fp,fn,missing_asr,elapsed_seconds
+baseline,4,2,1,0,
+vi_repeat_guard,4,2,1,1,22.689004700001533
+vi_chunk10,4,2,0,0,34.73936909999975

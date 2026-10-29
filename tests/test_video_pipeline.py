@@ -188,3 +188,36 @@ def test_asr_native_filter_not_overridden_by_no_speech_probability(monkeypatch, 
     assert result.scores.toxic_language == expected
     assert result.decision == ("flagged" if expected is not None else "review")
     assert ("toxic_language" in result.evaluated_labels) == (expected is not None)
+
+
+@pytest.mark.parametrize('repeated', [False, True])
+def test_service_retries_only_repeated_asr_and_reports_actual_rule_evidence(monkeypatch, repeated):
+    pytest.importorskip('av'); pytest.importorskip('cv2')
+    whisper_audio=pytest.importorskip('faster_whisper.audio')
+    import numpy as np
+    from types import SimpleNamespace
+    from ml import media
+    from ml.toxic_rules import ToxicRules
+    service=VideoService.__new__(VideoService)
+    service.visual=SimpleNamespace(is_temporal=True,score_video=lambda path:.1,frame_count=80,threshold=.41,version='visual')
+    service.text=SimpleNamespace(version='text',predict=lambda text:dict(score=.1,flagged=False))
+    service.asr_version='small';service.asr_recovery_enabled=True;service.toxic_rules=ToxicRules()
+    calls=[]
+    def transcribe(*args,**kwargs):
+        calls.append(kwargs)
+        texts=['nó chứa trên đầu']*4 if len(calls)==1 and repeated else ['xin chào các bạn']
+        if len(calls)>1:texts=['địt mẹ']
+        return iter([SimpleNamespace(start=i,end=i+1,text=t,avg_logprob=-.2,compression_ratio=1.,no_speech_prob=.1)
+                     for i,t in enumerate(texts)]),SimpleNamespace(language='vi',language_probability=.9)
+    service.asr=SimpleNamespace(transcribe=transcribe)
+    monkeypatch.setattr(media,'inspect_video',lambda path:media.VideoInfo(5,True))
+    monkeypatch.setattr(whisper_audio,'decode_audio',lambda *a,**kw:np.ones(5*16000,dtype=np.float32))
+    result=service.analyze('fixture.mp4')
+    assert len(calls)==(2 if repeated else 1)
+    assert result.scores.toxic_language==.1  # Rule never fabricates a higher model score.
+    assert result.decision==('flagged' if repeated else 'review')
+    assert 'asr-repeat-recovery-v1' in result.model_version
+    assert any('ASR phát hiện transcript lặp' in w for w in result.warnings)==repeated
+    if repeated:
+        assert calls[1]['language']=='vi'
+        assert result.evidence[0].start_seconds==0 and result.evidence[0].end_seconds==1

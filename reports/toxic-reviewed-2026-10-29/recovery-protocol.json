@@ -1,0 +1,10 @@
+{
+  "version": "asr-repeat-recovery-v1",
+  "scope": "Additional development bug-fix audit after reviewed train/validation ASR experiment; not an independent test",
+  "trigger": "At least four identical normalized segment texts, each at least three words, occupying at least half of nonempty segments; original language must be vi with probability >=0.5",
+  "retry": "CPU INT8 small/beam5/temperature0; fixed10-second windows with1-second overlap; Vietnamese after original language gate; no VAD or prompt on retry",
+  "acceptance": "Nonempty output without the same repetition condition, otherwise keep original plus review warning; never choose using Toxic score, keyword presence or human labels",
+  "cohort": "170 train/validation clips from frozen speech200 split only; test excluded. Count trigger incidence, evaluate triggered clips with existing labels. Ten reviewed labels tracked separately from remaining weak labels.",
+  "release_gate": "No extra false positives and fewer false negatives on triggered development clips; pass timestamp/language/fallback tests and CPU integration check; keep Toxic/Violence v3 weights and thresholds unchanged",
+  "limitations": "Development trigger cases are not proof of general ASR accuracy; no WER/CER without full human transcripts"
+}

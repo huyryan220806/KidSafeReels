@@ -1,0 +1,23 @@
+{
+  "verified_utc": "2026-10-29T17:20:17.450414+00:00",
+  "pytest": {
+    "passed": 264,
+    "failed": 0,
+    "elapsed_seconds": 113.37
+  },
+  "http": {
+    "total": 7,
+    "passed": 7,
+    "recovery_cases": 3,
+    "scope": "Seven known development/regression cases through live CPU API; pass means expected behavior, not accuracy",
+    "model_version": "violence-temporal-model-improvement-2026-10-28+toxic-phobert-model-improvement-2026-10-28+whisper-small-beam5+asr-native-filter-v2+asr-repeat-recovery-v1+toxic-hybrid-v1-56b3a177c7b2",
+    "limitations": "Includes a known unresolved Toxic miss; raw traces remain private"
+  },
+  "active_manifest_sha256": "89a9123a4d0f74e9cbabfafc6c6cc0d1d35c8cb1a50faa1d40a9e3a2f077e299",
+  "verified_artifact_files": 17,
+  "source_files": {
+    "ml\\inference.py": "431bc2f976866fe80a9ff1f5172110b277aa6d45035b7ae28b37906548338bdf",
+    "ml\\asr_recovery.py": "369faa0ac42f8d3fade4854d07c628c8a0de6e76db5a56634dd70e0eb2ef44e2"
+  },
+  "limitations": "Development regression checks only; remaining Toxic classifier false positives and ASR misses are documented"
+}

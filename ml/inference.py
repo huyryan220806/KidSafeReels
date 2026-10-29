@@ -12,6 +12,7 @@ from uuid import uuid4
 from kidsafe.errors import InvalidMediaError, ModelNotReadyError
 from kidsafe.schemas import AnalysisResult, Evidence, RiskScores
 from ml.toxic_rules import MODES, lexical_decision, load_rules
+from ml.asr_recovery import VERSION as ASR_RECOVERY_VERSION, recover_repetition
 
 LOCK = threading.Lock()
 DEFAULT_MODELS = Path(__file__).resolve().parents[1] / "models/checkpoints"
@@ -94,6 +95,8 @@ class VideoService:
             self.text = load_text_classifier(directory / config["toxic"])
             self.asr_options = config["asr_options"]
             self.asr_version = config["asr_version"]
+            self.asr_recovery_enabled = (config["asr_directory"] == "faster-whisper-small"
+                                         and self.asr_options == {"beam_size": 5, "temperature": 0})
             self.asr = WhisperModel(str(directory / config["asr_directory"]), device="cpu", compute_type="int8",
                                     cpu_threads=4, local_files_only=True)
         except (OSError, ValueError, RuntimeError, KeyError, EOFError, pickle.UnpicklingError) as exc:
@@ -127,9 +130,18 @@ class VideoService:
                 else:
                     # faster-whisper already filters silence jointly with avg_logprob.
                     # A second no_speech_prob-only gate discards accepted speech, e.g. rap.
-                    segments = [(s.start, s.end, s.text,
-                                 {"avg_logprob": s.avg_logprob, "compression_ratio": getattr(s, "compression_ratio", None)})
-                                for s in chunks if s.text.strip()]
+                    decoded = [dict(start=s.start, end=s.end, text=s.text, avg_logprob=s.avg_logprob,
+                                    compression_ratio=getattr(s, "compression_ratio", None),
+                                    no_speech_prob=getattr(s, "no_speech_prob", None))
+                               for s in chunks if s.text.strip()]
+                    if getattr(self, "asr_recovery_enabled", False):
+                        decoded, recovery_warning = recover_repetition(self.asr, audio, decoded,
+                            language=metadata.language, language_probability=metadata.language_probability)
+                        if recovery_warning:
+                            warnings.append(recovery_warning)
+                    segments = [(s['start'], s['end'], s['text'],
+                                 {"avg_logprob": s['avg_logprob'], "compression_ratio": s['compression_ratio']})
+                                for s in decoded]
                     if not segments:
                         warnings.append("Không nhận được lời nói đủ rõ; Toxic chưa được đánh giá.")
             except InvalidMediaError:
@@ -138,6 +150,8 @@ class VideoService:
                 warnings.append(f"Không hoàn thành ASR ({type(exc).__name__}); Toxic chưa được đánh giá.")
         rules = getattr(self, "toxic_rules", None)
         version = f"{self.visual.version}+{self.text.version}+{getattr(self, 'asr_version', 'whisper-base')}+{ASR_FILTER_VERSION}"
+        if getattr(self, "asr_recovery_enabled", False):
+            version += "+" + ASR_RECOVERY_VERSION
         if rules:
             version += "+" + rules.version
         return combine_result(visual_score, self.visual.threshold, segments, self.text, info.duration,

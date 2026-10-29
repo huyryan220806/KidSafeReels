@@ -16,7 +16,7 @@ Mở [phiếu local](http://127.0.0.1:8767/review-huy.html). Nếu máy chủ đ
 
 Cũng có thể mở trực tiếp `runs/toxic-precision-2026-10-29/review10/review-huy.html`. Gói dùng lại giao diện có lưu nháp, nạp/xuất JSON và kiểm bằng chứng. Video và HTML phải ở cùng cấu trúc thư mục.
 
-- 10 clip, tổng 175 giây, từ10 nhóm nguồn:4train+6validation, không có test. Chọn5 ca nghi báo nhầm +5 ca nghi bỏ sót theo baseline và nhãn nguồn; đây là bất đồng cần nghe xác nhận, chưa phải10 lỗi đã được người xác minh.
+- 10 clip, tổng 175 giây, từ10 nhóm nguồn:4train+6validation, không có test. Chọn5 ca nghi báo nhầm +5 ca nghi bỏ sót theo baseline với transcript GPU đợt trước và nhãn nguồn; đây là bất đồng cần nghe xác nhận, chưa phải10 lỗi đã được người xác minh.
 - Phiếu ẩn nhãn nguồn, dự đoán và ASR. Nghe hết clip, xác nhận ngôn ngữ, chọn0/1/chưa rõ. Nhãn1 cần mốc thời gian và câu nghe được. Không nghe rõ thì không đoán nhãn0.
 - Khuyến khích chép lời nghe được. Chỉ tick đã đối chiếu toàn bộ transcript nếu thực sự chép và đối chiếu toàn bộ; nếu chép một phần, ghi rõ trong ghi chú.
 - Bấm **Tải JSON nhãn hiện tại**, gửi đường dẫn file cho Codex. Nhãn validation chỉ dùng đánh giá/chẩn đoán phát triển, không đưa vào fit. Mẫu được chọn theo lỗi không dùng tính Accuracy đại diện.
@@ -49,6 +49,9 @@ Sau khi đủ170 cache train/validation:
 ```powershell
 .\.venv-train\Scripts\python.exe -m ml.toxic_precision_train train
 .\.venv\Scripts\python.exe -m ml.toxic_precision_train cpu-check
+.\.venv-train\Scripts\python.exe -m ml.toxic_precision_train regression-check
 ```
 
 Train resume từ epoch cuối đã lưu optimizer/RNG; không chạy lại khi selection đã khóa. CPU check chỉ đánh giá28validation cùng transcript, không phải test mới. Checkpoint ứng viên trong `runs/toxic-precision-2026-10-29/toxic/selected/`; không thay `models/artifacts.json`. Bảng tổng hợp/đồ thị không có media hoặc transcript nằm trong `reports/toxic-precision-2026-10-29/`.
+
+**Trạng thái cuối:** các lệnh đã hoàn tất, không chạy lại run này để dò chỉnh. Hybrid validation video giảm FP2→0, FN giữ2; nhưng ViCTSD validation Recall giảm56,90%→37,50%. Ứng viên giữ riêng. [Báo cáo và giới hạn](../reports/TOXIC_PRECISION_2026-10-29.md). Đã nhập10nhãn Huy và tích hợp phục hồi ASR lặp trong run tiếp theo; xem [bàn giao30/10](ASR_RECOVERY_2026-10-30.md). Không tự điền nhãn khác hoặc đưa validation vào train.

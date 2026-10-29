@@ -1,0 +1,4 @@
+﻿variant,n,fp,fn
+baseline,10,4,3
+all_chunked,10,5,1
+conditional_recovery,10,4,2

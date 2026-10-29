@@ -2,6 +2,8 @@
 
 Mini project môn **Học máy và ứng dụng**: hỗ trợ người lớn sàng lọc nội dung video ngắn trước khi cho trẻ xem.
 
+**Cập nhật30/10:** đã nhập10nhãn Huy nghe duyệt, sửa ASR lặp bằng nhận dạng lại có điều kiện, giữ trọng số/ngưỡng Toxic và Violence v3.264tests pass; [báo cáo/CSV/đồ thị](reports/TOXIC_REVIEW_ASR_2026-10-30.md), [mở app/bàn giao](docs/ASR_RECOVERY_2026-10-30.md). Kết quả mới có hậu tố `asr-repeat-recovery-v1`; sau cập nhật code cần mở lại API. Trên10ca phát triển, bỏ sót3→2 nhưng báo nhầm vẫn4; chưa phải Accuracy test mới. Ứng viên Toxic precision5epoch đã có [kết quả riêng](reports/TOXIC_PRECISION_2026-10-29.md), chưa thay app vì Recall bình luận giảm.
+
 **Train dữ liệu bổ sung 29/10 đã xong:**5epoch PhoBERT trên nhãn yếu speech200,4 cấu hình Violence với100AIRTLab thêm vào train. Có [Accuracy/Loss/F1, CSV và đồ thị](reports/LOCAL_ADAPTATION_2026-10-29.md), [cách tái tạo](docs/LOCAL_ADAPTATION_2026-10-29.md). **App giữ v3 + hybrid:** Toxic CPU hybrid tăng F1 nhưng FP6→8; Violence RLVS giảm F1 và FN5→14. Hai checkpoint ứng viên lưu riêng, chưa phát hành thay app.
 
 **Toxic hybrid 29/10:** Whisper → PhoBERT + bộ luật từ/cụm từ đã chạy trên app. Clip lỗi `022` chuyển sang cảnh báo, `048` vẫn cảnh báo, `019` còn cần xử lý. Điểm model giữ nguyên; app giải thích khi cảnh báo từ bộ luật. ViCTSD test F1 vẫn 53,39%, chưa có bằng chứng tăng chất lượng tổng thể hoặc giảm FP. [Cách dùng/baseline](docs/TOXIC_HYBRID.md), [CSV/đồ thị/kết quả](reports/TOXIC_HYBRID_2026-10-29.md). Sau cập nhật cần dừng và mở lại app; không có lượt train mới trên speech200.

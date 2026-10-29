@@ -1,0 +1,62 @@
+{
+  "run_id": "toxic-reviewed-2026-10-29",
+  "created_utc": "2026-10-29T16:59:11.338772+00:00",
+  "manifest_sha256": "434b56e46937d379a6c412f1af8548c35a2a9efed4bb0a9d82134d641ef2aabc",
+  "annotation_sha256": "65a16045d68357408832547e17b32beb5ca9b4bcd3a3f952f0a88597fcad6898",
+  "resolved_sha256": "cd5257e93590027b4baa7d54b6941db68fa2b7a5b83496d53de01bab8a3db099",
+  "original_status": {
+    "assigned": 10,
+    "completed": 9,
+    "uncertain": 0,
+    "positive": 5,
+    "negative": 4,
+    "missing": 1,
+    "note": "Structure only, not a quality audit or adjudicated gold"
+  },
+  "resolved_status": {
+    "assigned": 10,
+    "completed": 10,
+    "uncertain": 0,
+    "positive": 5,
+    "negative": 5,
+    "missing": 0,
+    "note": "Structure only, not a quality audit or adjudicated gold"
+  },
+  "violence_sha256": "85dd985886b7013e7f6600698e2c0c2bc7cb71683f5ace893c720b8c74cd36b6",
+  "lexicon_sha256": "56b3a177c7b230ced198535cf2a7c99e09c917e4364f8d31f92c39e25ae821b0",
+  "split_counts": {
+    "valid": 6,
+    "train": 4
+  },
+  "full_verified_transcripts": 0,
+  "baseline": "Frozen CPU INT8 small/beam5 traces from toxic-precision-2026-10-29",
+  "variants": {
+    "vi_repeat_guard": {
+      "language": "vi",
+      "vad_filter": true,
+      "repetition_penalty": 1.1,
+      "no_repeat_ngram_size": 3
+    },
+    "vi_chunk10": {
+      "language": "vi",
+      "vad_filter": false,
+      "seconds": 10,
+      "overlap": 1
+    }
+  },
+  "shared": {
+    "task": "transcribe",
+    "beam_size": 5,
+    "temperature": 0,
+    "condition_on_previous_text": false,
+    "device": "cpu",
+    "compute_type": "int8",
+    "cpu_threads": 4,
+    "prompt": null
+  },
+  "language_policy": "Only retry clips whose original full ASR confirmed Vietnamese probability >= 0.5",
+  "selection": "Only four reviewed TRAIN clips: fewer FN without more FP using active v3+rules; then fewer FP/FN and lower elapsed time",
+  "validation": "Evaluate the selected ASR configuration once on six reviewed VALID clips; not independent test",
+  "limitations": "Error-selected sample, one reviewer, no full reference transcripts; no WER/CER or general app accuracy",
+  "deployment": "diagnostic candidate only; no model or active pipeline changed"
+}

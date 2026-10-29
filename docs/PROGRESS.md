@@ -1,10 +1,20 @@
 # Tiến độ KidSafeReels
 
-## Toxic ưu tiên giảm báo nhầm, giữ Violence v3 — đang thực hiện 29/10/2026
+## Đã nhập10nhãn Huy và sửa ASR lặp — 30/10/2026
+
+- Nhận JSON từ Chrome, kiểm cấu trúc và lưu nguyên bản. Huy xác nhận thêm một nhãn trống thành1, một câu nhấn mạnh thành0: **10/10,5Toxic+5bình thường**,4train+6validation. Giữ nguồn xác nhận riêng;190clip khác vẫn là nhãn yếu. Không có transcript đầy đủ đã duyệt nên chưa tính WER/CER.
+- Hai thử nghiệm ASR chọn trên4train: chia đoạn10giây/chồng1giây cứu ca bị lặp, nhưng áp dụng mọi clip làm validation6 tăng FP2→3. Đã loại cách bật đại trà.
+- Tích hợp **chỉ retry khi transcript lặp bất thường**, sau gate tiếng Việt; không dùng điểm Toxic/từ chửi để chọn transcript.170cache dev có3ca kích hoạt (1nhãn Huy,2nhãn nguồn), cả3 nay cảnh báo;167cache khác giữ nguyên. Trên10clip Huy duyệt: FP giữ4,FN3→2. Không phải test mới, chưa chứng minh giảm báo nhầm classifier.
+- **264tests pass**, API thật kiểm riêng,17artifact giữ checksum. App giữ hai classifier v3/bộ luật, thêm hậu tố `asr-repeat-recovery-v1`; cần worker nạp lại code. [Báo cáo/CSV/đồ thị](../reports/TOXIC_REVIEW_ASR_2026-10-30.md), [bàn giao/mở app](ASR_RECOVERY_2026-10-30.md).
+- Trạng thái tiếp tục local: `runs/toxic-reviewed-2026-10-29/CONTINUE.md`. Còn giảm FP của classifier trên dữ liệu nói bình thường, kiểm không mất Recall bình luận và bổ sung test video mới chưa xem. Không dùng validation vào fit hoặc tự nâng190nhãn yếu thành nhãn người đã xác nhận.
+
+## Toxic ưu tiên giảm báo nhầm, giữ Violence v3 — hoàn tất thí nghiệm 29/10/2026
 
 - Theo Huy chốt: giữ nguyên Violence v3/ngưỡng0,41; cải thiện riêng Toxic. Đã khóa protocol `toxic-precision-2026-10-29`, tái dùng split142/28/30; không mở test cũ cho đợt này.
-- Đã chuẩn bị phiếu nghe duyệt10 clip (4train+6validation,10nhóm nguồn,175giây),5nghi FP+5nghi FN theo nhãn nguồn. **0/10 nhãn người**, không tự sửa nhãn theo dự đoán. Phiếu local cổng8767; có xuất/nạp JSON và kiểm bằng chứng. [Hướng dẫn](TOXIC_PRECISION_2026-10-29.md).
-- Đang tạo lại ASR CPU INT8 trên170clip train/validation, cache từng clip. Kế tiếp fine-tune MIL5epoch tăng loss âm tính lên2, chọn theo ràng buộc FP/Recall validation, kiểm lại CPU và lưu ứng viên riêng. Chưa có kết quả train mới; app vẫn v3+hybrid.
+- Đã chuẩn bị phiếu nghe duyệt10 clip (4train+6validation,10nhóm nguồn,175giây),5nghi FP+5nghi FN theo nhãn nguồn. **Đã nhận JSON và nhập10nhãn sau xác nhận trong chat**, xem phần30/10ở trên. Phiếu local cổng8767; có xuất/nạp JSON và kiểm bằng chứng. [Hướng dẫn](TOXIC_PRECISION_2026-10-29.md).
+- Đã tạo ASR CPU INT8 cho170clip; đủ138train/28validation,4train thiếu ASR giữ riêng. Fine-tune MIL5epoch, loss âm tính nhân2, chọn epoch5/ngưỡng0,84 bằng validation. **CPU hybrid validation: FP2→0,FN2→2,F185,71%→92,31%; model-only loss1,6738→0,7369**. Đây là validation28clip nhãn yếu, không phải test mới.
+- Regression ViCTSD validation1975bình luận: model-only FP94→34 nhưng FN100→145, Recall56,90%→37,50%, F157,64%→49,29%. **Giữ ứng viên riêng, app tiếp tục v3+hybrid**; không đổi Violence. Cần người nghe duyệt để phân biệt nhãn sai, ASR sai và lỗi classifier trước thí nghiệm tiếp.
+-41tests mục tiêu pass;8tệp checkpoint kiểm hash; CPU28validation không đổi quyết định so với GPU cùng transcript, lệch điểm max1,574e-5.17artifact app vẫn đúng manifest. [Báo cáo/CSV/đồ thị](../reports/TOXIC_PRECISION_2026-10-29.md). Điểm tiếp tục local `runs/toxic-precision-2026-10-29/CONTINUE.md`; không còn job train/ASR đang chạy sau khi hoàn tất.
 
 ## Hoàn tất train speech200 + AIRTLab100 — 29/10/2026
 
