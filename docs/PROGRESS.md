@@ -1,5 +1,15 @@
 # Tiến độ KidSafeReels
 
+## Chuẩn bị gán nhãn Toxic cho thành viên app — 02/11/2026
+
+- Theo yêu cầu Huy, tạo gói **30 clip / 30 nhóm nguồn / 561,34 giây**: 10 clip đối chiếu độc lập với Huy + 20 clip train bổ sung ưu tiên bất đồng với nhãn nguồn. Dùng dự đoán CPU v3 và cập nhật ba cache phục hồi ASR đã có trước khi chọn mẫu; không chạy model mới. Nhãn nguồn chỉ giúp chọn ca cần nghe, không phải đáp án cho người gán.
+- Giữ split **24 train / 6 validation / 0 test**. Không chuyển validation vào train; mẫu ưu tiên tìm lỗi không đại diện cho Accuracy toàn app. Phiếu không chứa nhãn Huy, nhãn nguồn, ASR, điểm model hoặc tên tệp gốc; cả 30 nhãn app ban đầu `null`.
+- Gói portable `data/private/app-toxic-dev30-2026-11-02/app-toxic-dev30-2026-11-02.zip`, khoảng 25,54 MiB, có HTML, 30 video, nút mở Windows, hướng dẫn và checksum. Có thể giải nén ở vị trí khác và mở Chrome/Edge không cần cài model. `review-manifest.json` chỉ có trường cần cho phiếu; ánh xạ nguồn và cách chọn giữ ở `selection-private.json` ngoài ZIP.
+- [Hướng dẫn thành viên app](APP_TOXIC_ANNOTATION.md) gồm mở phiếu, quy tắc nhãn, chép lời, mốc bằng chứng, tải/nạp JSON, xử lý lỗi tải và lệnh kiểm tra tùy chọn. [Tin nhắn bàn giao](APP_TOXIC_ANNOTATION_MESSAGE.md) để Huy gửi kèm ZIP; chưa tự nhắn thành viên app.
+- **36 tests mục tiêu pass** cho chọn mẫu, loại test/trùng nguồn, bảo vệ bản nháp, gói portable, nhãn trống, kiểm manifest/bằng chứng/chưa rõ. Kiểm checksum 35 tệp trong ZIP gồm 30 video, cú pháp JavaScript và checker không cần thư viện ML đều qua; 17 artifact v3 còn đúng checksum. Tái dùng giao diện phiếu đã có, chưa kiểm thủ công phát/tải trên trình duyệt trong đợt này. Thống kê và checksum: [bản ghi gói](../reports/APP_TOXIC_ANNOTATION_2026-11-02.json). Code/tài liệu được đưa lên nhánh `feat/ml-release`; media và phiếu nhãn không vào Git.
+- **Đang chờ:** Huy gửi ZIP riêng, thành viên app nghe và nộp JSON. Khi nhận, lưu nguyên bản, kiểm cấu trúc/mức hoàn tất, đối chiếu 10 ca chéo rồi phân xử bất đồng có lý do. Chưa có nhãn app thật, chưa đo đồng thuận hoặc train Toxic mới; giữ nguyên model Toxic/Violence v3.
+- Điểm tiếp tục local: `data/private/app-toxic-dev30-2026-11-02/CONTINUE.md`. Không chạy lại `prepare` để ghi đè gói đã bàn giao; dùng `python -m ml.toxic_app_review check --pack THU_MUC_PHIEU --input FILE_JSON --require-complete` khi nhận bài.
+
 ## Đã nhập10nhãn Huy và sửa ASR lặp — 30/10/2026
 
 - Nhận JSON từ Chrome, kiểm cấu trúc và lưu nguyên bản. Huy xác nhận thêm một nhãn trống thành1, một câu nhấn mạnh thành0: **10/10,5Toxic+5bình thường**,4train+6validation. Giữ nguồn xác nhận riêng;190clip khác vẫn là nhãn yếu. Không có transcript đầy đủ đã duyệt nên chưa tính WER/CER.

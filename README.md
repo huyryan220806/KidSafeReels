@@ -2,6 +2,8 @@
 
 Mini project môn **Học máy và ứng dụng**: hỗ trợ người lớn sàng lọc nội dung video ngắn trước khi cho trẻ xem.
 
+**Bàn giao gán nhãn 02/11:** đã chuẩn bị phiếu Toxic cho thành viên app: 30 clip, mở trực tiếp bằng Chrome/Edge, không cần model. Đọc [hướng dẫn nhận ZIP, mở phiếu và gửi JSON](docs/APP_TOXIC_ANNOTATION.md). Video gửi riêng trong `app-toxic-dev30-2026-11-02.zip`; clone GitHub chưa có video. [Tin nhắn bàn giao để Huy gửi](docs/APP_TOXIC_ANNOTATION_MESSAGE.md). Nhãn app hiện còn trống; không có lượt train mới.
+
 **Cập nhật30/10:** đã nhập10nhãn Huy nghe duyệt, sửa ASR lặp bằng nhận dạng lại có điều kiện, giữ trọng số/ngưỡng Toxic và Violence v3.264tests pass; [báo cáo/CSV/đồ thị](reports/TOXIC_REVIEW_ASR_2026-10-30.md), [mở app/bàn giao](docs/ASR_RECOVERY_2026-10-30.md). Kết quả mới có hậu tố `asr-repeat-recovery-v1`; sau cập nhật code cần mở lại API. Trên10ca phát triển, bỏ sót3→2 nhưng báo nhầm vẫn4; chưa phải Accuracy test mới. Ứng viên Toxic precision5epoch đã có [kết quả riêng](reports/TOXIC_PRECISION_2026-10-29.md), chưa thay app vì Recall bình luận giảm.
 
 **Train dữ liệu bổ sung 29/10 đã xong:**5epoch PhoBERT trên nhãn yếu speech200,4 cấu hình Violence với100AIRTLab thêm vào train. Có [Accuracy/Loss/F1, CSV và đồ thị](reports/LOCAL_ADAPTATION_2026-10-29.md), [cách tái tạo](docs/LOCAL_ADAPTATION_2026-10-29.md). **App giữ v3 + hybrid:** Toxic CPU hybrid tăng F1 nhưng FP6→8; Violence RLVS giảm F1 và FN5→14. Hai checkpoint ứng viên lưu riêng, chưa phát hành thay app.
