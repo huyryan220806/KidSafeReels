@@ -1,5 +1,42 @@
 # Tiến độ KidSafeReels
 
+## Thử ngữ cảnh và phân loại lỗi dev — 15/11/2026
+
+- Hoàn thiện báo cáo/đồ thị train 13/11; render lại confusion matrix từ cache để đọc rõ số. Không train hoặc chấm test lại.
+- Khóa protocol `toxic-context-2026-11-15`, thử 2 checkpoint × 2 cách đọc trên 142 train + 28 validation; ngưỡng/trọng số/ASR/bộ luật giữ nguyên. Cửa sổ giữ đoạn giữa và thêm đoạn trước/sau, tối đa 192 token; 926 cửa sổ, 913 có thêm ngữ cảnh, 1 đoạn giữa vượt giới hạn.
+- Validation v3: FP2→1, FN3 giữ, F1 82,76%→85,71%. Checkpoint 13/11: FP2→1 nhưng FN2→3, F1 86,67%→85,71%. Không đạt gate so với cả hai mốc, `selected: null`; chưa kiểm CPU ngữ cảnh hoặc phát hành. Không dùng test chọn tiếp.
+- Phân loại 40 ca lỗi dev của checkpoint 13/11: 20 FP chỉ classifier, 2 FP có luật trái nhãn Huy; 4 FN thiếu ASR, 2 FN có từ thuộc luật nhưng bị gate audio, 12 FN dưới ngưỡng và không có từ thuộc luật. Bảng có mốc/bằng chứng/ASR giữ private, không tự sửa nhãn hoặc tính WER/CER.
+- **284 tests pass**, 134,65 giây; 17 artifact v3 đúng checksum. Suy luận từng đoạn trên GPU so cache CPU cũ không đổi quyết định, lệch max 1,574e-5. Đồ thị đã kiểm trực quan. Không thay runtime, API hoặc Violence v3.
+- [Báo cáo/CSV/hình](../reports/TOXIC_CONTEXT_2026-11-15.md), [hướng dẫn tiếp tục](TOXIC_CONTEXT_2026-11-15.md). Tiến độ riêng: `runs/toxic-context-2026-11-15/CONTINUE.md` và `continuation-state.json`. Không có job còn chạy sau hoàn tất. Nhãn Huy 200 đã đủ, không cần gán lại; ưu tiên xử lý ASR và classifier trên dev, sau đó mới kiểm phát hành/test mới.
+
+## Nhận đủ 200 nhãn Huy, tiếp tục cải thiện Toxic — 13/11/2026
+
+- File JSON mới kiểm cấu trúc hợp lệ: **200/200, 102 Toxic / 98 bình thường**, xác nhận tiếng Việt và nghe đủ; không có mục chưa rõ. Không có transcript đầy đủ đã duyệt nên chưa tính WER/CER. Giữ nguyên bản tải, nguồn nhãn và split; không coi đây là đồng thuận độc lập của hai người.
+- Chuẩn bị run `toxic-human-2026-11-13` riêng với CPU ASR + phục hồi lặp hiện hành, PhoBERT v3 fine-tune 5 epoch và học lại ViCTSD train cân bằng. Ràng buộc validation xét cả lời nói và bình luận để kiểm soát giảm Recall; không sử dụng test chọn ngưỡng. Violence v3 giữ nguyên.
+- [Quy trình và cách tiếp tục](TOXIC_HUMAN_2026-11-13.md). Trạng thái thực tế xem `reports/toxic-human-2026-11-13/progress.json`, `selection.json`, `evaluation.json`; không coi chuẩn bị protocol là đã train xong. Raw nhãn/media/checkpoint vẫn private.
+- **Đã train đủ 5 epoch và evaluate CPU xong:** chọn epoch 2 / ngưỡng 0,80. Validation hybrid F1 **82,76% → 86,67%**, FP2 giữ, FN3→2. ViCTSD validation Recall 56,90%→58,62%, F1 57,64%→58,37%; FP94→98 / FN100→96. Epoch 5 không đạt ràng buộc nên không lấy checkpoint cuối.
+- **Test cũ 30 clip:** hybrid Accuracy 63,33%, F1 64,52%, FP5/FN6 giữ nguyên; 0 quyết định model/hybrid thay đổi. Model-only loss trên 29 clip có ASR 2,002644→1,235827 nhưng chưa cải thiện phân loại. Không gọi đây là test độc lập mới hoặc accuracy toàn app. Chưa đạt mục tiêu giảm báo nhầm nên **giữ model app v3**, không tạo ZIP mới; Violence v3 giữ nguyên.
+- **280 tests pass**, CPU/GPU không đổi quyết định trên 166 clip dev có ASR, lệch max 1,699e-5; 17 artifact active đúng checksum. Có CSV train/validation/test, history 5 epoch, confusion matrix, PR/ROC và đồ thị đã kiểm. [Báo cáo đầy đủ](../reports/TOXIC_HUMAN_2026-11-13.md). Không có job train/evaluate còn chạy sau hoàn tất.
+- Nhãn 200 đã nhận, **không yêu cầu Huy gán lại**. Bước sau tập trung classifier/gộp đoạn trên dev và đối chiếu bằng chứng ASR; transcript toàn clip chưa có nên chưa có WER/CER. Điểm tiếp tục `runs/toxic-human-2026-11-13/CONTINUE.md`; các stage hiện tại đã khóa, không chạy test để dò tiếp.
+
+## Huy chọn gán nhãn toàn bộ 200 clip — 05/11/2026
+
+- Huy mở rộng việc nghe duyệt từ 20 clip còn thiếu sang toàn bộ speech200. Đã tạo phiếu riêng `data/private/huy-toxic-full200-2026-11-05/annotation/review-huy.html`, người rà soát Huy; không ghi đè phiếu 20 clip, phiếu app hoặc nhãn cũ.
+- Giữ 10 nhãn Huy đã xác nhận và 1 nhãn hợp lệ từ bản JSON speech200 trong Downloads: ban đầu **11/200, còn 189**. Kiểm cùng ID/SHA giữa intake và manifest split; sao lưu đầu vào và nguồn từng nhãn. Không dùng đề xuất máy/app để điền sẵn nhãn. Bản nháp trong trình duyệt chưa xuất không được tự đọc/ghép.
+- Giao diện hỗ trợ **10 lượt × 20 clip**, nút tới clip chưa gán; xuất JSON luôn giữ toàn bộ 200 mục. Khôi phục/nạp JSON và chuyển lượt không làm mất nhãn đã nhập. Tính năng bật theo cấu hình, các phiếu cũ giữ hành vi cũ.
+- Kiểm checksum đủ **200 video**, nhãn khởi tạo hợp lệ, cú pháp JavaScript qua. **37 tests liên quan pass**, gồm kiểm hành vi chuyển lượt, giữ nhãn cũ và xuất/nạp JSON đảo thứ tự. Chưa kiểm trình duyệt thủ công. Mở HTML trực tiếp bằng Chrome/Edge; không có server được xác nhận chạy sau lệnh khởi động bị bộ duyệt tự động chặn trước đó.
+- Tổng audio **65 phút 41 giây**. [Hướng dẫn mở/lưu phiếu](HUY_FULL200_ANNOTATION.md). JSON dự kiến `annotations-huy-toxic-full200-2026-11-05.json`; nếu có nhãn mới trong phiếu 20 clip cũ, giữ JSON riêng để ghép sau, không ghi đè.
+- Split **142 train / 28 validation / 30 test** giữ nguyên. Gán nhãn test không cho phép dùng vào fit/chọn ngưỡng; test đã xem không thành test độc lập mới. Chưa train hoặc thay model. Audit/nguồn nhãn/media giữ private trong thư mục full200.
+
+## Kiểm tra gói nhãn thành viên app — 05/11/2026
+
+- Nhận `reports/Handoff_App/`: đúng 30 ID, manifest và 30 SHA video đều khớp gói app30. JSON là bản nháp có hỗ trợ ASR (`kidsafe.assisted-toxic-review.v2`), không phải phiếu người gán hoàn chỉnh.
+- 12 nhãn có sửa qua chat của Tiến; 18 vẫn là đề xuất tự động. 23 câu bằng chứng người gửi có 2 mốc máy ước lượng / 21 chưa xác định, chưa có xác nhận mốc người nghe. Cả 30 phiếu `human_annotation` chưa xác nhận nghe đủ, chưa có transcript đầy đủ đã duyệt. Không chuyển nhãn máy/mốc máy thành gold hoặc tính WER/CER.
+- Đối chiếu 10 nhãn Huy cũ hợp lệ: có 5 clip trùng với phần Tiến sửa và cùng nhãn, nhưng đã tham khảo ASR nên không công bố đồng thuận mù độc lập. Công việc còn lại để hoàn tất 30 clip: **13 clip cần người gán mới + 7 clip mới đã có ý kiến Tiến cần hoàn tất xác nhận/mốc**; 10 nhãn Huy cũ được giữ. 20 clip bổ sung đều thuộc train; 6 validation giữ ngoài fit.
+- Đã lưu checklist private `data/private/app-toxic-dev30-2026-11-02/AUDIT_HANDOFF_2026-11-05.md` và bản sao nguyên gói nhận trong `submissions/received-2026-11-05/`. Bổ sung bỏ qua `reports/Handoff_App/` trong Git để transcript/nhãn không bị commit nhầm.
+- Chưa train hoặc tạo metric mới, không đổi model. Ưu tiên hoàn tất 20 clip train mới trước thí nghiệm tiếp; chưa cần gán lại toàn bộ 200 clip. Gói 30 clip phát triển không thay thế test mới độc lập.
+- Theo yêu cầu mở phiếu, đã tạo trang riêng đứng tên Huy tại `data/private/huy-toxic-dev20-2026-11-05/annotation/review-huy.html`: đúng 20 clip train còn lại, nhãn trống, không chép đề xuất máy. Kiểm checksum 20 video, payload và cú pháp JavaScript qua. Mở file HTML trực tiếp bằng Chrome/Edge; chưa có server chạy vì lệnh khởi động bị bộ duyệt tự động chặn. Hướng dẫn nằm ở `data/private/huy-toxic-dev20-2026-11-05/HUONG_DAN.md`.
+
 ## Chuẩn bị gán nhãn Toxic cho thành viên app — 02/11/2026
 
 - Theo yêu cầu Huy, tạo gói **30 clip / 30 nhóm nguồn / 561,34 giây**: 10 clip đối chiếu độc lập với Huy + 20 clip train bổ sung ưu tiên bất đồng với nhãn nguồn. Dùng dự đoán CPU v3 và cập nhật ba cache phục hồi ASR đã có trước khi chọn mẫu; không chạy model mới. Nhãn nguồn chỉ giúp chọn ca cần nghe, không phải đáp án cho người gán.

@@ -1,5 +1,9 @@
 # Kế hoạch một tuần và phân công
 
+**Tiếp tục 15/11 đã hoàn tất:** thử ngữ cảnh trên train/validation, chưa đạt điều kiện giảm FP đồng thời giữ Recall; không chấm test hoặc thay app. Đã lưu 40 ca lỗi dev để ưu tiên ASR và classifier câu bình thường. 284 tests pass; [kết quả](../reports/TOXIC_CONTEXT_2026-11-15.md), [quy trình tiếp theo](TOXIC_CONTEXT_2026-11-15.md). 200 nhãn Huy đã hoàn tất; Violence giữ v3.
+
+**Hoàn tất đợt nhãn/train 13/11:** nhận 200 nhãn Huy, giữ 142 train / 28 validation / 30 test; train 5 epoch Toxic có học lại ViCTSD train, chọn epoch 2 / ngưỡng 0,80. Validation cải thiện nhưng test cũ không đổi quyết định; giữ model app v3 / Violence v3. [Báo cáo và giới hạn](../reports/TOXIC_HUMAN_2026-11-13.md). Nhãn 200 đã hoàn tất; bước tiếp theo xử lý classifier/ASR trên dev và bổ sung test độc lập ở đợt sau, không dò test cũ.
+
 **Train bổ sung theo yêu cầu 29/10 đã hoàn tất:** speech200 nhãn yếu đã chia nhóm142/28/30 và train5epoch; AIRTLab100 chuyển toàn nhóm vào train +RLVS1157, không còn là externaltest ứng viên. Có đánh giá CPU/GPU, CSV và đồ thị. Hai ứng viên chưa thay app vì Toxic tăng FP và Violence giảm Recall. [Báo cáo](../reports/LOCAL_ADAPTATION_2026-10-29.md), [tiếp tục](LOCAL_ADAPTATION_2026-10-29.md). Nhãn người duyệt vẫn còn thiếu; việc train lần này không hoàn tất yêu cầu đánh giá gold.
 
 **Toxic hybrid 29/10:** đã triển khai hướng Huy chốt: Whisper tiếng Việt → PhoBERT + luật từ/cụm từ, giải thích nguồn cảnh báo trên app/TXT. `022` được cảnh báo thêm, `019` vẫn review; ViCTSD test F1 giữ 53,39%. Có ablation CSV/đồ thị, không train mới. [Thiết kế và chạy](TOXIC_HYBRID.md), [báo cáo](../reports/TOXIC_HYBRID_2026-10-29.md). Tiếp theo vẫn là nhãn speech200/nhóm nguồn và test đích giữ riêng; không dùng các ca đã xem làm test độc lập.

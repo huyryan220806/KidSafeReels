@@ -2,6 +2,12 @@
 
 Mini project môn **Học máy và ứng dụng**: hỗ trợ người lớn sàng lọc nội dung video ngắn trước khi cho trẻ xem.
 
+**Cập nhật 15/11:** đã hoàn thiện báo cáo train từ 200 nhãn và thử đọc thêm ngữ cảnh ASR trên 170 clip dev. FP validation giảm 2→1 nhưng FN của checkpoint 13/11 tăng 2→3, nên chưa đổi app. Có bảng phân loại 40 ca lỗi dev, CSV và đồ thị; 284 tests pass, giữ Violence v3. [Kết quả và bước tiếp theo](reports/TOXIC_CONTEXT_2026-11-15.md), [điểm tiếp tục](docs/TOXIC_CONTEXT_2026-11-15.md).
+
+**Cập nhật 13/11:** đã nhận đủ 200 nhãn Huy, train 5 epoch Toxic kèm học lại bình luận và chấm CPU. Validation hybrid F1 82,76% → 86,67%; test cũ 30 clip F1 giữ 64,52% / FP5 / FN6 nên ứng viên chưa thay app. Giữ Violence v3; 280 tests pass. [Báo cáo Accuracy/Loss, CSV và đồ thị](reports/TOXIC_HUMAN_2026-11-13.md), [tiếp tục run](docs/TOXIC_HUMAN_2026-11-13.md). Huy không cần gán lại 200 clip.
+
+**Gán nhãn 05/11:** Huy chọn nghe toàn bộ 200 clip. Đã chuẩn bị phiếu riêng theo 10 lượt × 20, giữ 11 nhãn Huy cũ, còn 189 clip. [Cách mở phiếu full200 và lưu JSON](docs/HUY_FULL200_ANNOTATION.md). Video/phiếu ở máy Huy; chưa train mới.
+
 **Bàn giao gán nhãn 02/11:** đã chuẩn bị phiếu Toxic cho thành viên app: 30 clip, mở trực tiếp bằng Chrome/Edge, không cần model. Đọc [hướng dẫn nhận ZIP, mở phiếu và gửi JSON](docs/APP_TOXIC_ANNOTATION.md). Video gửi riêng trong `app-toxic-dev30-2026-11-02.zip`; clone GitHub chưa có video. [Tin nhắn bàn giao để Huy gửi](docs/APP_TOXIC_ANNOTATION_MESSAGE.md). Nhãn app hiện còn trống; không có lượt train mới.
 
 **Cập nhật30/10:** đã nhập10nhãn Huy nghe duyệt, sửa ASR lặp bằng nhận dạng lại có điều kiện, giữ trọng số/ngưỡng Toxic và Violence v3.264tests pass; [báo cáo/CSV/đồ thị](reports/TOXIC_REVIEW_ASR_2026-10-30.md), [mở app/bàn giao](docs/ASR_RECOVERY_2026-10-30.md). Kết quả mới có hậu tố `asr-repeat-recovery-v1`; sau cập nhật code cần mở lại API. Trên10ca phát triển, bỏ sót3→2 nhưng báo nhầm vẫn4; chưa phải Accuracy test mới. Ứng viên Toxic precision5epoch đã có [kết quả riêng](reports/TOXIC_PRECISION_2026-10-29.md), chưa thay app vì Recall bình luận giảm.

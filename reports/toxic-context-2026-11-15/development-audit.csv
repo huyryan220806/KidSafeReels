@@ -1,0 +1,8 @@
+﻿split,error,category,clips
+train,FN,below_model_threshold_and_no_rule_keyword,10
+train,FN,keyword_present_but_audio_gate_rejects,2
+train,FN,missing_asr,4
+train,FP,classifier_only_false_alarm,18
+train,FP,rule_flag_disagrees_with_clip_label,2
+valid,FN,below_model_threshold_and_no_rule_keyword,2
+valid,FP,classifier_only_false_alarm,2

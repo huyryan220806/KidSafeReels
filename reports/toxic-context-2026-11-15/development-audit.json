@@ -1,0 +1,69 @@
+{
+  "reference": "13 November selected checkpoint + unchanged rules",
+  "test_included": false,
+  "human_labels_changed": false,
+  "asr_reference_verified": false,
+  "wer": null,
+  "cer": null,
+  "source_sha256": "d84fbe79cb8b47097e02f8ca83ebc3356014497d5f08f4b35b5ed6432ac48c61",
+  "categories": [
+    {
+      "split": "train",
+      "error": "FN",
+      "category": "below_model_threshold_and_no_rule_keyword",
+      "clips": 10
+    },
+    {
+      "split": "train",
+      "error": "FN",
+      "category": "keyword_present_but_audio_gate_rejects",
+      "clips": 2
+    },
+    {
+      "split": "train",
+      "error": "FN",
+      "category": "missing_asr",
+      "clips": 4
+    },
+    {
+      "split": "train",
+      "error": "FP",
+      "category": "classifier_only_false_alarm",
+      "clips": 18
+    },
+    {
+      "split": "train",
+      "error": "FP",
+      "category": "rule_flag_disagrees_with_clip_label",
+      "clips": 2
+    },
+    {
+      "split": "valid",
+      "error": "FN",
+      "category": "below_model_threshold_and_no_rule_keyword",
+      "clips": 2
+    },
+    {
+      "split": "valid",
+      "error": "FP",
+      "category": "classifier_only_false_alarm",
+      "clips": 2
+    }
+  ],
+  "evidence_rule_term_alignment": [
+    {
+      "split": "train",
+      "error": "FN",
+      "term_in_time_overlap": "absent",
+      "evidence_items": 15
+    },
+    {
+      "split": "valid",
+      "error": "FN",
+      "term_in_time_overlap": "absent",
+      "evidence_items": 3
+    }
+  ],
+  "interpretation": "Exact lexicon-term/time overlap is a diagnostic signal, not WER or proof of ASR correctness",
+  "private_detail_sha256": "220324bca65bbac1cb833b69b71ed9de03009a4a7bdb48138afeeb3c5f129da5"
+}

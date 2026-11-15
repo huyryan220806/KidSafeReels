@@ -124,9 +124,9 @@ def plot_results(directory, rows, predictions, history, *, label_description="Nh
     for ax, variant in zip(axes, ("baseline", "selected")):
         r = next(r for r in rows if r["variant"] == variant and r["split"] == "test")
         matrix = np.array([[r['tn'], r['fp']], [r['fn'], r['tp']]])
-        ax.imshow(matrix, cmap="Blues")
+        ax.imshow(matrix, cmap="Blues", vmin=0, vmax=max(1, matrix.max()))
         for (i, j), value in np.ndenumerate(matrix):
-            ax.text(j, i, str(value), ha="center", va="center", color="white" if value > matrix.max()/2 else "black")
+            ax.text(j, i, str(value), ha="center", va="center", color="white" if value > matrix.max()*.6 else "black")
         ax.set(xticks=[0, 1], yticks=[0, 1], xlabel="Nhãn dự đoán", ylabel=label_description,
                title=f"{'Baseline' if variant == 'baseline' else 'Ứng viên'} | test n={r['n']}")
     if scope_note:

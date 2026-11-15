@@ -8,6 +8,7 @@
 <body>
 <header><div><h1>Rà soát lời nói trong video</h1><div class="muted" id="reviewer"></div></div><strong id="progress"></strong></header>
 <section class="card"><div class="row"><button id="prev">← Trước</button><select id="clip" aria-label="Chọn video"></select><button id="next">Sau →</button></div>
+<div id="batch-controls" hidden><label for="batch">Chọn lượt gán nhãn</label><div class="row"><select id="batch"></select><button id="next-unlabelled">Đến clip chưa gán</button></div><p id="batch-progress" class="muted"></p></div>
 <p class="muted">Nghe cả clip, đánh dấu lời nói thực sự nghe được. Không có dự đoán model hay transcript tự động trên phiếu này.</p></section>
 <main class="grid">
 <section class="card"><h2 id="clip-title"></h2><video id="video" controls preload="metadata"></video><p id="current-time">0,00 giây</p>
@@ -26,6 +27,7 @@
 const config=__REVIEW_CONFIG__;
 const byId=id=>document.getElementById(id);
 const storageKey="kidsafe-speech-"+config.initial.manifest_sha256+"-"+config.initial.annotator;
+const batchSize=Number.isInteger(config.batch_size)&&config.batch_size>0?config.batch_size:0;
 let payload=structuredClone(config.initial),index=0;
 function message(text,error=false){byId("status").textContent=text;byId("status").className=error?"error":"";}
 function validate(value){
@@ -49,7 +51,7 @@ function validate(value){
  }
 }
 function persist(){try{localStorage.setItem(storageKey,JSON.stringify(payload));}catch{message("Không lưu tạm được. Hãy tải JSON trước khi đóng.",true);}}
-function progress(){const count=payload.rows.filter(r=>r.toxic_language!==null).length;byId("progress").textContent=count+" / "+payload.rows.length+" clip đã điền nhãn";}
+function progress(){const count=payload.rows.filter(r=>r.toxic_language!==null).length;byId("progress").textContent=count+" / "+payload.rows.length+" clip đã điền nhãn";if(batchSize){const batch=Math.floor(index/batchSize),rows=payload.rows.slice(batch*batchSize,(batch+1)*batchSize);byId("batch").value=String(batch);byId("batch-progress").textContent="Lượt "+(batch+1)+": "+rows.filter(r=>r.toxic_language!==null).length+" / "+rows.length+" clip đã điền. JSON tải về luôn chứa toàn bộ "+payload.rows.length+" clip.";}}
 function capture(){const r=payload.rows[index];r.watched_full=byId("watched").checked;r.language=byId("language").value||null;const label=byId("label").value;r.toxic_language=label===""?null:label==="uncertain"?label:Number(label);r.corrected_transcript=byId("transcript").value;r.transcript_verified=byId("verified").checked;r.notes=byId("notes").value;progress();persist();}
 function intervals(){
  const host=byId("intervals");host.replaceChildren();const r=payload.rows[index];
@@ -68,6 +70,7 @@ function render(){const r=payload.rows[index];byId("clip").value=r.video_id;byId
 try{const saved=localStorage.getItem(storageKey);if(saved){const candidate=JSON.parse(saved);if(candidate.manifest_sha256===config.initial.manifest_sha256&&candidate.annotator===config.initial.annotator&&Array.isArray(candidate.rows)&&candidate.rows.length===config.initial.rows.length&&candidate.rows.every((r,i)=>r.video_id===config.initial.rows[i].video_id&&Array.isArray(r.evidence))){payload=candidate;message("Đã khôi phục bản nháp của trình duyệt này; kiểm tra trước khi tải JSON.");}}}catch{message("Không đọc được bản nháp cũ; có thể nạp lại JSON đã tải.",true);}
 byId("reviewer").textContent="KidSafeReels · Người rà soát: "+(payload.annotator==="huy"?"Huy":"Thành viên app");
 for(const r of config.initial.rows){const option=document.createElement("option");option.value=r.video_id;option.textContent=r.video_id;byId("clip").append(option);}
+if(batchSize){byId("batch-controls").hidden=false;for(let start=0;start<payload.rows.length;start+=batchSize){const option=document.createElement("option");option.value=String(start/batchSize);option.textContent="Lượt "+(start/batchSize+1)+" · clip "+(start+1)+"–"+Math.min(start+batchSize,payload.rows.length);byId("batch").append(option);}byId("batch").addEventListener("change",()=>{const target=Number(byId("batch").value)*batchSize;capture();index=target;render();});byId("next-unlabelled").addEventListener("click",()=>{capture();for(let step=1;step<=payload.rows.length;step++){const target=(index+step)%payload.rows.length;if(payload.rows[target].toxic_language===null){index=target;render();return;}}message("Tất cả clip đã có nhãn; hãy kiểm tra các mục chưa rõ và tải JSON.");});const firstMissing=payload.rows.findIndex(r=>r.toxic_language===null);if(firstMissing>=0)index=firstMissing;}
 for(const id of ["watched","language","label","transcript","verified","notes"])byId(id).addEventListener("input",capture);
 byId("clip").addEventListener("change",()=>{capture();index=payload.rows.findIndex(r=>r.video_id===byId("clip").value);render();});
 byId("prev").addEventListener("click",()=>{capture();index--;render();});byId("next").addEventListener("click",()=>{capture();index++;render();});

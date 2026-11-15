@@ -1,0 +1,24 @@
+{
+  "validation": {
+    "assigned": 200,
+    "completed": 200,
+    "uncertain": 0,
+    "positive": 102,
+    "negative": 98,
+    "missing": 0,
+    "note": "Structure only, not a quality audit or adjudicated gold"
+  },
+  "input_sha256": "de7ae1e78475acc3c5e3f164ce1711eb82d2d4fc18f40822d9421b330265d61a",
+  "split_counts": {
+    "valid": 28,
+    "train": 142,
+    "test": 30
+  },
+  "label_changes": 8,
+  "dev_label_changes": 5,
+  "verified_full_transcripts": 0,
+  "reference_wer_cer_available": false,
+  "development_asr_caches": 170,
+  "deployed_recovery_caches": 3,
+  "no_test_predictions_accessed": true
+}

@@ -1,0 +1,22 @@
+{
+  "full_tests": 280,
+  "active_artifacts": {
+    "version": "kidsafe-cpu-v3",
+    "verified_files": 17
+  },
+  "selected_checkpoint_files_verified": 8,
+  "input_original_copy_hash_verified": true,
+  "cpu_gpu_changed_decisions": 0,
+  "max_score_delta": 1.6987323760986328e-05,
+  "cpu_scored_clips_per_variant": 200,
+  "model_http_ui_this_run": false,
+  "model_http_ui_reason": "Candidate not activated; no runtime change",
+  "plot_render": {
+    "date": "2026-11-15",
+    "source": "ml/experiment_metrics.py",
+    "source_sha256": "3112ce410d037073c5a6460853232f124ee22f91d3388307939a6b41af937f2c",
+    "cached_predictions_only": true,
+    "inference_rerun": false,
+    "change": "Zero-based color scale and readable text contrast on confusion matrix"
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "status": "retain_active_v3",
+  "active_model": "kidsafe-cpu-v3",
+  "candidate": "1f916589c4af1a61c68df3250b3a19b58f23d19aaf1e2543afb77170c2179919",
+  "candidate_selected_epoch": 2,
+  "candidate_threshold": 0.7999999999999999,
+  "validation_eligible": true,
+  "cpu_parity_changed": 0,
+  "reason": "Validation improved by one recovered positive; reused holdout has zero changed model/hybrid decisions, speech false positives not reduced, written FP slightly higher. No production replacement justified by this run.",
+  "violence_unchanged": true,
+  "no_test_retuning": true,
+  "independent_test_available": false,
+  "selection_sha256": "bee2a0376eb995c7d8124f6ed2a7bdda047d48c58f5f05f455e08617ef405452",
+  "evaluation_sha256": "9428f7fea09c77bf6bbe30b33b2b06fd6c42671ea75d41abbe4a164e90cc9b79"
+}

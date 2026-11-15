@@ -1,0 +1,19 @@
+{
+  "recorded_utc": "2026-11-13T11:00:22.620557+00:00",
+  "files": {
+    "ml/toxic_reviewed.py": "db03feff4ae349e9fcac12353b74cc2ec7284cd899f87f2e58e4caa724899e08",
+    "ml/toxic_reviewed_train.py": "85ee70af18c17914d48c3e9f205785f81e5b242c154606b625552465e6dd96d9",
+    "ml/speech_mil.py": "a313daf843cad14529a5e723e996ef867f31a33557e519fdfe443074406ad409",
+    "ml/deep_toxic.py": "060dd77b6d3cc841fb47b4892c89ab1dd46a5a0d63fc986c694edaec6e8c9e94",
+    "ml/deep_inference.py": "7f44079ba562a27e01f09cb034aaa868b803dc3d5b881d2e9668ec9d9c1cbdf9",
+    "ml/asr_recovery.py": "369faa0ac42f8d3fade4854d07c628c8a0de6e76db5a56634dd70e0eb2ef44e2",
+    "ml/toxic_rules.py": "47108934c0e6fac5d450a349af9a3cc6febd9ee1b9c1cb91386d7f2367d1a614"
+  },
+  "training_packages": {
+    "torch": "2.10.0+cu128",
+    "transformers": "4.57.1",
+    "numpy": "2.5.4",
+    "scikit-learn": "1.9.1",
+    "pyvi": "0.1.1"
+  }
+}
