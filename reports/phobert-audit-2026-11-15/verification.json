@@ -1,0 +1,37 @@
+{
+  "verified_utc": "2026-11-15T11:41:09.873111+00:00",
+  "full_tests": 292,
+  "full_test_seconds": 101.86,
+  "targeted_tests": 24,
+  "targeted_test_seconds": 14.75,
+  "snapshots": 10,
+  "segments_per_snapshot": 162,
+  "videos_per_snapshot": 28,
+  "snapshot_logits_labels_order_max_pool_verified": true,
+  "source_inventory_verified_unchanged": true,
+  "all_200_media_hashes_verified_in_data_stage": true,
+  "active_artifacts": {
+    "version": "kidsafe-cpu-v3",
+    "verified_files": 17
+  },
+  "original_pipeline_modified": false,
+  "test_inference": false,
+  "original_data_modified": false,
+  "replay_matching_tensors_per_original_checkpoint": 201,
+  "replay_matching_original_epochs": [
+    2,
+    5
+  ],
+  "replay_max_weight_delta": 0,
+  "plots_visually_checked": true,
+  "model_http_ui_this_audit": false,
+  "test_scope": "Integrity counts/hash/duplicate ASR only; no test predictions, metrics, thresholds or checkpoint selection",
+  "package_versions": {
+    "torch": "2.10.0+cu128",
+    "transformers": "4.57.1",
+    "numpy": "2.5.4",
+    "scikit-learn": "1.9.1",
+    "pyvi": "0.1.1",
+    "safetensors": "0.8.0"
+  }
+}

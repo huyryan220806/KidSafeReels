@@ -1,5 +1,14 @@
 # Tiến độ KidSafeReels
 
+## Audit PhoBERT theo yêu cầu 7 mục — 15/11/2026
+
+- Thêm audit độc lập, recorder logits/probabilities/predictions/labels/segment_id và probe OOV/timestamp/loss; không sửa code train/inference hiện hành hoặc dữ liệu gốc. Script gọi cùng hàm train với output/hook riêng cho lần replay.
+- Tái tạo split: 0 sai khác; 200 media hash và mapping nhãn khớp. Không giao video/source/training group, nhưng thiếu 200 speaker_id; 12 channel và 18 query_speaker_group giao split. Không gọi dữ liệu speaker-independent. Có label/segment/video counts, duplicate transcript và bất đồng nhãn clip; không tự sửa nhãn.
+- Kiểm 340 cache dev, thứ tự ID/NPZ, checkpoint, logits `[segments,2]`, eval/no-grad và metrics: không phát hiện sai lệch gây plateau. History F1 là binary Toxic, không phải macro; `.5` history khác `.78` active và `.80` selected.
+- Thiếu checkpoint gốc epoch 1/3/4 nên chạy lại 5 epoch riêng, ghi đủ từng epoch. Loss/AP/F1 khớp history; 201 tensors epoch 2 và 5 khớp tuyệt đối checkpoint gốc. Có 10 snapshot validation, không inference test. 0 clip flip tại `.5`; epoch 1→5 mean abs drift 0,154512, max 0,391185; loss 1,249690→0,626997, AP 0,766897→0,830048.
+- Preprocessing dev 926 đoạn: 1 đoạn train vượt 192 token, 0 validation bị cắt; 3 `<unk>` ở 3 đoạn train, 1 ảnh hưởng từ lexicon; 43 end ASR vượt duration. Chưa có reference transcript/WER/CER. Phân loại rõ bằng chứng và giả thuyết; chưa áp dụng thay đổi model.
+- **292 tests pass**, 101,86 giây; 24 tests liên quan pass. [Báo cáo](../reports/PHOBERT_AUDIT_2026-11-15.md), [hướng dẫn/script](PHOBERT_AUDIT.md), [R0–R7](../reports/phobert-audit-2026-11-15/experiment-plan.csv). Dữ liệu, raw logits/checkpoints private; report công khai chỉ tổng hợp. Mốc tiếp tục `runs/phobert-audit-2026-11-15/CONTINUE.md`.
+
 ## Thử ngữ cảnh và phân loại lỗi dev — 15/11/2026
 
 - Hoàn thiện báo cáo/đồ thị train 13/11; render lại confusion matrix từ cache để đọc rõ số. Không train hoặc chấm test lại.

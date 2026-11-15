@@ -1,5 +1,7 @@
 # Kế hoạch một tuần và phân công
 
+**Audit PhoBERT 15/11:** đã tái hiện plateau, ghi logits từng epoch bằng replay riêng và đối chiếu checkpoint gốc; giữ pipeline/dữ liệu/model active. Có [R0–R7 và bằng chứng](../reports/PHOBERT_AUDIT_2026-11-15.md). R0 đã hoàn tất; ưu tiên tiếp theo xác minh speaker/split, ASR có reference và supervision trên dev. Không dùng test để chọn cấu hình.
+
 **Tiếp tục 15/11 đã hoàn tất:** thử ngữ cảnh trên train/validation, chưa đạt điều kiện giảm FP đồng thời giữ Recall; không chấm test hoặc thay app. Đã lưu 40 ca lỗi dev để ưu tiên ASR và classifier câu bình thường. 284 tests pass; [kết quả](../reports/TOXIC_CONTEXT_2026-11-15.md), [quy trình tiếp theo](TOXIC_CONTEXT_2026-11-15.md). 200 nhãn Huy đã hoàn tất; Violence giữ v3.
 
 **Hoàn tất đợt nhãn/train 13/11:** nhận 200 nhãn Huy, giữ 142 train / 28 validation / 30 test; train 5 epoch Toxic có học lại ViCTSD train, chọn epoch 2 / ngưỡng 0,80. Validation cải thiện nhưng test cũ không đổi quyết định; giữ model app v3 / Violence v3. [Báo cáo và giới hạn](../reports/TOXIC_HUMAN_2026-11-13.md). Nhãn 200 đã hoàn tất; bước tiếp theo xử lý classifier/ASR trên dev và bổ sung test độc lập ở đợt sau, không dò test cũ.

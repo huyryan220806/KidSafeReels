@@ -1,0 +1,4 @@
+﻿split,videos,unique_video_ids,source_videos,training_groups,negative,positive,asr_covered_videos,missing_asr,segments,eligible_negative,eligible_positive
+train,142,142,92,86,71,71,138,4,764,71,67
+valid,28,28,20,20,13,15,28,0,162,13,15
+test,30,30,20,20,14,16,29,1,232,14,15

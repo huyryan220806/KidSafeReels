@@ -2,6 +2,8 @@
 
 Mini project môn **Học máy và ứng dụng**: hỗ trợ người lớn sàng lọc nội dung video ngắn trước khi cho trẻ xem.
 
+**Audit PhoBERT 15/11:** đã tái hiện plateau validation tại ngưỡng 0,5: loss/AP đổi nhưng 0/28 clip đổi quyết định. Checkpoint replay epoch 2/5 khớp trọng số gốc; không thấy lỗi cache/metrics ở run kiểm. Split tách video nguồn nhưng chưa xác minh speaker-disjoint. Có logits mỗi epoch, audit preprocessing, R0–R7 và 292 tests pass. [Kết luận và bằng chứng](reports/PHOBERT_AUDIT_2026-11-15.md), [script/cách chạy](docs/PHOBERT_AUDIT.md). Giữ nguyên pipeline và model active.
+
 **Cập nhật 15/11:** đã hoàn thiện báo cáo train từ 200 nhãn và thử đọc thêm ngữ cảnh ASR trên 170 clip dev. FP validation giảm 2→1 nhưng FN của checkpoint 13/11 tăng 2→3, nên chưa đổi app. Có bảng phân loại 40 ca lỗi dev, CSV và đồ thị; 284 tests pass, giữ Violence v3. [Kết quả và bước tiếp theo](reports/TOXIC_CONTEXT_2026-11-15.md), [điểm tiếp tục](docs/TOXIC_CONTEXT_2026-11-15.md).
 
 **Cập nhật 13/11:** đã nhận đủ 200 nhãn Huy, train 5 epoch Toxic kèm học lại bình luận và chấm CPU. Validation hybrid F1 82,76% → 86,67%; test cũ 30 clip F1 giữ 64,52% / FP5 / FN6 nên ứng viên chưa thay app. Giữ Violence v3; 280 tests pass. [Báo cáo Accuracy/Loss, CSV và đồ thị](reports/TOXIC_HUMAN_2026-11-13.md), [tiếp tục run](docs/TOXIC_HUMAN_2026-11-13.md). Huy không cần gán lại 200 clip.
