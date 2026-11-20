@@ -2,6 +2,8 @@
 
 Mini project môn **Học máy và ứng dụng**: hỗ trợ người lớn sàng lọc nội dung video ngắn trước khi cho trẻ xem.
 
+**Kết quả Toxic ngày 20/11.** Khi dùng luật cùng bộ phân loại ký tự trên cả transcript, 28 clip validation có 0 báo nhầm và 2 bỏ sót, F1 đạt 92,86%. PhoBERT 13/11 cùng bộ luật có 2 báo nhầm và 2 bỏ sót. Ứng viên cần được đánh giá trên video mới. [Báo cáo PDF 3 trang](output/pdf/KidSafeReels_Toxic_2026-11-20.pdf) · [Số liệu và cách tái hiện](reports/toxic-transcript-2026-11-20/README.md).
+
 **Audit PhoBERT 15/11:** đã tái hiện plateau validation tại ngưỡng 0,5: loss/AP đổi nhưng 0/28 clip đổi quyết định. Checkpoint replay epoch 2/5 khớp trọng số gốc; không thấy lỗi cache/metrics ở run kiểm. Split tách video nguồn nhưng chưa xác minh speaker-disjoint. Có logits mỗi epoch, audit preprocessing, R0–R7 và 292 tests pass. [Kết luận và bằng chứng](reports/PHOBERT_AUDIT_2026-11-15.md), [script/cách chạy](docs/PHOBERT_AUDIT.md). Giữ nguyên pipeline và model active.
 
 **Cập nhật 15/11:** đã hoàn thiện báo cáo train từ 200 nhãn và thử đọc thêm ngữ cảnh ASR trên 170 clip dev. FP validation giảm 2→1 nhưng FN của checkpoint 13/11 tăng 2→3, nên chưa đổi app. Có bảng phân loại 40 ca lỗi dev, CSV và đồ thị; 284 tests pass, giữ Violence v3. [Kết quả và bước tiếp theo](reports/TOXIC_CONTEXT_2026-11-15.md), [điểm tiếp tục](docs/TOXIC_CONTEXT_2026-11-15.md).

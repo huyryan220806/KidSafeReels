@@ -1,5 +1,9 @@
 # Tiến độ KidSafeReels
 
+## Bộ phân loại ký tự trên transcript tiếng Việt · 20/11/2026
+
+Đã fit TF-IDF ký tự và logistic regression trên 138 transcript train có lời. Thử nghiệm dùng ngưỡng 0,50, kiểm chéo 5 lượt theo nguồn và so với hai checkpoint PhoBERT trên 28 clip validation. Ký tự + luật đạt F1 92,86% (FP 0, FN 2). Khi đối chiếu từng clip với PhoBERT 13/11, có 2 FP được sửa, 1 FN được sửa và 1 FN mới. Kiểm tra trên ViCTSD cho F1 model đơn 18,05%. Quyết định ngày 20/11 là lưu ứng viên riêng để thử với video ngoài bộ 200 clip. App tiếp tục dùng v3. Có 18 kiểm thử liên quan đã chạy đạt, gồm hai ca mới cho tách dữ liệu train và clip thiếu ASR. [Báo cáo PDF](../output/pdf/KidSafeReels_Toxic_2026-11-20.pdf) · [Kết quả, lệnh chạy và checkpoint local](../reports/toxic-transcript-2026-11-20/README.md).
+
 ## Audit PhoBERT theo yêu cầu 7 mục — 15/11/2026
 
 - Thêm audit độc lập, recorder logits/probabilities/predictions/labels/segment_id và probe OOV/timestamp/loss; không sửa code train/inference hiện hành hoặc dữ liệu gốc. Script gọi cùng hàm train với output/hook riêng cho lần replay.
