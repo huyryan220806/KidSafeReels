@@ -1,0 +1,43 @@
+{
+  "dataset": "app-toxic-dev30-2026-11-02",
+  "prepared_utc": "2026-11-02T09:14:42.447757+00:00",
+  "clips": 30,
+  "overlap_clips": 10,
+  "additional_clips": 20,
+  "split_counts": {
+    "train": 24,
+    "valid": 6
+  },
+  "source_groups": 30,
+  "total_seconds": 561.34,
+  "archive_name": "app-toxic-dev30-2026-11-02.zip",
+  "archive_bytes": 26782098,
+  "archive_sha256": "e3109edd2c5be705d84071783d7b9d1d234b442e0a9d561d9f984751be5bcee2",
+  "manifest_sha256": "35466ab7c6afe0728112fd69234878b3f678f19aa528b9525278b09bc0a8c7af",
+  "blank_status": {
+    "assigned": 30,
+    "completed": 0,
+    "uncertain": 0,
+    "positive": 0,
+    "negative": 0,
+    "missing": 30,
+    "note": "Structure only, not a quality audit or adjudicated gold",
+    "full_verified_transcripts": 0,
+    "transcripts_entered": 0,
+    "binary_labels": 0
+  },
+  "scope": "Development annotation and independent overlap review; no test clips, no model run, no new accuracy claim",
+  "distribution": "Code/instructions in Git; ZIP/media/submissions private; no message sent to teammate",
+  "verification": {
+    "targeted_tests_passed": 36,
+    "tests_command": "python -m pytest -q tests/test_toxic_app_review.py tests/test_speech_intake.py",
+    "archive_entries_checksum_verified": 35,
+    "media_files_checksum_verified": 30,
+    "zip_integrity": "pass",
+    "review_javascript_syntax": "pass (node --check)",
+    "checker_without_site_packages": "pass (python -S)",
+    "active_model_release": "kidsafe-cpu-v3",
+    "active_model_artifacts_verified": 17,
+    "manual_browser_playback_and_download_this_handoff": "not performed; existing review template reused"
+  }
+}

@@ -1,0 +1,32 @@
+{
+  "recorded_at": "2026-10-28T23:03:13.074807+07:00",
+  "kind": "bugfix_diagnostic_not_accuracy_evaluation",
+  "user_cases": 3,
+  "before_toxic_available": 1,
+  "after_toxic_available": 3,
+  "before_flagged": 0,
+  "after_flagged": 1,
+  "unresolved_user_reported_misses": 2,
+  "http_user_cases_passed": 3,
+  "local_http_score_parity": true,
+  "technical_controls_passed": 4,
+  "technical_controls_total": 4,
+  "regression_before_fix": {
+    "failed": 1,
+    "passed": 4
+  },
+  "targeted_tests_after_fix": 63,
+  "verified_artifact_files": 17,
+  "artifact_manifest_sha256": "89a9123a4d0f74e9cbabfafc6c6cc0d1d35c8cb1a50faa1d40a9e3a2f077e299",
+  "weights_changed": false,
+  "thresholds_changed": false,
+  "new_training_run": false,
+  "new_accuracy_loss": null,
+  "exposure_excluded_related_clips": 11,
+  "other_user_tried_clips_not_fully_identified": true,
+  "limitations": [
+    "Three selected failures are development examples, not an independent test",
+    "Human-corrected transcripts and segment annotations still pending",
+    "Silence/tone/pilot controls are technical checks, not false-positive-rate evaluation"
+  ]
+}

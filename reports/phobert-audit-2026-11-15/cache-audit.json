@@ -1,0 +1,12 @@
+{
+  "dev_cache_records_checked": 340,
+  "mismatched_records": 0,
+  "npz_order_matches": {
+    "baseline_train": true,
+    "baseline_valid": true,
+    "selected_train": true,
+    "selected_valid": true
+  },
+  "max_cpu_vs_gpu_cache_delta": 1.6987323760986328e-05,
+  "test_predictions_opened": false
+}

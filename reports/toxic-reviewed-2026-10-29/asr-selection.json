@@ -1,0 +1,12 @@
+{
+  "variant": "vi_chunk10",
+  "n": 4,
+  "fp": 2,
+  "fn": 0,
+  "missing_asr": 0,
+  "elapsed_seconds": 34.73936909999975,
+  "eligible": true,
+  "selected_on": "four reviewed train clips only",
+  "protocol_sha256": "3d9b4e2ea6e4eb2faa023f734536f8afe1d085309e5ba4fa237bbe0e80e3afd7",
+  "deployment": "candidate_only"
+}

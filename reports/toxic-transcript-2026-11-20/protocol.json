@@ -1,0 +1,16 @@
+{
+  "input_protocol": "209a39ca8dcf0795ea1f4b1a76769c8f373e02d5368d367c365f1fb780e30605",
+  "code_sha256": "d54ef973b79aff82cb9ac6f284838c7873c3f968ecb749dffd0c3a48907e2367",
+  "sklearn": "1.9.1",
+  "fit": "TRAIN only, nonempty Whisper Vietnamese transcripts, one row per clip",
+  "features": "NFC/casefold; char_wb 3-5, min_df 2, sublinear TF-IDF; L2 logistic liblinear C=1",
+  "threshold": 0.5,
+  "combination": "logical OR with deployed lexical rules on original ASR segments",
+  "control": "identical LR on standardized log1p(characters, whitespace tokens, ASR segment count)",
+  "missing_asr": "null model score, count as no Toxic flag (review)",
+  "oof": "5 stratified folds by training_group, seed 42",
+  "gate": "Hybrid must strictly reduce FP vs both prior validation hybrids without increasing FN",
+  "validation": "fixed prior split; repeated validation; seen/unseen TRAIN channel subgroup diagnostic",
+  "test_inference": false,
+  "deployment": "offline candidate"
+}

@@ -1,0 +1,37 @@
+{
+  "speech": {
+    "train": {
+      "n": 142,
+      "class_counts": {
+        "1": 71,
+        "0": 71
+      },
+      "groups": 86
+    },
+    "valid": {
+      "n": 28,
+      "class_counts": {
+        "0": 14,
+        "1": 14
+      },
+      "groups": 20
+    },
+    "test": {
+      "n": 30,
+      "class_counts": {
+        "1": 15,
+        "0": 15
+      },
+      "groups": 20
+    }
+  },
+  "violence": {
+    "n": 100,
+    "positive": 50,
+    "negative": 50,
+    "split": "train",
+    "groups": 1
+  },
+  "human_reviewed_speech": 0,
+  "forced_exposed_train": 11
+}

@@ -1,0 +1,12 @@
+{
+  "recorded_at": "2026-10-28T09:49:47.420421+07:00",
+  "passed": true,
+  "verification": {
+    "version": "kidsafe-cpu-v3",
+    "verified_files": 17
+  },
+  "model_version": "violence-temporal-model-improvement-2026-10-28+toxic-phobert-model-improvement-2026-10-28+whisper-small-beam5",
+  "processing_seconds": 32.5469,
+  "web_health": "ok",
+  "limit": "Real HTTP after activation on speech fixture; not a human quality label"
+}

@@ -1,0 +1,37 @@
+{
+  "run_id": "model-improvement-2026-10-28",
+  "task": "violence",
+  "seed": 42,
+  "sampling": "uniform5-windows16-at15fps-cv2linear171x128-crop112-v1",
+  "representation": "frozen Kinetics400 R3D18 mean/max over5windows; optional concatenated static8 ResNet18 features",
+  "configurations": [
+    {
+      "features": "temporal",
+      "C": 0.01
+    },
+    {
+      "features": "temporal",
+      "C": 0.1
+    },
+    {
+      "features": "temporal",
+      "C": 1.0
+    },
+    {
+      "features": "static-temporal",
+      "C": 0.01
+    },
+    {
+      "features": "static-temporal",
+      "C": 0.1
+    },
+    {
+      "features": "static-temporal",
+      "C": 1.0
+    }
+  ],
+  "selection_rule": "max validation recall, FP <= baseline and macro-F1 >= baseline - .005; baseline remains eligible",
+  "test_policy": "RLVS previously reported benchmark; AIRTLab100 held together as external source-label evaluation only after freezing; no tuning against either",
+  "data_manifest_sha256": "212eaec321f1a9f3bd73f247e02a04398e9329c883f8a279859ae1f5948a62b8",
+  "started_at": "2026-10-28T00:41:18.455141+07:00"
+}

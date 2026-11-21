@@ -1,0 +1,48 @@
+{
+  "run_id": "model-improvement-2026-10-20",
+  "task": "toxic",
+  "seed": 42,
+  "created_at": "2026-10-20T00:32:55.302523+07:00",
+  "baseline_sha256": "e2806dbfb9f50a7a8551c9962dbe6b58cfea0c98eaba1479823e0401150e120a",
+  "selection_rule": "maximize validation macro-F1 subject to positive recall and precision >= baseline",
+  "test_policy": "No test predictions during selection. Existing benchmark test was previously reported; no new independent-test claim.",
+  "environment": {
+    "python": "3.12.10",
+    "sklearn": "1.9.1",
+    "platform": "Windows-11-10.0.26300-SP0",
+    "processor": "AMD64 Family 25 Model 68 Stepping 1, AuthenticAMD",
+    "device": "cpu"
+  },
+  "configurations": [
+    {
+      "kind": "char",
+      "C": 4,
+      "balanced": false
+    },
+    {
+      "kind": "char",
+      "C": 1,
+      "balanced": false
+    },
+    {
+      "kind": "word-char",
+      "C": 0.5,
+      "balanced": true
+    },
+    {
+      "kind": "word-char",
+      "C": 2,
+      "balanced": true
+    },
+    {
+      "kind": "word-char",
+      "C": 8,
+      "balanced": true
+    },
+    {
+      "kind": "word-char",
+      "C": 4,
+      "balanced": false
+    }
+  ]
+}

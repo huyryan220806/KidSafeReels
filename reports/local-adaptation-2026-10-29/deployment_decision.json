@@ -1,0 +1,8 @@
+{
+  "activate": false,
+  "active_model": "kidsafe-cpu-v3 + toxic-hybrid-v1-56b3a177c7b2",
+  "toxic": "CPU weak-label holdout: hybrid FP6 ->8 despite FN6 ->2; not sufficient evidence to replace the app",
+  "violence": "No candidate met validation FP/recall constraints; RLVS test FN5 ->14, F1 declined",
+  "test_policy": "Do not retune on these observed holdouts; later experiments require a new protocol and clear test-exposure status",
+  "checkpoints": "Candidates retained locally, existing models not overwritten"
+}

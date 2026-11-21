@@ -1,0 +1,19 @@
+{
+  "recorded_at": "2026-10-28T00:51:02.980875+07:00",
+  "source": "https://github.com/airtlab/A-Dataset-for-Automatic-Violence-Detection-in-Videos",
+  "revision": "1f7747e104301ccaa82ef5a2f6804b51ced1c398",
+  "downloaded": 100,
+  "source_class_counts": {
+    "0": 50,
+    "1": 50
+  },
+  "verified_against_official_git_blobs": true,
+  "exact_rlvs_overlaps": 0,
+  "heuristic_near_overlap_count": 0,
+  "eligible_external": 100,
+  "group_count": 1,
+  "use": "whole context held out; no train/validation mixing",
+  "label_origin": "original AIRTLab dataset class directory, not new user annotations",
+  "limitation": "Staged actions, one room/camera context; heuristic duplicate checks cannot guarantee source independence.",
+  "manifest_sha256": "2767d4e9e4e15534eeaabdbb778e581db0967345d7ab7a5d6dec2eaff948aff3"
+}

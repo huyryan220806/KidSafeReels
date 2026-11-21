@@ -1,0 +1,23 @@
+{
+  "original": {
+    "assigned": 10,
+    "completed": 9,
+    "uncertain": 0,
+    "positive": 5,
+    "negative": 4,
+    "missing": 1,
+    "note": "Structure only, not a quality audit or adjudicated gold"
+  },
+  "resolved": {
+    "assigned": 10,
+    "completed": 10,
+    "uncertain": 0,
+    "positive": 5,
+    "negative": 5,
+    "missing": 0,
+    "note": "Structure only, not a quality audit or adjudicated gold"
+  },
+  "source_label_disagreements": 0,
+  "full_verified_transcripts": 0,
+  "scope": "Ten reviewed development clips, not 200 reviewed clips or representative accuracy"
+}

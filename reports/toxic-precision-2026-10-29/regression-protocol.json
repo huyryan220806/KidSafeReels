@@ -1,0 +1,7 @@
+{
+  "scope": "Known ViCTSD validation only, not new independent test",
+  "tokens_sha256": "7b650811c42d068223417866ca158810c0059ab6d467965ab46806ce12a0ae14",
+  "selected_sha256": "cafcd1e06f7f9da5e0747762bafaccfb739cdfcb6ee72f9aba3417ab08e6ba32",
+  "policy": "Fixed thresholds from existing configs; report regression without changing selection",
+  "speech_ablation": "Rule-only and baseline-only recalibration diagnostic on same development validation; no change to selected candidate"
+}

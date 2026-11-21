@@ -1,0 +1,32 @@
+{
+  "development_scanned": 170,
+  "triggered": 3,
+  "unchanged": 167,
+  "trigger_splits": {
+    "train": 3
+  },
+  "trigger_labels": {
+    "1": 3
+  },
+  "label_status": {
+    "human_reviewed": 1,
+    "user_reported_weak_clip_label": 2
+  },
+  "counts": [
+    {
+      "variant": "baseline",
+      "n": 3,
+      "fp": 0,
+      "fn": 3
+    },
+    {
+      "variant": "recovered",
+      "n": 3,
+      "fp": 0,
+      "fn": 0
+    }
+  ],
+  "gate_pass": true,
+  "scope": "Conditional retry on cached development traces; all non-triggered traces unchanged, not independent test",
+  "protocol_sha256": "cec5d3ab9c0619095b9a24b19c98ec8c747858770b07b02c1e4772d375cd6cc1"
+}

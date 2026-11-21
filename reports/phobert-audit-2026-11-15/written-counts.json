@@ -1,0 +1,20 @@
+[
+  {
+    "dataset": "ViCTSD",
+    "split": "train",
+    "n": 6965,
+    "labels": {
+      "0": 6206,
+      "1": 759
+    }
+  },
+  {
+    "dataset": "ViCTSD",
+    "split": "valid",
+    "n": 1975,
+    "labels": {
+      "0": 1743,
+      "1": 232
+    }
+  }
+]

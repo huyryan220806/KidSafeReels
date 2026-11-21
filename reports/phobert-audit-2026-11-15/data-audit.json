@@ -1,0 +1,187 @@
+{
+  "counts": [
+    {
+      "split": "train",
+      "videos": 142,
+      "unique_video_ids": 142,
+      "source_videos": 92,
+      "training_groups": 86,
+      "negative": 71,
+      "positive": 71,
+      "asr_covered_videos": 138,
+      "missing_asr": 4,
+      "segments": 764,
+      "eligible_negative": 71,
+      "eligible_positive": 67
+    },
+    {
+      "split": "valid",
+      "videos": 28,
+      "unique_video_ids": 28,
+      "source_videos": 20,
+      "training_groups": 20,
+      "negative": 13,
+      "positive": 15,
+      "asr_covered_videos": 28,
+      "missing_asr": 0,
+      "segments": 162,
+      "eligible_negative": 13,
+      "eligible_positive": 15
+    },
+    {
+      "split": "test",
+      "videos": 30,
+      "unique_video_ids": 30,
+      "source_videos": 20,
+      "training_groups": 20,
+      "negative": 14,
+      "positive": 16,
+      "asr_covered_videos": 29,
+      "missing_asr": 1,
+      "segments": 232,
+      "eligible_negative": 14,
+      "eligible_positive": 15
+    }
+  ],
+  "overlaps": [
+    {
+      "field": "video_id",
+      "unique_nonmissing": 200,
+      "missing": 0,
+      "cross_split_values": 0,
+      "pairs": {
+        "train__valid": 0,
+        "train__test": 0,
+        "valid__test": 0
+      }
+    },
+    {
+      "field": "original_video_id",
+      "unique_nonmissing": 200,
+      "missing": 0,
+      "cross_split_values": 0,
+      "pairs": {
+        "train__valid": 0,
+        "train__test": 0,
+        "valid__test": 0
+      }
+    },
+    {
+      "field": "sha256",
+      "unique_nonmissing": 200,
+      "missing": 0,
+      "cross_split_values": 0,
+      "pairs": {
+        "train__valid": 0,
+        "train__test": 0,
+        "valid__test": 0
+      }
+    },
+    {
+      "field": "source_group_id",
+      "unique_nonmissing": 132,
+      "missing": 0,
+      "cross_split_values": 0,
+      "pairs": {
+        "train__valid": 0,
+        "train__test": 0,
+        "valid__test": 0
+      }
+    },
+    {
+      "field": "training_group",
+      "unique_nonmissing": 126,
+      "missing": 0,
+      "cross_split_values": 0,
+      "pairs": {
+        "train__valid": 0,
+        "train__test": 0,
+        "valid__test": 0
+      }
+    },
+    {
+      "field": "speaker_id",
+      "unique_nonmissing": 0,
+      "missing": 200,
+      "cross_split_values": 0,
+      "pairs": {
+        "train__valid": 0,
+        "train__test": 0,
+        "valid__test": 0
+      }
+    },
+    {
+      "field": "source_channel_id",
+      "unique_nonmissing": 100,
+      "missing": 0,
+      "cross_split_values": 12,
+      "pairs": {
+        "train__valid": 6,
+        "train__test": 8,
+        "valid__test": 2
+      }
+    },
+    {
+      "field": "query_speaker_group",
+      "unique_nonmissing": 29,
+      "missing": 0,
+      "cross_split_values": 18,
+      "pairs": {
+        "train__valid": 11,
+        "train__test": 11,
+        "valid__test": 4
+      }
+    }
+  ],
+  "split_regeneration_mismatches": 0,
+  "media_hash_mismatches": 0,
+  "asr_media_hash_mismatches": 0,
+  "label_mapping_errors": 0,
+  "changed_from_source_labels": 8,
+  "legacy_human_label_null": 200,
+  "effective_label_field": "training_label == annotation.toxic_language",
+  "speaker_identity_verified": false,
+  "duplicate_clips": {
+    "nonempty_records": 195,
+    "unique_texts": 194,
+    "duplicate_groups": 1,
+    "duplicate_excess": 1,
+    "cross_split_groups": 0,
+    "clip_label_disagreement_groups": 0,
+    "cross_split_label_disagreement_groups": 0
+  },
+  "duplicate_segments": {
+    "nonempty_records": 1158,
+    "unique_texts": 1111,
+    "duplicate_groups": 29,
+    "duplicate_excess": 47,
+    "cross_split_groups": 2,
+    "clip_label_disagreement_groups": 3,
+    "cross_split_label_disagreement_groups": 1
+  },
+  "duplicate_caveat": "Identical ASR text can be generic filler/hallucination; segment clip-label disagreement is not segment-label conflict",
+  "preprocessing": {
+    "segments": 926,
+    "max_length": 192,
+    "truncated": 1,
+    "max_full_tokens": 224,
+    "lost_after_normalization": 0,
+    "lost_after_word_segmentation": 0,
+    "lost_after_tokenization_truncation": 1,
+    "invalid_segment_timing": 43
+  },
+  "human_full_transcripts": 0,
+  "wer": null,
+  "cer": null,
+  "historical_checkpoints_available": [
+    0,
+    2,
+    5
+  ],
+  "historical_checkpoints_missing": [
+    1,
+    3,
+    4
+  ],
+  "source_unchanged": true
+}

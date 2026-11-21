@@ -1,0 +1,52 @@
+{
+  "selected": "small-beam5",
+  "dev": [
+    {
+      "config": "base-greedy",
+      "split": "dev",
+      "n": 16,
+      "word_errors": 240,
+      "words": 468,
+      "char_errors": 563,
+      "chars": 1597,
+      "seconds": 46.84957649977878,
+      "audio_seconds": 176.1,
+      "wer": 0.5128205128205128,
+      "cer": 0.3525360050093926,
+      "real_time_factor": 0.2660396166938034,
+      "rejected": 2
+    },
+    {
+      "config": "base-beam5",
+      "split": "dev",
+      "n": 16,
+      "word_errors": 212,
+      "words": 468,
+      "char_errors": 480,
+      "chars": 1597,
+      "seconds": 38.43234789988492,
+      "audio_seconds": 176.1,
+      "wer": 0.452991452991453,
+      "cer": 0.3005635566687539,
+      "real_time_factor": 0.21824161215153276,
+      "rejected": 2
+    },
+    {
+      "config": "small-beam5",
+      "split": "dev",
+      "n": 16,
+      "word_errors": 93,
+      "words": 468,
+      "char_errors": 176,
+      "chars": 1597,
+      "seconds": 84.37044879997848,
+      "audio_seconds": 176.1,
+      "wer": 0.1987179487179487,
+      "cer": 0.11020663744520977,
+      "real_time_factor": 0.47910533106177444,
+      "rejected": 0
+    }
+  ],
+  "selected_at": "2026-10-20T00:37:32.733458+07:00",
+  "test_evaluated": false
+}

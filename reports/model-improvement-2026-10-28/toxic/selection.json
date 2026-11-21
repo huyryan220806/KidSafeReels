@@ -1,0 +1,74 @@
+{
+  "run_id": "model-improvement-2026-10-28",
+  "selected": {
+    "epoch": 4,
+    "eligible": true,
+    "n": 1975,
+    "negative": 1743,
+    "positive": 232,
+    "threshold": 0.7799999999999999,
+    "accuracy": 0.9017721518987342,
+    "balanced_accuracy": 0.7575177557520724,
+    "log_loss": 0.4444153423348552,
+    "precision_negative": 0.9428244711263579,
+    "recall_negative": 0.9460699942627654,
+    "f1_negative": 0.9444444444444444,
+    "precision": 0.584070796460177,
+    "recall": 0.5689655172413793,
+    "f1": 0.5764192139737991,
+    "macro_f1": 0.7604318292091218,
+    "roc_auc": 0.8779601163273785,
+    "average_precision": 0.5894025094879095,
+    "tn": 1649,
+    "fp": 94,
+    "fn": 100,
+    "tp": 132,
+    "undefined_metrics": ""
+  },
+  "files": [
+    {
+      "path": "added_tokens.json",
+      "sha256": "6887f87ac991379ea91aedb4dd5e1af4f6ee38693ec0ca1c2b6209559ce283d8",
+      "bytes": 25
+    },
+    {
+      "path": "bpe.codes",
+      "sha256": "9dfe53fb8abbddd3387da99641c36e00bee757a3679aad9cf0a7cdc4b30f6ef8",
+      "bytes": 1135173
+    },
+    {
+      "path": "config.json",
+      "sha256": "691c693cc0800e2fb04598e9abcd8084c693e1c2a39d594eec29e1b5697ef82f",
+      "bytes": 749
+    },
+    {
+      "path": "kidsafe-config.json",
+      "sha256": "743c87687e6d891c80b9a750868af652b14d68022b925634da8dc8ac6dd4f797",
+      "bytes": 198
+    },
+    {
+      "path": "model.safetensors",
+      "sha256": "d33e173b9d0279da7d3e8260c5296143baa5661b5362a0493a00929806f15f6d",
+      "bytes": 540023384
+    },
+    {
+      "path": "special_tokens_map.json",
+      "sha256": "eaf93cc0da3f87f0b8b13b433234465ee99aede80e008704ea480062035c2cee",
+      "bytes": 176
+    },
+    {
+      "path": "tokenizer_config.json",
+      "sha256": "59de4d1982406e28457bf1ae11d83baaac9fda053729ba259c387cd835012a28",
+      "bytes": 1258
+    },
+    {
+      "path": "vocab.txt",
+      "sha256": "dffd7543c401fb6567253ae7c3313004532c33d062525250049c616544bad777",
+      "bytes": 895321
+    }
+  ],
+  "protocol_sha256": "8ba7b8526b06dfd3b9ce45f04e57f65ac6f8d658f704b42a5b694f39084a0d22",
+  "selected_at": "2026-10-28T01:00:59.472925+07:00",
+  "artifact_directory": "runs/model-improvement-2026-10-28/toxic/selected",
+  "test_evaluated": false
+}

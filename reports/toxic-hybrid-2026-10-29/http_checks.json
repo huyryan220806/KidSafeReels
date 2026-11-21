@@ -1,0 +1,62 @@
+{
+  "technical_checks_only": true,
+  "model_version": "violence-temporal-model-improvement-2026-10-28+toxic-phobert-model-improvement-2026-10-28+whisper-small-beam5+asr-native-filter-v2+toxic-hybrid-v1-56b3a177c7b2",
+  "checks": [
+    {
+      "case": "vi-speech-048",
+      "passed": true,
+      "http": 200,
+      "toxic_score": 0.901373565196991,
+      "decision": "flagged",
+      "seconds": 40.5637
+    },
+    {
+      "case": "vi-speech-019",
+      "passed": true,
+      "http": 200,
+      "toxic_score": 0.0025196680799126625,
+      "decision": "review",
+      "seconds": 8.7825
+    },
+    {
+      "case": "vi-speech-022",
+      "passed": true,
+      "http": 200,
+      "toxic_score": 0.022751977667212486,
+      "decision": "flagged",
+      "seconds": 10.7789
+    },
+    {
+      "case": "silent",
+      "passed": true,
+      "http": 200,
+      "toxic_score": null,
+      "decision": "review",
+      "seconds": 2.0772
+    },
+    {
+      "case": "tone",
+      "passed": true,
+      "http": 200,
+      "toxic_score": null,
+      "decision": "review",
+      "seconds": 4.2922
+    },
+    {
+      "case": "pilot-train-005",
+      "passed": true,
+      "http": 200,
+      "toxic_score": 0.0030008801259100437,
+      "decision": "review",
+      "seconds": 12.9002
+    },
+    {
+      "case": "pilot-train-006",
+      "passed": true,
+      "http": 200,
+      "toxic_score": 0.022808033972978592,
+      "decision": "review",
+      "seconds": 13.0351
+    }
+  ]
+}

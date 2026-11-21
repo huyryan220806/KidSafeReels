@@ -1,0 +1,39 @@
+{
+  "run_id": "toxic-context-2026-11-15",
+  "frozen_utc": "2026-11-15T10:40:23.965898+00:00",
+  "hypothesis": "Adjacent ASR context can reduce isolated-segment false alarms",
+  "splits": {
+    "valid": 28,
+    "train": 142
+  },
+  "checkpoints": {
+    "baseline": {
+      "directory": "models\\checkpoints\\toxic-phobert-v3",
+      "model_sha256": "d33e173b9d0279da7d3e8260c5296143baa5661b5362a0493a00929806f15f6d",
+      "threshold": 0.7799999999999999
+    },
+    "human": {
+      "directory": "runs\\toxic-human-2026-11-13\\toxic\\selected",
+      "model_sha256": "1f916589c4af1a61c68df3250b3a19b58f23d19aaf1e2543afb77170c2179919",
+      "threshold": 0.7999999999999999
+    }
+  },
+  "methods": [
+    "isolated",
+    "context"
+  ],
+  "context": "Previous + center + next ASR segment, within 2-second gaps",
+  "token_policy": "Center-first 192-token budget incl special tokens; split spare left/right; no cross-clip context",
+  "threshold_search": false,
+  "fit": false,
+  "test_scored": false,
+  "validation_reused": true,
+  "independent_test": false,
+  "gate": "Strictly fewer validation hybrid FP, no higher FN and no lower F1 versus BOTH isolated checkpoints",
+  "ranking": "Eligible first; fewer validation FP; fewer FN; higher F1; baseline checkpoint on ties",
+  "rule_policy": "Unchanged rules on original isolated ASR segments; do not label context windows",
+  "inference": "CUDA FP32 for dev experiment, no autocast/TF32; CPU check only selected eligible candidate",
+  "deployment": "offline_candidate_only; no runtime activation from reused validation",
+  "manifest_sha256": "006b33c20797879a3188603a8e60e2a1d499f18f718b7bb96192b0eee116acd9",
+  "inventory_sha256": "fd4b9350a73d11b4cc678dbe4f516d438bfc8833ff99cb579a07a247930c5169"
+}

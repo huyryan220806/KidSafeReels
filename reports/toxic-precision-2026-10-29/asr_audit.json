@@ -1,0 +1,24 @@
+{
+  "splits": [
+    {
+      "split": "train",
+      "total": 142,
+      "asr_eligible": 138,
+      "missing_asr": 4,
+      "segments": 785,
+      "changed_transcript_clips": 122
+    },
+    {
+      "split": "valid",
+      "total": 28,
+      "asr_eligible": 28,
+      "missing_asr": 0,
+      "segments": 162,
+      "changed_transcript_clips": 28
+    }
+  ],
+  "asr_device": "CPU INT8",
+  "comparison": "Previously cached GPU FP16 ASR; a text difference is not proof of an ASR error",
+  "test_cache_created": false,
+  "active_violence_sha256": "85dd985886b7013e7f6600698e2c0c2bc7cb71683f5ace893c720b8c74cd36b6"
+}

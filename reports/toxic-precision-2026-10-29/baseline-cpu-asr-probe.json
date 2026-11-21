@@ -1,0 +1,42 @@
+{
+  "model_only": {
+    "n": 28,
+    "negative": 14,
+    "positive": 14,
+    "threshold": 0.7799999999999999,
+    "accuracy": 0.6428571428571429,
+    "balanced_accuracy": 0.6428571428571428,
+    "log_loss": 1.6738175356217657,
+    "precision_negative": 0.6,
+    "recall_negative": 0.8571428571428571,
+    "f1_negative": 0.7058823529411765,
+    "precision": 0.75,
+    "recall": 0.42857142857142855,
+    "f1": 0.5454545454545454,
+    "macro_f1": 0.625668449197861,
+    "roc_auc": 0.6377551020408163,
+    "average_precision": 0.7294566022415857,
+    "tn": 12,
+    "fp": 2,
+    "fn": 8,
+    "tp": 6,
+    "undefined_metrics": ""
+  },
+  "hybrid": {
+    "n": 28,
+    "negative": 14,
+    "positive": 14,
+    "accuracy": 0.8571428571428571,
+    "balanced_accuracy": 0.8571428571428571,
+    "precision": 0.8571428571428571,
+    "recall": 0.8571428571428571,
+    "f1": 0.8571428571428571,
+    "macro_f1": 0.8571428571428571,
+    "false_positive_rate": 0.14285714285714285,
+    "tn": 12,
+    "fp": 2,
+    "fn": 2,
+    "tp": 12
+  },
+  "scope": "fixed active v3 on CPU ASR validation before training"
+}

@@ -1,0 +1,44 @@
+{
+  "recorded_at": "2026-10-28T22:37:10.785162+07:00",
+  "blank_reviews": {
+    "huy": {
+      "assigned": 200,
+      "completed": 0,
+      "uncertain": 0,
+      "positive": 0,
+      "negative": 0,
+      "missing": 200,
+      "note": "Structure only, not a quality audit or adjudicated gold"
+    },
+    "app": {
+      "assigned": 40,
+      "completed": 0,
+      "uncertain": 0,
+      "positive": 0,
+      "negative": 0,
+      "missing": 40,
+      "note": "Structure only, not a quality audit or adjudicated gold"
+    }
+  },
+  "zip_files": 44,
+  "zip_crc_passed": true,
+  "zip_sha256": "b291a102cef6bf060c56d756059e6ad22ce010b80a6403f9220903488646ebc1",
+  "zip_bytes": 47500872,
+  "old_speech100_manifest_unchanged": true,
+  "active_model_manifest_sha256": "89a9123a4d0f74e9cbabfafc6c6cc0d1d35c8cb1a50faa1d40a9e3a2f077e299",
+  "model_files_changed": false,
+  "unit_tests": {
+    "passed": 31,
+    "command": "python -m pytest -q tests/test_speech_intake.py"
+  },
+  "browser_checks": [
+    "video metadata loaded; no media error",
+    "previous/next restores draft",
+    "reload restores QA draft",
+    "missing watched/evidence rejected",
+    "negative with evidence rejected",
+    "blank JSON export/import passed; CLI confirms zero completed",
+    "no console errors observed"
+  ],
+  "model_training_run": false
+}

@@ -1,0 +1,4 @@
+﻿split,total_clips,asr_eligible,missing_asr,negative,positive,segments
+train,142,138,4,71,67,784
+valid,28,28,0,14,14,150
+test,30,29,1,15,14,200

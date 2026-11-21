@@ -1,0 +1,25 @@
+{
+  "completed_epoch": 5,
+  "total_epochs": 5,
+  "best": {
+    "epoch": 2,
+    "threshold": 0.7999999999999999,
+    "eligible": true,
+    "speech_log_loss": 0.919738014350157,
+    "speech_model_f1": 0.5833333333333334,
+    "speech_model_recall": 0.4666666666666667,
+    "speech_hybrid_fp": 2,
+    "speech_hybrid_fn": 2,
+    "speech_hybrid_precision": 0.8666666666666667,
+    "speech_hybrid_recall": 0.8666666666666667,
+    "speech_hybrid_f1": 0.8666666666666667,
+    "speech_hybrid_accuracy": 0.8571428571428571,
+    "written_fp": 98,
+    "written_fn": 96,
+    "written_precision": 0.5811965811965812,
+    "written_recall": 0.5862068965517241,
+    "written_f1": 0.5836909871244635,
+    "written_accuracy": 0.9017721518987342,
+    "written_log_loss": 0.3460572835536367
+  }
+}

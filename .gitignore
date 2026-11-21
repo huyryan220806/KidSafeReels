@@ -1,4 +1,7 @@
 .venv/
+.venv-model/
+.venv-train/
+.venv-*/
 __pycache__/
 *.py[cod]
 .pytest_cache/
@@ -13,6 +16,11 @@ htmlcov/
 data/raw/
 data/processed/
 data/private/
+docs/private/
+reports/private/
+output/private/
+reports/Handoff_App/
+data/Video_Train/
 models/checkpoints/
 runs/
 uploads/
@@ -28,6 +36,16 @@ uploads/
 *.onnx
 *.pkl
 *.joblib
+*.zip
+/output/pdf/*_Tien.pdf
+/output/presentation/*_Tien.pptx
+/reports/app_profile.json
+/docs/APP_HANDOFF_MESSAGE.md
+/docs/APP_HANDOFF_TIEN_MESSAGE.md
+/docs/APP_TOXIC_ANNOTATION_MESSAGE.md
+/scripts/update_app_slides.mjs
+/scripts/restore_source_chart_workbooks.py
+/.git-app-local.patch
 *.log
 .DS_Store
 Thumbs.db

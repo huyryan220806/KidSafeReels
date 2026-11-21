@@ -1,0 +1,21 @@
+{
+  "epoch": 0,
+  "threshold": 0.7799999999999999,
+  "eligible": true,
+  "speech_log_loss": 1.6533897314566712,
+  "speech_model_f1": 0.5217391304347826,
+  "speech_model_recall": 0.4,
+  "speech_hybrid_fp": 2,
+  "speech_hybrid_fn": 3,
+  "speech_hybrid_precision": 0.8571428571428571,
+  "speech_hybrid_recall": 0.8,
+  "speech_hybrid_f1": 0.8275862068965517,
+  "speech_hybrid_accuracy": 0.8214285714285714,
+  "written_fp": 94,
+  "written_fn": 100,
+  "written_precision": 0.584070796460177,
+  "written_recall": 0.5689655172413793,
+  "written_f1": 0.5764192139737991,
+  "written_accuracy": 0.9017721518987342,
+  "written_log_loss": 0.4444153423348552
+}

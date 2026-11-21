@@ -1,0 +1,25 @@
+{
+  "pytest": {
+    "command": "python -m pytest -q",
+    "passed": 238,
+    "failed": 0,
+    "seconds": 66.54
+  },
+  "artifact_verification": {
+    "version": "kidsafe-cpu-v3",
+    "verified_files": 17
+  },
+  "browser": {
+    "case": "vi-speech-022",
+    "real_http": true,
+    "decision": "flagged",
+    "model_score": 0.022751977667212486,
+    "rule_evidence_visible": true,
+    "hybrid_explanation_visible": true,
+    "playback_start_seconds": 10,
+    "txt_download_verified": true,
+    "json_download_verified": true,
+    "schema_version": "1.0"
+  },
+  "scope": "Technical integration checks, not target-video moderation accuracy; no training performed"
+}

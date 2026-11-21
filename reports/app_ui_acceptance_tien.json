@@ -1,0 +1,49 @@
+{
+  "scope": "Actual Streamlit AppTest + real HTTP API + real CPU model, no pilot inference. Not browser/manual acceptance.",
+  "passed": 9,
+  "not_run": 0,
+  "total": 9,
+  "cases": [
+    {
+      "case": "initial-requires-upload",
+      "passed": true
+    },
+    {
+      "case": "ui-real-http-both-modalities",
+      "passed": true,
+      "mode": "model"
+    },
+    {
+      "case": "download-widgets-with-current-txt-json",
+      "passed": true,
+      "limit": "Widgets and report generation, not browser download."
+    },
+    {
+      "case": "evidence-player-start-time",
+      "passed": true,
+      "start_seconds": 4,
+      "limit": "Widget start_time, not visual playback in a browser."
+    },
+    {
+      "case": "result-survives-widget-rerun",
+      "passed": true
+    },
+    {
+      "case": "new-file-clears-old-result",
+      "passed": true
+    },
+    {
+      "case": "corrupt-file-ui-error",
+      "passed": true
+    },
+    {
+      "case": "api-offline-ui-message",
+      "passed": true
+    },
+    {
+      "case": "missing-artifacts-real-worker-no-fallback",
+      "passed": true,
+      "http_mapping": 503
+    }
+  ]
+}

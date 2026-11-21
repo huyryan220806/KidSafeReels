@@ -1,0 +1,37 @@
+{
+  "source_sha256": "585fa90df17519872cb7082779fa57f3031bd42240eae106094b37449a8a4a49",
+  "preprocessing": {
+    "dev_segments": 926,
+    "full_tokens_including_special": 13318,
+    "unknown_tokens": 3,
+    "lexicon_terms_lost_before_truncation": 1,
+    "lexicon_terms_lost_only_after_truncation": 0,
+    "unknown_segments": 3
+  },
+  "timing_segments": 43,
+  "timing_videos": 43,
+  "max_end_overrun_seconds": 3.7659999999999982,
+  "timing_caveat": "Raw ASR endpoints versus clip duration; production already clamps evidence timestamps, text remains unchanged",
+  "missing_asr": 4,
+  "missing_language_counts": {
+    "th": 2,
+    "vi": 1,
+    "en": 1
+  },
+  "unknown_token_caveat": "Token IDs inspected; an OOV subword is not proof of a validation plateau or a gain from tokenizer replacement",
+  "epoch1_to_5": {
+    "n": 28,
+    "threshold": 0.5,
+    "mean_absolute_probability_drift": 0.15451155040812278,
+    "max_absolute_probability_drift": 0.39118506014347076,
+    "mean_signed_probability_drift": 0.11244146389487598,
+    "prediction_flips": 0,
+    "flip_rate": 0.0,
+    "true_label_probability_increased": 10,
+    "true_label_probability_decreased": 18,
+    "negative_mean_delta": 0.1131155755227575,
+    "positive_mean_delta": 0.11185723381737868
+  },
+  "test_accessed": false,
+  "audit_threshold_scope": "No new threshold search; comparisons fixed at 0.5. Exact replay still executes the original validation grid as part of the unchanged trainer."
+}

@@ -1,0 +1,9 @@
+{
+  "tests": 146,
+  "failures": 0,
+  "errors": 0,
+  "skipped": 0,
+  "seconds": 103.793,
+  "scope": "Full regression suite; actual model bundle HTTP/UI acceptance recorded separately.",
+  "pip_check": "passed"
+}
