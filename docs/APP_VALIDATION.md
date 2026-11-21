@@ -1,6 +1,6 @@
 # Kiểm chứng phần app — 05/10/2026
 
-Phạm vi: app trên nhánh `feat/app`, không có model thật. Máy kiểm tra: Windows 11, Python 3.12.5, Intel Core i5-12450H. Phiên bản thư viện được ghi trong `requirements-app.lock.txt`.
+Phạm vi: app trên nhánh `feat/app`, không có model thật. Máy kiểm tra: Windows 11, Python 3.12.5, Intel Core i5-12450H. Phiên bản thư viện được ghi trong `requirements/requirements-app.lock.txt`.
 
 ## Kết quả đã chạy
 
@@ -83,7 +83,7 @@ Kết quả smoke mới mặc định lưu `data/private/app-demo/smoke.json` đ
 - `apps/validation.py`: bảo vệ contract ở phía app; schema dùng chung không đổi.
 - `tests/`: API, media, worker, contract, UI và tích hợp.
 - `scripts/`: setup/run, video tổng hợp và HTTP smoke.
-- `requirements*`, `.github/workflows/ci.yml`, `Dockerfile`, `compose.yaml`, `deploy/`: môi trường/chạy app.
+- `requirements/`, `.github/workflows/ci.yml`, `deploy/Dockerfile`, `deploy/compose.yaml`: môi trường/chạy app.
 - `README.md`, `docs/`: hành vi thực tế, hướng dẫn sử dụng, bàn giao và bằng chứng kiểm tra.
 
 Không sửa `kidsafe/`, `ml/`, model artifacts hoặc báo cáo metric ML của Huy. Bản ghi ngày 05/10 chưa được push. Ngày 16/10 chuẩn bị bàn giao qua nhánh `feat/app`; không merge vào main.

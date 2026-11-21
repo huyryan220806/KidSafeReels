@@ -7,7 +7,7 @@
 Tại thư mục gốc repo, sau khi tạo `.venv` theo README:
 
 ```powershell
-.\.venv\Scripts\python.exe -m pip install -r requirements-ml.txt
+.\.venv\Scripts\python.exe -m pip install -r requirements/requirements-ml.txt
 .\.venv\Scripts\python.exe -m ml.toxic_baseline download
 .\.venv\Scripts\python.exe -m ml.toxic_baseline train
 .\.venv\Scripts\python.exe -m ml.toxic_baseline predict --text "Chúc bạn một ngày tốt lành"
@@ -17,7 +17,7 @@ Downloader lấy 3 CSV của ViCTSD từ commit cố định của tác giả; l
 
 Nhánh text trong `ml.inference` dùng `ToxicClassifier` và gọi `classifier.predict(segment_text)` theo từng đoạn ASR. Chỉ nạp joblib tự huấn luyện/nguồn tin cậy. Model text không tự có timestamp hay kết luận an toàn video; adapter giữ timestamp từ ASR và kết hợp kết quả visual.
 
-Test ML: `python -m pytest tests/test_toxic_baseline.py -q` (cần cài pytest). Full test cần thêm `requirements-dev.txt`. App owner chỉ chạy mock không cần cài requirements ML.
+Test ML: `python -m pytest tests/test_toxic_baseline.py -q` (cần cài pytest). Full test cần thêm `requirements/requirements-dev.txt`. App owner chỉ chạy mock không cần cài requirements ML.
 
 ## Việc còn lại sau baseline
 
@@ -40,7 +40,7 @@ Test ML: `python -m pytest tests/test_toxic_baseline.py -q` (cần cài pytest).
 - `video_assets.py`: tải trước backbone/ASR; `inference.py`: API adapter + CLI.
 - `smoke_video.py`: kiểm chứng model qua HTTP; `package_models.py`: tạo gói artifact local.
 
-Phụ thuộc tách `requirements-ml.txt` và `requirements-video.txt`; torch CPU cài theo hướng dẫn riêng. Chưa có notebook Colab vì đã chạy được trên CPU.
+Phụ thuộc tách `requirements/requirements-ml.txt` và `requirements/requirements-video.txt`; torch CPU cài theo hướng dẫn riêng. Chưa có notebook Colab vì đã chạy được trên CPU.
 
 ## Bàn giao cho app cuối D4
 

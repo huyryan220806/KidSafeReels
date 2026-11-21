@@ -16,7 +16,7 @@ $env:KIDSAFE_BACKEND = 'model'
 .\.venv\Scripts\python.exe -m scripts.run_app
 ```
 
-Web `http://127.0.0.1:8501`, API `http://127.0.0.1:8000/docs`. Restart API sau khi đổi artifact/code. `.env.example` chỉ là tài liệu; chương trình không tự nạp `.env`. Để app trên máy này chạy model, cần đặt biến backend ở chính terminal khởi động.
+Web `http://127.0.0.1:8501`, API `http://127.0.0.1:8000/docs`. Restart API sau khi đổi artifact/code. `config/.env.example` chỉ là tài liệu; chương trình không tự nạp `.env`. Để app trên máy này chạy model, cần đặt biến backend ở chính terminal khởi động.
 
 ## Chuẩn bị máy thành viên app
 
@@ -26,7 +26,7 @@ Lưu/commit công việc đang làm trước khi chuyển nhánh. Clone mới ho
 git clone --branch feat/ml-release https://github.com/huyryan220806/KidSafeReels.git
 cd KidSafeReels
 python -m venv .venv
-.\.venv\Scripts\python.exe -m pip install -r requirements-dev.txt -r requirements-pilot.txt
+.\.venv\Scripts\python.exe -m pip install -r requirements/requirements-dev.txt -r requirements/requirements-pilot.txt
 .\.venv\Scripts\python.exe -m pip install torch==2.14.1 torchvision==0.29.1 --index-url https://download.pytorch.org/whl/cpu
 ```
 
@@ -42,7 +42,7 @@ $env:KIDSAFE_BACKEND = 'model'
 
 Bộ cài kiểm tra danh sách file, kích thước và SHA-256 theo manifest trong repo trước khi giải nén. Không tin manifest tự khai trong ZIP. Không nạp joblib từ nguồn khác. Không cần tải/huấn luyện lại khi có đủ 8 artifact.
 
-`requirements-release.lock.txt` ghi môi trường đã kiểm thử trên Windows/Python 3.12 của Huy; dùng làm constraints khi cần tái tạo đúng phiên bản, kèm CPU index cho torch. Không xem việc tạo venv trên cùng máy là nghiệm thu máy thứ hai.
+`requirements/requirements-release.lock.txt` ghi môi trường đã kiểm thử trên Windows/Python 3.12 của Huy; dùng làm constraints khi cần tái tạo đúng phiên bản, kèm CPU index cho torch. Không xem việc tạo venv trên cùng máy là nghiệm thu máy thứ hai.
 
 ## Những điểm đã giải quyết khi tích hợp
 

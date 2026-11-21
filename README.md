@@ -27,7 +27,13 @@ powershell -ExecutionPolicy Bypass -File scripts/setup-model.ps1 -ModelBundle "D
 
 Web ở [127.0.0.1:8501](http://127.0.0.1:8501) và API ở [127.0.0.1:8000/docs](http://127.0.0.1:8000/docs). Chọn video, bấm **Kiểm tra video**, rồi xem kết quả và các đoạn được chỉ ra. Nhấn **Ctrl+C** trong terminal đã khởi động app để dừng.
 
-Giao diện gia đình có thể tải bản tóm tắt TXT. Để xem điểm, cảnh báo kỹ thuật và tải JSON, dừng phiên đang chạy rồi mở `Chay-KidSafeReels-QuanTri.cmd`. Đây là công cụ chẩn đoán trên máy cá nhân. Xem [hướng dẫn sử dụng và xử lý sự cố](docs/APP_GUIDE.md).
+Giao diện gia đình có thể tải bản tóm tắt TXT. Để xem điểm, cảnh báo kỹ thuật và tải JSON, dừng phiên đang chạy rồi mở [lối chạy quản trị](scripts/Chay-KidSafeReels-QuanTri.cmd) trong thư mục `scripts/`. Đây là công cụ chẩn đoán trên máy cá nhân. Xem [hướng dẫn sử dụng và xử lý sự cố](docs/APP_GUIDE.md).
+
+**Chạy bản mô phỏng bằng Docker Compose** từ thư mục gốc của repo.
+
+```powershell
+docker compose -f deploy/compose.yaml up --build
+```
 
 ## Model và kết quả thử nghiệm
 
@@ -45,8 +51,10 @@ Giao diện gia đình có thể tải bản tóm tắt TXT. Để xem điểm, 
 | `docs/`, `docs/assets/` | Hướng dẫn chạy, hợp đồng API, ảnh giao diện và tài liệu dự án |
 | `reports/`, `output/` | Báo cáo kỹ thuật, số liệu và tài liệu trình bày chung |
 | `scripts/`, `tests/` | Cài đặt, chạy app và kiểm thử |
+| `requirements/` | Phụ thuộc và các bản khóa phiên bản cho app và ML |
+| `config/`, `deploy/` | Mẫu cấu hình môi trường và cấu hình Docker |
 
-Video, phiếu gán nhãn, transcript riêng và gói bàn giao lưu ở `data/private/`. Trọng số và bộ cài model lưu ở `models/checkpoints/`. Đặt cấu hình cá nhân trong `.env` và dùng `.env.example` làm mẫu.
+Video, phiếu gán nhãn, transcript riêng và gói bàn giao lưu ở `data/private/`. Trọng số và bộ cài model lưu ở `models/checkpoints/`. Khi cần cấu hình app chạy trực tiếp, đặt biến môi trường trong terminal theo [mẫu cấu hình](config/.env.example).
 
 ## Phát triển
 
@@ -56,6 +64,6 @@ Chạy bộ kiểm thử app sau khi cài môi trường mô phỏng:
 .\.venv\Scripts\python.exe -m pytest -q tests/test_api.py tests/test_media.py tests/test_run_app.py tests/test_validation.py tests/test_web.py tests/test_web_design.py tests/test_worker.py
 ```
 
-CI cài thêm phụ thuộc ML và chạy toàn bộ bộ test trên Windows và Linux. Xem [cấu hình CI](.github/workflows/ci.yml), [hợp đồng API](docs/API_CONTRACT.md), [hướng dẫn ML](ml/README.md) và [nhật ký dự án](docs/PROGRESS.md).
+CI cài thêm phụ thuộc ML và chạy toàn bộ bộ test trên Windows và Linux. Xem [hướng dẫn đóng góp](.github/CONTRIBUTING.md), [cấu hình CI](.github/workflows/ci.yml), [hợp đồng API](docs/API_CONTRACT.md), [hướng dẫn ML](ml/README.md) và [nhật ký dự án](docs/PROGRESS.md).
 
 **Nhóm thực hiện:** Huy phụ trách ML, Lê Quyết Tiến phụ trách API, giao diện và tích hợp.

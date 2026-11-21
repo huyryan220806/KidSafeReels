@@ -28,7 +28,7 @@ Chỉ cần setup ở lần đầu hoặc khi dependency thay đổi. Mở http:
 
 ## Quản trị kỹ thuật local
 
-Dừng phiên app cũ bằng Ctrl+C, sau đó mở `Chay-KidSafeReels-QuanTri.cmd` hoặc chạy:
+Dừng phiên app cũ bằng Ctrl+C, sau đó mở `scripts/Chay-KidSafeReels-QuanTri.cmd` hoặc chạy:
 
 ```powershell
 powershell -ExecutionPolicy Bypass -File scripts/run-model.ps1 -Admin
@@ -79,4 +79,4 @@ $env:KIDSAFE_MODEL_TIMEOUT = '180'
 $env:KIDSAFE_HTTP_TIMEOUT = '225'
 ```
 
-Web timeout phải lớn hơn tổng hai timeout server cộng thời gian gửi file. Nếu dùng Compose, sửa cả environment và timeout nginx tương ứng; `.env.example` không được tự nạp bởi app local.
+Web timeout phải lớn hơn tổng hai timeout server cộng thời gian gửi file. Nếu dùng Compose, sửa cả environment và timeout nginx tương ứng; `config/.env.example` không được tự nạp bởi app local.

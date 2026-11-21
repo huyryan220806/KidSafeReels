@@ -7,11 +7,11 @@ Nhánh tích hợp `feat/ml-release` nối model thật vào `kidsafe.pipeline.a
 Tại gốc repo, dùng Python 3.12 và môi trường ảo theo README:
 
 ```powershell
-.\.venv\Scripts\python.exe -m pip install -r requirements-dev.txt -r requirements-video.txt
+.\.venv\Scripts\python.exe -m pip install -r requirements/requirements-dev.txt -r requirements/requirements-video.txt
 .\.venv\Scripts\python.exe -m pip install torch==2.14.1 torchvision==0.29.1 --index-url https://download.pytorch.org/whl/cpu
 ```
 
-Inference dùng CPU cho cả hai nhánh, ASR dùng int8, 4 luồng. Lượt train 28/10 dùng RTX 4060 Laptop trong `.venv-train` riêng; máy app không cần GPU. PyAV kèm thư viện FFmpeg; không cần cài lệnh `ffmpeg` riêng. Ghim PyAV 16.1.0 vì faster-whisper 1.2.1 chưa tương thích với `av.open` của PyAV 19; có test giải mã WAV để bắt lỗi này. Cài gói video chỉ ở máy chạy API/model; máy chỉ chạy giao diện có thể dùng `requirements.txt`.
+Inference dùng CPU cho cả hai nhánh, ASR dùng int8, 4 luồng. Lượt train 28/10 dùng RTX 4060 Laptop trong `.venv-train` riêng; máy app không cần GPU. PyAV kèm thư viện FFmpeg; không cần cài lệnh `ffmpeg` riêng. Ghim PyAV 16.1.0 vì faster-whisper 1.2.1 chưa tương thích với `av.open` của PyAV 19; có test giải mã WAV để bắt lỗi này. Cài gói video chỉ ở máy chạy API/model; máy chỉ chạy giao diện có thể dùng `requirements/requirements.txt`.
 
 ## Chuẩn bị model
 

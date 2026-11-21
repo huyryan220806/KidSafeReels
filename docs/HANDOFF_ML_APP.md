@@ -34,8 +34,8 @@ Không có audio: Huy trả `toxic_language=null` nếu không có OCR thay th�
 ## Phụ thuộc và contract cần review khi ghép PR
 
 - Thêm `av>=19,<20` cho app và nâng Streamlit tối thiểu 1.65 để hỗ trợ kiểm thử uploader thật.
-- `requirements-app.lock.txt` khóa môi trường app đã chạy Windows/Python 3.12. Cài phần app bằng `-r requirements-dev.txt -c requirements-app.lock.txt`.
-- Huy nên tách `requirements-ml.txt`; thử tương thích với NumPy/PyAV/PyTorch của model trước khi hợp nhất lock. App lock không tuyên bố tương thích với stack ML chưa bàn giao.
+- `requirements/requirements-app.lock.txt` khóa môi trường app đã chạy Windows/Python 3.12. Cài phần app bằng `-r requirements/requirements-dev.txt -c requirements/requirements-app.lock.txt`.
+- Huy nên tách `requirements/requirements-ml.txt`; thử tương thích với NumPy/PyAV/PyTorch của model trước khi hợp nhất lock. App lock không tuyên bố tương thích với stack ML chưa bàn giao.
 - JSON/schema v1 không thay đổi. Hành vi upload thay đổi: byte giả đuôi `.mp4` bị từ chối ngay cả ở mock. Dùng fixture video thật trong test.
 - Mã lỗi bổ sung 429/500/502/504 và media 422/415 đã ghi trong `API_CONTRACT.md`.
 

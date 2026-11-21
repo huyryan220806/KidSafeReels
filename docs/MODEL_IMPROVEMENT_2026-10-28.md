@@ -17,12 +17,12 @@ Nguồn: [PhoBERT/VinAI](https://huggingface.co/vinai/phobert-base) (MIT), [PyVi
 
 ## Tái tạo thực nghiệm
 
-Môi trường CPU của app là `.venv` hoặc `.venv-model`; môi trường GPU riêng là `.venv-train`. Python 3.12, Torch 2.10.0/torchvision 0.25.0 CUDA 12.8 cho train; Torch 2.14.1/torchvision 0.29.1 CPU cho app. Khóa phiên bản tương ứng trong `requirements-training.lock.txt` và `requirements-release.lock.txt`. Không cài bản CUDA vào môi trường app.
+Môi trường CPU của app là `.venv` hoặc `.venv-model`; môi trường GPU riêng là `.venv-train`. Python 3.12, Torch 2.10.0/torchvision 0.25.0 CUDA 12.8 cho train; Torch 2.14.1/torchvision 0.29.1 CPU cho app. Khóa phiên bản tương ứng trong `requirements/requirements-training.lock.txt` và `requirements/requirements-release.lock.txt`. Không cài bản CUDA vào môi trường app.
 
 ```powershell
 python -m venv .venv-train
 .\.venv-train\Scripts\python.exe -m pip install torch==2.10.0 torchvision==0.25.0 --index-url https://download.pytorch.org/whl/cu128
-.\.venv-train\Scripts\python.exe -m pip install -r requirements-training.txt -c requirements-training.lock.txt
+.\.venv-train\Scripts\python.exe -m pip install -r requirements/requirements-training.txt -c requirements/requirements-training.lock.txt
 .\.venv-train\Scripts\python.exe -m ml.prepare_phobert
 ```
 

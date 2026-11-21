@@ -34,7 +34,7 @@ powershell -ExecutionPolicy Bypass -File scripts/setup-model.ps1 -ModelBundle "D
 powershell -ExecutionPolicy Bypass -File scripts/run-model.ps1 -OpenBrowser
 ```
 
-Setup cài môi trường `.venv-model`, CPU Torch, Transformers 4.57.1/PyVi và Hugging Face Hub 0.36.0 tương thích với cả PhoBERT và Whisper. Khóa trong `requirements-release.lock.txt`; không dùng lock v2 cũ khi cài v3. Tạo môi trường mới cần Internet để cài thư viện; inference sau đó dùng weights local, không tải model ngầm.
+Setup cài môi trường `.venv-model`, CPU Torch, Transformers 4.57.1/PyVi và Hugging Face Hub 0.36.0 tương thích với cả PhoBERT và Whisper. Khóa trong `requirements/requirements-release.lock.txt`; không dùng lock v2 cũ khi cài v3. Tạo môi trường mới cần Internet để cài thư viện; inference sau đó dùng weights local, không tải model ngầm.
 
 Nếu máy Huy dùng `.venv` đã cài sẵn và chưa có `.venv-model`, launcher tự chọn `.venv`. Không cài môi trường CUDA `.venv-train` để chạy app.
 
@@ -63,6 +63,6 @@ Copy-Item -LiteralPath models/artifacts-v2.json -Destination models/artifacts.js
 powershell -ExecutionPolicy Bypass -File scripts/run-model.ps1 -OpenBrowser
 ```
 
-Phụ thuộc CPU mới vẫn nạp được hai classifier v1 của v2; không cần gỡ PhoBERT. `requirements-release-v2.lock.txt` lưu môi trường cũ để đối chiếu. Sau rollback, thay đổi manifest là local có chủ đích, không commit/push nhầm như một bản phát hành mới. Muốn trở lại v3 thì dùng ZIP/manifest v3 tương ứng.
+Phụ thuộc CPU mới vẫn nạp được hai classifier v1 của v2; không cần gỡ PhoBERT. `requirements/requirements-release-v2.lock.txt` lưu môi trường cũ để đối chiếu. Sau rollback, thay đổi manifest là local có chủ đích, không commit/push nhầm như một bản phát hành mới. Muốn trở lại v3 thì dùng ZIP/manifest v3 tương ứng.
 
 Trạng thái kiểm thử và activation được ghi trong [integration checks](../reports/model-improvement-2026-10-28/integration_checks.json) và [progress](PROGRESS.md). Tệp bàn giao này không gửi tin nhắn tự động cho Tiến.
