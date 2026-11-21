@@ -22,7 +22,7 @@ Không thay schema, nhãn, ngưỡng hoặc trọng số. Dataset/checkpoint, lo
 
 | Hạng mục | Trạng thái | Bằng chứng / giới hạn |
 |---|---|---|
-| Cài môi trường CPU sạch | Đạt | requirements-release.lock.txt làm constraints, PyTorch lấy CPU index |
+| Cài môi trường CPU sạch | Đạt | requirements/requirements-release.lock.txt làm constraints, PyTorch lấy CPU index |
 | `pip check` | Đạt | No broken requirements found |
 | `ml.release_verify` | Đạt | kidsafe-cpu-v1, verified_files: 8 |
 | `pytest -q` | **118 passed**, 0 failed, 0 skipped | 37,046 giây; reports/app_test_summary.json |

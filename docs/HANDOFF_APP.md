@@ -31,7 +31,7 @@ git clone --branch feat/ml-release https://github.com/huyryan220806/KidSafeReels
 cd KidSafeReels-app-check
 git switch -c feat/app-release-check
 py -3.12 -m venv .venv
-.\.venv\Scripts\python.exe -m pip install -r requirements-dev.txt -r requirements-pilot.txt
+.\.venv\Scripts\python.exe -m pip install -r requirements/requirements-dev.txt -r requirements/requirements-pilot.txt
 .\.venv\Scripts\python.exe -m pip install torch==2.14.1 torchvision==0.29.1 --index-url https://download.pytorch.org/whl/cpu
 ```
 
@@ -48,7 +48,7 @@ $env:KIDSAFE_BACKEND = 'model'
 
 Kỳ vọng verifier báo `kidsafe-cpu-v1`, `verified_files: 8`. Mở web http://127.0.0.1:8501 và API http://127.0.0.1:8000/docs. Ctrl+C dừng cả hai. `/health` báo backend, chưa chứng minh checkpoint nạp thành công; cần gửi video hợp lệ và nhận `mode=model`.
 
-**Lưu ý tích hợp:** giữ `av==16.1.0`; PyAV 19 không tương thích faster-whisper 1.2.1 trong pipeline này. `requirements-app.lock.txt` chỉ là lock app; môi trường ML tham chiếu nằm ở `requirements-release.lock.txt`. Không nâng phiên bản tùy ý nếu chưa kiểm thử lại. `.env.example` không tự được nạp; đặt biến môi trường trong terminal khởi động. Docker hiện chỉ gồm app/mock, không phải cách chạy model đã nghiệm thu.
+**Lưu ý tích hợp:** giữ `av==16.1.0`; PyAV 19 không tương thích faster-whisper 1.2.1 trong pipeline này. `requirements/requirements-app.lock.txt` chỉ là lock app; môi trường ML tham chiếu nằm ở `requirements/requirements-release.lock.txt`. Không nâng phiên bản tùy ý nếu chưa kiểm thử lại. `config/.env.example` không tự được nạp; đặt biến môi trường trong terminal khởi động. Docker hiện chỉ gồm app/mock, không phải cách chạy model đã nghiệm thu.
 
 ## 3. Việc app cần làm, theo thứ tự
 

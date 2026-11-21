@@ -24,7 +24,7 @@ Clip không có ASR đủ điều kiện bị loại khỏi fitting/loss xác su
 
 ## Chạy lại hoặc tiếp tục
 
-Môi trường app `.venv` CPU giữ nguyên; `.venv-train` dùng CUDA và phụ thuộc ghim trong `requirements-training.lock.txt`. GPU ASR thêm faster-whisper/ctranslate2/onnxruntime; Windows dùng DLL CUDA/cuDNN có sẵn trong torch/lib của môi trường train, không đổi PATH hệ thống.
+Môi trường app `.venv` CPU giữ nguyên; `.venv-train` dùng CUDA và phụ thuộc ghim trong `requirements/requirements-training.lock.txt`. GPU ASR thêm faster-whisper/ctranslate2/onnxruntime; Windows dùng DLL CUDA/cuDNN có sẵn trong torch/lib của môi trường train, không đổi PATH hệ thống.
 
 ```powershell
 # Chỉ cho run mới; prepare từ chối ghi đè manifest/protocol:

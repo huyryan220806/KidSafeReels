@@ -7,7 +7,7 @@ Run ngày 20/10/2026: `model-improvement-2026-10-20`. Phạm vi chỉ Toxic, Vio
 Máy đã có dữ liệu/checkpoint từ baseline. Cài thư viện đồ thị một lần:
 
 ```powershell
-.\.venv\Scripts\python.exe -m pip install -r requirements-evaluation.txt -c requirements-evaluation.lock.txt
+.\.venv\Scripts\python.exe -m pip install -r requirements/requirements-evaluation.txt -c requirements/requirements-evaluation.lock.txt
 ```
 
 Môi trường model giữ bộ phụ thuộc bàn giao trong `docs/VIDEO_PIPELINE.md`, gồm PyAV 16.1.0 và PyTorch CPU. Mỗi lượt thí nghiệm dùng run ID mới. Ví dụ:

@@ -10,7 +10,8 @@ docs
 output
 runs
 *.zip
-.env
-.env.*
+**/.env
+**/.env.*
+.streamlit/secrets.toml
 *.log
 uploads

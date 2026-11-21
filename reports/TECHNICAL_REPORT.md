@@ -85,7 +85,7 @@ Với giới hạn một tuần, nhóm giữ hai nhãn P0 và demo local. Hạng
 
 ## 8. Tài liệu và dữ liệu tái tạo
 
-Nguồn mã tích hợp: https://github.com/huyryan220806/KidSafeReels, nhánh feat/app; đầu vào bàn giao feat/ml-release tại f5d9310. Bản sao cá nhân: https://github.com/TienMoi79/KidSafeReels. Biên bản máy app: docs/APP_ACCEPTANCE_TIEN.md; kết quả máy đọc được: reports/app_acceptance_tien_results.json, reports/app_ui_acceptance_tien.json, reports/app_test_summary.json. Mã huấn luyện nằm ở ml/train_visual.py và ml/toxic_baseline.py; inference ở ml/inference.py. Phiên bản/phụ thuộc: requirements-video.txt, requirements-release.lock.txt. Checksum: models/artifacts.json.
+Nguồn mã tích hợp: https://github.com/huyryan220806/KidSafeReels, nhánh feat/app; đầu vào bàn giao feat/ml-release tại f5d9310. Bản sao cá nhân: https://github.com/TienMoi79/KidSafeReels. Biên bản máy app: docs/APP_ACCEPTANCE_TIEN.md; kết quả máy đọc được: reports/app_acceptance_tien_results.json, reports/app_ui_acceptance_tien.json, reports/app_test_summary.json. Mã huấn luyện nằm ở ml/train_visual.py và ml/toxic_baseline.py; inference ở ml/inference.py. Phiên bản/phụ thuộc: requirements/requirements-video.txt, requirements/requirements-release.lock.txt. Checksum: models/artifacts.json.
 
 Kết quả gốc: reports/visual_baseline_metrics.json, reports/toxic_baseline_metrics.json, reports/video_smoke_results.json, reports/pilot_data_audit.json và reports/release_smoke_results.json. Dùng các tệp máy đọc được để tái tạo bảng số liệu, không nhập số từ hình ảnh.
 

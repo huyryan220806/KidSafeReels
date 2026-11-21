@@ -8,7 +8,7 @@ try {
         python -m venv .venv-model
         if ($LASTEXITCODE -ne 0) { throw 'Can Python 3.12 de tao moi truong model.' }
     }
-    & $modelPython -m pip install -r requirements-dev.txt -r requirements-pilot.txt -c requirements-release.lock.txt
+    & $modelPython -m pip install -r requirements/requirements-dev.txt -r requirements/requirements-pilot.txt -c requirements/requirements-release.lock.txt
     if ($LASTEXITCODE -ne 0) { throw 'Cai thu vien model that bai.' }
     & $modelPython -m pip install torch==2.14.1 torchvision==0.29.1 --index-url https://download.pytorch.org/whl/cpu
     if ($LASTEXITCODE -ne 0) { throw 'Cai PyTorch CPU that bai.' }

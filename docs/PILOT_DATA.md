@@ -32,7 +32,7 @@ Thông tin giấy phép dựa trên trang nguồn có lưu phiên bản và lị
 Checkout `feat/ml-pilot-data`; chuẩn bị môi trường/model theo [VIDEO_PIPELINE.md](VIDEO_PIPELINE.md). Không cần GPU.
 
 ```powershell
-.\.venv\Scripts\python.exe -m pip install -r requirements-pilot.txt
+.\.venv\Scripts\python.exe -m pip install -r requirements/requirements-pilot.txt
 .\.venv\Scripts\python.exe -m ml.pilot_data prepare
 .\.venv\Scripts\python.exe -m ml.pilot_data preprocess
 .\.venv\Scripts\python.exe -m ml.pilot_data audit

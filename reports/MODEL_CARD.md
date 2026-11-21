@@ -42,7 +42,7 @@ ViCTSD/RLVS test đã được báo cáo ở lượt trước: đây là benchma
 
 Đã kiểm CPU với checkpoint GPU: Toxic delta tối đa 2,06e-6 ở 32 bình luận train. R3D có sai khác nhỏ do cuDNN TF32; audit FP32 trên 386 test không đổi nhãn, CPU 20 mẫu gần ngưỡng khớp FP32 delta≤8,23e-7. Giữ kết quả kiểm đầu failed và biên bản xử lý, không đổi ngưỡng. CPU median lượt sau ở mẫu nhỏ: Toxic 0,059 s/bình luận, Violence 2,56 s/clip, chưa gồm ASR/API.
 
-Windows/Python 3.12.10, Ryzen 5 7535HS, inference CPU 4 luồng. Train dùng RTX 4060 Laptop 8 GiB trong môi trường riêng. `requirements-training.lock.txt` ghi CUDA; `requirements-release.lock.txt` ghi CPU. ZIP v3≈1,01GiB không chứa video; giữ v2 để rollback.
+Windows/Python 3.12.10, Ryzen 5 7535HS, inference CPU 4 luồng. Train dùng RTX 4060 Laptop 8 GiB trong môi trường riêng. `requirements/requirements-training.lock.txt` ghi CUDA; `requirements/requirements-release.lock.txt` ghi CPU. ZIP v3≈1,01GiB không chứa video; giữ v2 để rollback.
 
 ## Nguồn và quyền sử dụng
 
