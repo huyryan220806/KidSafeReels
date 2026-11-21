@@ -1,0 +1,17 @@
+{
+  "train": {
+    "n": 6965,
+    "truncated": 52,
+    "text_ids_sha256": "011330dc75ba6937819762436e9765680846eec83c9e28b0ea4285ea30410310"
+  },
+  "valid": {
+    "n": 1975,
+    "truncated": 17,
+    "text_ids_sha256": "6b463dfee5f1670ee517c03cb75673976b061b7aa1e3cea705e4f93dc0d6f770"
+  },
+  "test": {
+    "n": 988,
+    "truncated": 3,
+    "text_ids_sha256": "22efa9b701712ff0c399f561a3ede5e195f326039bbfc5f848b3be68c5faa633"
+  }
+}

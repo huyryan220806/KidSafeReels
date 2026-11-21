@@ -1,0 +1,482 @@
+[
+  {
+    "origin": "original checkpoint, new validation export",
+    "checkpoint": "models\\checkpoints\\toxic-phobert-v3\\model.safetensors",
+    "epoch": 0,
+    "device": "cuda",
+    "num_labels": 2,
+    "id2label": {
+      "0": "LABEL_0",
+      "1": "LABEL_1"
+    },
+    "label_semantics": {
+      "0": "non_toxic",
+      "1": "toxic"
+    },
+    "label_source": "Human video labels, not segment labels",
+    "segment_label_sentinel": -1,
+    "segment_count": 162,
+    "clip_count": 28,
+    "logits_shapes": [
+      [
+        7,
+        2
+      ],
+      [
+        6,
+        2
+      ],
+      [
+        6,
+        2
+      ],
+      [
+        6,
+        2
+      ],
+      [
+        3,
+        2
+      ],
+      [
+        7,
+        2
+      ],
+      [
+        2,
+        2
+      ],
+      [
+        7,
+        2
+      ],
+      [
+        7,
+        2
+      ],
+      [
+        8,
+        2
+      ],
+      [
+        7,
+        2
+      ],
+      [
+        13,
+        2
+      ],
+      [
+        4,
+        2
+      ],
+      [
+        6,
+        2
+      ],
+      [
+        8,
+        2
+      ],
+      [
+        4,
+        2
+      ],
+      [
+        5,
+        2
+      ],
+      [
+        3,
+        2
+      ],
+      [
+        1,
+        2
+      ],
+      [
+        6,
+        2
+      ],
+      [
+        5,
+        2
+      ],
+      [
+        5,
+        2
+      ],
+      [
+        3,
+        2
+      ],
+      [
+        6,
+        2
+      ],
+      [
+        6,
+        2
+      ],
+      [
+        11,
+        2
+      ],
+      [
+        5,
+        2
+      ],
+      [
+        5,
+        2
+      ]
+    ],
+    "model_training": false,
+    "gradient_disabled": true,
+    "repeated_forward_max_logit_delta": 0.0,
+    "softmax_sigmoid_max_delta": 2.9802322387695312e-08,
+    "ordered_ids_sha256": "2a738134d85fff9b38d96ce68cb6c2d6601a76d93abe545ec744591b35b81c87",
+    "expected_probability_max_delta": 0.0,
+    "expected_prediction_flips": 0,
+    "metrics": {
+      "n": 28,
+      "negative": 13,
+      "positive": 15,
+      "threshold": 0.5,
+      "tn": 11,
+      "fp": 2,
+      "fn": 8,
+      "tp": 7,
+      "accuracy": 0.6428571428571429,
+      "toxic_precision": 0.7777777777777778,
+      "toxic_recall": 0.4666666666666667,
+      "toxic_f1": 0.5833333333333334,
+      "macro_f1": 0.6354166666666667,
+      "weighted_f1": 0.6316964285714286,
+      "log_loss": 1.6533897314566712,
+      "average_precision": 0.7629071317050855,
+      "roc_auc": 0.6666666666666666,
+      "undefined_class_policy": "zero division -> 0 for P/R/F1; undefined AP/AUC -> null"
+    }
+  },
+  {
+    "origin": "original checkpoint, new validation export",
+    "checkpoint": "runs\\toxic-human-2026-11-13\\toxic\\selected\\model.safetensors",
+    "epoch": 2,
+    "device": "cuda",
+    "num_labels": 2,
+    "id2label": {
+      "0": "LABEL_0",
+      "1": "LABEL_1"
+    },
+    "label_semantics": {
+      "0": "non_toxic",
+      "1": "toxic"
+    },
+    "label_source": "Human video labels, not segment labels",
+    "segment_label_sentinel": -1,
+    "segment_count": 162,
+    "clip_count": 28,
+    "logits_shapes": [
+      [
+        7,
+        2
+      ],
+      [
+        6,
+        2
+      ],
+      [
+        6,
+        2
+      ],
+      [
+        6,
+        2
+      ],
+      [
+        3,
+        2
+      ],
+      [
+        7,
+        2
+      ],
+      [
+        2,
+        2
+      ],
+      [
+        7,
+        2
+      ],
+      [
+        7,
+        2
+      ],
+      [
+        8,
+        2
+      ],
+      [
+        7,
+        2
+      ],
+      [
+        13,
+        2
+      ],
+      [
+        4,
+        2
+      ],
+      [
+        6,
+        2
+      ],
+      [
+        8,
+        2
+      ],
+      [
+        4,
+        2
+      ],
+      [
+        5,
+        2
+      ],
+      [
+        3,
+        2
+      ],
+      [
+        1,
+        2
+      ],
+      [
+        6,
+        2
+      ],
+      [
+        5,
+        2
+      ],
+      [
+        5,
+        2
+      ],
+      [
+        3,
+        2
+      ],
+      [
+        6,
+        2
+      ],
+      [
+        6,
+        2
+      ],
+      [
+        11,
+        2
+      ],
+      [
+        5,
+        2
+      ],
+      [
+        5,
+        2
+      ]
+    ],
+    "model_training": false,
+    "gradient_disabled": true,
+    "repeated_forward_max_logit_delta": 0.0,
+    "softmax_sigmoid_max_delta": 4.470348358154297e-08,
+    "ordered_ids_sha256": "2a738134d85fff9b38d96ce68cb6c2d6601a76d93abe545ec744591b35b81c87",
+    "expected_probability_max_delta": 0.0,
+    "expected_prediction_flips": 0,
+    "metrics": {
+      "n": 28,
+      "negative": 13,
+      "positive": 15,
+      "threshold": 0.5,
+      "tn": 11,
+      "fp": 2,
+      "fn": 8,
+      "tp": 7,
+      "accuracy": 0.6428571428571429,
+      "toxic_precision": 0.7777777777777778,
+      "toxic_recall": 0.4666666666666667,
+      "toxic_f1": 0.5833333333333334,
+      "macro_f1": 0.6354166666666667,
+      "weighted_f1": 0.6316964285714286,
+      "log_loss": 0.919738014350157,
+      "average_precision": 0.7795345612992671,
+      "roc_auc": 0.7025641025641025,
+      "undefined_class_policy": "zero division -> 0 for P/R/F1; undefined AP/AUC -> null"
+    }
+  },
+  {
+    "origin": "original checkpoint, new validation export",
+    "checkpoint": "runs\\toxic-human-2026-11-13\\toxic\\resume.pt",
+    "epoch": 5,
+    "device": "cuda",
+    "num_labels": 2,
+    "id2label": {
+      "0": "LABEL_0",
+      "1": "LABEL_1"
+    },
+    "label_semantics": {
+      "0": "non_toxic",
+      "1": "toxic"
+    },
+    "label_source": "Human video labels, not segment labels",
+    "segment_label_sentinel": -1,
+    "segment_count": 162,
+    "clip_count": 28,
+    "logits_shapes": [
+      [
+        7,
+        2
+      ],
+      [
+        6,
+        2
+      ],
+      [
+        6,
+        2
+      ],
+      [
+        6,
+        2
+      ],
+      [
+        3,
+        2
+      ],
+      [
+        7,
+        2
+      ],
+      [
+        2,
+        2
+      ],
+      [
+        7,
+        2
+      ],
+      [
+        7,
+        2
+      ],
+      [
+        8,
+        2
+      ],
+      [
+        7,
+        2
+      ],
+      [
+        13,
+        2
+      ],
+      [
+        4,
+        2
+      ],
+      [
+        6,
+        2
+      ],
+      [
+        8,
+        2
+      ],
+      [
+        4,
+        2
+      ],
+      [
+        5,
+        2
+      ],
+      [
+        3,
+        2
+      ],
+      [
+        1,
+        2
+      ],
+      [
+        6,
+        2
+      ],
+      [
+        5,
+        2
+      ],
+      [
+        5,
+        2
+      ],
+      [
+        3,
+        2
+      ],
+      [
+        6,
+        2
+      ],
+      [
+        6,
+        2
+      ],
+      [
+        11,
+        2
+      ],
+      [
+        5,
+        2
+      ],
+      [
+        5,
+        2
+      ]
+    ],
+    "model_training": false,
+    "gradient_disabled": true,
+    "repeated_forward_max_logit_delta": 0.0,
+    "softmax_sigmoid_max_delta": 5.960464477539063e-08,
+    "ordered_ids_sha256": "2a738134d85fff9b38d96ce68cb6c2d6601a76d93abe545ec744591b35b81c87",
+    "expected_probability_max_delta": null,
+    "expected_prediction_flips": null,
+    "metrics": {
+      "n": 28,
+      "negative": 13,
+      "positive": 15,
+      "threshold": 0.5,
+      "tn": 11,
+      "fp": 2,
+      "fn": 8,
+      "tp": 7,
+      "accuracy": 0.6428571428571429,
+      "toxic_precision": 0.7777777777777778,
+      "toxic_recall": 0.4666666666666667,
+      "toxic_f1": 0.5833333333333334,
+      "macro_f1": 0.6354166666666667,
+      "weighted_f1": 0.6316964285714286,
+      "log_loss": 0.6269971088559796,
+      "average_precision": 0.830048285048285,
+      "roc_auc": 0.7948717948717949,
+      "undefined_class_policy": "zero division -> 0 for P/R/F1; undefined AP/AUC -> null"
+    }
+  }
+]

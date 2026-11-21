@@ -1,0 +1,24 @@
+{
+  "run_id": "model-improvement-2026-10-20",
+  "configurations": {
+    "base-greedy": {
+      "directory": "faster-whisper-base",
+      "beam_size": 1
+    },
+    "base-beam5": {
+      "directory": "faster-whisper-base",
+      "beam_size": 5,
+      "temperature": 0
+    },
+    "small-beam5": {
+      "directory": "faster-whisper-small",
+      "beam_size": 5,
+      "temperature": 0
+    }
+  },
+  "selection": "minimum dev corpus WER among candidates with real-time factor <= 2.5; fallback baseline",
+  "normalization": "NFC + casefold + punctuation to spaces; WER whitespace tokens, CER excludes whitespace",
+  "samples": 32,
+  "manifest_sha256": "bb8603cd6edfbb10bf808ae1c57edf635bbb15c333bac8bebd32ca38d259482f",
+  "limitations": "16 utterances per split, read speech, not conversational TikTok or Toxic ground truth"
+}

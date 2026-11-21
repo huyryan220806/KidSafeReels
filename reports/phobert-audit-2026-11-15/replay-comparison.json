@@ -1,0 +1,66 @@
+{
+  "probabilities": [
+    {
+      "epoch": 0,
+      "n": 28,
+      "threshold": 0.5,
+      "mean_absolute_probability_drift": 0.0,
+      "max_absolute_probability_drift": 0.0,
+      "mean_signed_probability_drift": 0.0,
+      "prediction_flips": 0,
+      "flip_rate": 0.0,
+      "true_label_probability_increased": 0,
+      "true_label_probability_decreased": 0,
+      "negative_mean_delta": 0.0,
+      "positive_mean_delta": 0.0
+    },
+    {
+      "epoch": 2,
+      "n": 28,
+      "threshold": 0.5,
+      "mean_absolute_probability_drift": 0.0,
+      "max_absolute_probability_drift": 0.0,
+      "mean_signed_probability_drift": 0.0,
+      "prediction_flips": 0,
+      "flip_rate": 0.0,
+      "true_label_probability_increased": 0,
+      "true_label_probability_decreased": 0,
+      "negative_mean_delta": 0.0,
+      "positive_mean_delta": 0.0
+    },
+    {
+      "epoch": 5,
+      "n": 28,
+      "threshold": 0.5,
+      "mean_absolute_probability_drift": 0.0,
+      "max_absolute_probability_drift": 0.0,
+      "mean_signed_probability_drift": 0.0,
+      "prediction_flips": 0,
+      "flip_rate": 0.0,
+      "true_label_probability_increased": 0,
+      "true_label_probability_decreased": 0,
+      "negative_mean_delta": 0.0,
+      "positive_mean_delta": 0.0
+    }
+  ],
+  "weights": [
+    {
+      "epoch": 2,
+      "tensors": 201,
+      "changed_tensors": 0,
+      "max_weight_delta": 0.0
+    },
+    {
+      "epoch": 5,
+      "tensors": 201,
+      "changed_tensors": 0,
+      "max_weight_delta": 0.0
+    }
+  ],
+  "missing_original_epochs": [
+    1,
+    3,
+    4
+  ],
+  "warning": "Even exact retained-checkpoint matches do not turn replay files into historical logs"
+}

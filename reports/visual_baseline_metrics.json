@@ -1,0 +1,133 @@
+{
+  "version": "violence-resnet18-v1",
+  "source": {
+    "url": "https://www.kaggle.com/api/v1/datasets/download/mohamedmustafa/real-life-violence-situations-dataset?datasetVersionNumber=1",
+    "version": 1,
+    "archive_sha256": "4fb2933dae16cf10ec441d7165fb8e31fc64676493fe8f66c55e359e1c211c74",
+    "license_metadata": "Data files © Original Authors",
+    "citation": "Soliman et al., Violence Recognition from Videos using Deep Learning Techniques, ICICIS 2019",
+    "video_count": 3902
+  },
+  "split": {
+    "train": {
+      "count": 1157,
+      "violence": 593,
+      "groups": 1124
+    },
+    "valid": {
+      "count": 386,
+      "violence": 198,
+      "groups": 375
+    },
+    "test": {
+      "count": 386,
+      "violence": 198,
+      "groups": 333
+    }
+  },
+  "grouping": "SHA256 exact dedup + three-frame dHash all distances <=10; source IDs unavailable",
+  "excluded_count": 1973,
+  "unique_groups": 1832,
+  "conflicting_unique_videos": 1,
+  "threshold": 0.42999999999999994,
+  "threshold_objective": "validation macro-F1",
+  "validation": {
+    "classification_report": {
+      "accuracy": 0.9559585492227979,
+      "macro avg": {
+        "precision": 0.9565129613179358,
+        "recall": 0.9555931656995487,
+        "f1-score": 0.9558919413057652,
+        "support": 386.0
+      },
+      "weighted avg": {
+        "precision": 0.956235755270367,
+        "recall": 0.9559585492227979,
+        "f1-score": 0.9559363465837869,
+        "support": 386.0
+      },
+      "non_violence": {
+        "precision": 0.9672131147540983,
+        "recall": 0.9414893617021277,
+        "f1-score": 0.954177897574124,
+        "support": 188.0
+      },
+      "violence": {
+        "precision": 0.9458128078817734,
+        "recall": 0.9696969696969697,
+        "f1-score": 0.9576059850374065,
+        "support": 198.0
+      }
+    },
+    "confusion_matrix_true_rows_predicted_columns": [
+      [
+        177,
+        11
+      ],
+      [
+        6,
+        192
+      ]
+    ]
+  },
+  "test": {
+    "classification_report": {
+      "accuracy": 0.9585492227979274,
+      "macro avg": {
+        "precision": 0.9586827956989248,
+        "recall": 0.9583870621104664,
+        "f1-score": 0.9585091231558864,
+        "support": 386.0
+      },
+      "weighted avg": {
+        "precision": 0.9585873864839266,
+        "recall": 0.9585492227979274,
+        "f1-score": 0.958542539524254,
+        "support": 386.0
+      },
+      "non_violence": {
+        "precision": 0.9623655913978495,
+        "recall": 0.9521276595744681,
+        "f1-score": 0.9572192513368984,
+        "support": 188.0
+      },
+      "violence": {
+        "precision": 0.955,
+        "recall": 0.9646464646464646,
+        "f1-score": 0.9597989949748744,
+        "support": 198.0
+      }
+    },
+    "confusion_matrix_true_rows_predicted_columns": [
+      [
+        179,
+        9
+      ],
+      [
+        7,
+        191
+      ]
+    ]
+  },
+  "seed": 42,
+  "sampling": "uniform8-mean-max-v1",
+  "classifier_C": 0.1,
+  "feature_seconds": 654.280380799999,
+  "fit_seconds": 0.3327408999975887,
+  "environment": {
+    "python": "3.12.10",
+    "platform": "Windows-11-10.0.26300-SP0",
+    "sklearn": "1.9.1",
+    "device": "cpu",
+    "torch_threads": 4
+  },
+  "manifest_sha256": "8456016850fbb34142f349c49772d4fdc2438e1ad884ee000d4fac654b519a1b",
+  "artifact_sha256": "86b951f202613971fb2a25ff7555c03da9ee0a7a786fa6e468e1e4b459143c69",
+  "backbone_sha256": "821d93baf8655da3b5415fa4f1d62ae6fbecd1019fb3f895ed48245b6fe9c1e5",
+  "limitations": [
+    "Exploratory RLVS result, not short-video child-safety accuracy.",
+    "Heuristic groups do not guarantee original-source independence.",
+    "No temporal ground truth: clip score cannot localize violent moments.",
+    "Uniform 8-frame sampling may miss brief events; no motion modeling."
+  ]
+}

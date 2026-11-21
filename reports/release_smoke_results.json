@@ -1,0 +1,118 @@
+{
+  "date": "2026-10-18",
+  "transport": "HTTP loopback + actual spawned worker + CPU model artifacts",
+  "app_commit_integrated": "d82798d",
+  "artifact_verification": {
+    "version": "kidsafe-cpu-v1",
+    "verified_files": 8
+  },
+  "pilot_scope": "train only; no gold or moderation quality claims; raw outputs private",
+  "warm_25_second_clip_count": 4,
+  "warm_median_seconds": 5.19825,
+  "warm_p95_seconds": 11.947294999999997,
+  "latency_limit": "Four warm clips from one group, one run each; descriptive only, not representative performance",
+  "passed": 13,
+  "total": 13,
+  "cases": [
+    {
+      "case": "pilot-train-005",
+      "expected_http": 200,
+      "actual_http": 200,
+      "passed": true,
+      "request_seconds": 23.3366,
+      "cold_worker": true
+    },
+    {
+      "case": "pilot-train-006",
+      "expected_http": 200,
+      "actual_http": 200,
+      "passed": true,
+      "request_seconds": 13.0265,
+      "cold_worker": false
+    },
+    {
+      "case": "pilot-train-007",
+      "expected_http": 200,
+      "actual_http": 200,
+      "passed": true,
+      "request_seconds": 4.5647,
+      "cold_worker": false
+    },
+    {
+      "case": "pilot-train-008",
+      "expected_http": 200,
+      "actual_http": 200,
+      "passed": true,
+      "request_seconds": 5.8318,
+      "cold_worker": false
+    },
+    {
+      "case": "pilot-train-009",
+      "expected_http": 200,
+      "actual_http": 200,
+      "passed": true,
+      "request_seconds": 3.2591,
+      "cold_worker": false
+    },
+    {
+      "case": "synthetic-silent",
+      "expected_http": 200,
+      "actual_http": 200,
+      "passed": true,
+      "request_seconds": 0.2618,
+      "cold_worker": false
+    },
+    {
+      "case": "synthetic-tone",
+      "expected_http": 200,
+      "actual_http": 200,
+      "passed": true,
+      "request_seconds": 1.0568,
+      "cold_worker": false
+    },
+    {
+      "case": "too-long",
+      "expected_http": 422,
+      "actual_http": 422,
+      "passed": true,
+      "request_seconds": 0.0175,
+      "cold_worker": false
+    },
+    {
+      "case": "corrupt-media",
+      "expected_http": 422,
+      "actual_http": 422,
+      "passed": true,
+      "request_seconds": 0.0182,
+      "cold_worker": false
+    },
+    {
+      "case": "unsupported-extension",
+      "expected_http": 415,
+      "actual_http": 415,
+      "passed": true,
+      "request_seconds": 0.0054,
+      "cold_worker": false
+    },
+    {
+      "case": "container-extension-mismatch",
+      "expected_http": 415,
+      "actual_http": 415,
+      "passed": true,
+      "request_seconds": 0.0098,
+      "cold_worker": false
+    },
+    {
+      "case": "empty",
+      "expected_http": 400,
+      "actual_http": 400,
+      "passed": true
+    },
+    {
+      "case": "missing-file-field",
+      "expected_http": 422,
+      "actual_http": 422,
+      "passed": true
+    }
+  ]
+}

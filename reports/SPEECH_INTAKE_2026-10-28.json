@@ -1,0 +1,42 @@
+{
+  "recorded_at": "2026-10-28T15:56:45.356625+07:00",
+  "speech_clips": 100,
+  "source_videos": 74,
+  "source_overlapping_trim_pairs": 0,
+  "duration_seconds": 1940.909027,
+  "min_duration": 10.789916,
+  "max_duration": 59.8,
+  "full_video_audio_decode_passed": 100,
+  "sha256_verified": 100,
+  "exact_duplicates_within_speech": 0,
+  "speech_prior_exact_matches": 0,
+  "source_prescreen_counts": {
+    "1": 100
+  },
+  "source_human_label_counts": {
+    "None": 100
+  },
+  "user_reported_positive_clips": 100,
+  "confirmed_negative_videos": 0,
+  "source_rights_status_counts": {
+    "not_cleared_for_training_or_redistribution": 100
+  },
+  "violence_files": 50,
+  "violence_prior_matches": {
+    "AIRTLab-external-used": 50
+  },
+  "assignments": {
+    "huy": 100,
+    "app": 20
+  },
+  "annotation_manifest_sha256": "f16c8073a5e8ab9b1cfbf0e8d9509cab46f9b329077099c1e1aed8dc778abec9",
+  "trained": false,
+  "moderation_metrics": null,
+  "limitations": [
+    "ASR/lexical positive prescreen is not a human label; selection is biased toward suspected Toxic",
+    "Original video IDs are provisional groups; same-stream reuploads remain unaudited",
+    "Rights unverified in source metadata; keep raw media private and preserve provenance",
+    "SHA checks detect identical files, not recoded or near duplicates",
+    "No feature extraction, ASR, moderation predictions, train/test split or model changes"
+  ]
+}

@@ -1,0 +1,5 @@
+{
+  "max_score_delta": 1.6987323760986328e-05,
+  "changed_decisions": 0,
+  "scope": "All covered train/validation clips; CPU vs FP32 CUDA"
+}

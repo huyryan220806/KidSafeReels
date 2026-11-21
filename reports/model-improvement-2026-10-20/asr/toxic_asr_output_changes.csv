@@ -1,0 +1,9 @@
+﻿config,split,aggregation,n,unavailable,reference_flags,asr_flags,added_alerts_vs_reference,missing_alerts_vs_reference,matching_outputs,available
+base-greedy,dev,segment_max,16,2,0,1,1,0,13,14
+base-greedy,dev,joined_transcript,16,2,0,0,0,0,14,14
+base-greedy,test,segment_max,16,0,0,2,2,0,14,16
+base-greedy,test,joined_transcript,16,0,0,2,2,0,14,16
+small-beam5,dev,segment_max,16,0,0,0,0,0,16,16
+small-beam5,dev,joined_transcript,16,0,0,0,0,0,16,16
+small-beam5,test,segment_max,16,0,0,0,0,0,16,16
+small-beam5,test,joined_transcript,16,0,0,0,0,0,16,16

@@ -1,0 +1,186 @@
+{
+  "model_version": "toxic-tfidf-v1",
+  "seed": 42,
+  "threshold": 0.59,
+  "threshold_objective": "validation macro-F1",
+  "data": {
+    "source": "https://github.com/tarudesu/ViCTSD",
+    "revision": "e1ffb854ef7b7b7ae45a56d132c1f125e02e55e2",
+    "files": {
+      "ViCTSD_train.csv": {
+        "url": "https://raw.githubusercontent.com/tarudesu/ViCTSD/e1ffb854ef7b7b7ae45a56d132c1f125e02e55e2/ViCTSD_train.csv",
+        "sha256": "a3e73479120738fb7965b01e23d5737c25c2cde909d7c3b5a6faf52d13a3b3f2",
+        "bytes": 1690621
+      },
+      "ViCTSD_valid.csv": {
+        "url": "https://raw.githubusercontent.com/tarudesu/ViCTSD/e1ffb854ef7b7b7ae45a56d132c1f125e02e55e2/ViCTSD_valid.csv",
+        "sha256": "e3950ee6a16375d566f58d3fc1206dab76fc8e41e340bb580ca0ae2e5ea61f83",
+        "bytes": 495885
+      },
+      "ViCTSD_test.csv": {
+        "url": "https://raw.githubusercontent.com/tarudesu/ViCTSD/e1ffb854ef7b7b7ae45a56d132c1f125e02e55e2/ViCTSD_test.csv",
+        "sha256": "e341013ca7441a5f2621b9347bd933f4d920d080b9931136ee8827d0ac0b2672",
+        "bytes": 239211
+      }
+    }
+  },
+  "audit": {
+    "train": {
+      "original": 7000,
+      "retained": 6965,
+      "duplicate_rows": 35,
+      "conflicting_texts": 0,
+      "overlap_with_earlier_split": 0,
+      "toxic": 759
+    },
+    "valid": {
+      "original": 2000,
+      "retained": 1975,
+      "duplicate_rows": 8,
+      "conflicting_texts": 0,
+      "overlap_with_earlier_split": 17,
+      "toxic": 232
+    },
+    "test": {
+      "original": 1000,
+      "retained": 988,
+      "duplicate_rows": 3,
+      "conflicting_texts": 0,
+      "overlap_with_earlier_split": 9,
+      "toxic": 109
+    }
+  },
+  "validation": {
+    "classification_report": {
+      "non_toxic": {
+        "precision": 0.9305555555555556,
+        "recall": 0.9225473321858864,
+        "f1-score": 0.9265341400172861,
+        "support": 1743.0
+      },
+      "toxic": {
+        "precision": 0.4534412955465587,
+        "recall": 0.4827586206896552,
+        "f1-score": 0.46764091858037576,
+        "support": 232.0
+      },
+      "accuracy": 0.8708860759493671,
+      "macro avg": {
+        "precision": 0.6919984255510572,
+        "recall": 0.7026529764377708,
+        "f1-score": 0.6970875292988309,
+        "support": 1975.0
+      },
+      "weighted avg": {
+        "precision": 0.8745097285570305,
+        "recall": 0.8708860759493671,
+        "f1-score": 0.8726287084358364,
+        "support": 1975.0
+      }
+    },
+    "confusion_matrix_true_rows_predicted_columns": [
+      [
+        1608,
+        135
+      ],
+      [
+        120,
+        112
+      ]
+    ]
+  },
+  "test": {
+    "classification_report": {
+      "non_toxic": {
+        "precision": 0.9349593495934959,
+        "recall": 0.9158134243458476,
+        "f1-score": 0.9252873563218391,
+        "support": 879.0
+      },
+      "toxic": {
+        "precision": 0.41732283464566927,
+        "recall": 0.48623853211009177,
+        "f1-score": 0.4491525423728814,
+        "support": 109.0
+      },
+      "accuracy": 0.868421052631579,
+      "macro avg": {
+        "precision": 0.6761410921195826,
+        "recall": 0.7010259782279696,
+        "f1-score": 0.6872199493473603,
+        "support": 988.0
+      },
+      "weighted avg": {
+        "precision": 0.8778516773978349,
+        "recall": 0.868421052631579,
+        "f1-score": 0.872758313082531,
+        "support": 988.0
+      }
+    },
+    "confusion_matrix_true_rows_predicted_columns": [
+      [
+        805,
+        74
+      ],
+      [
+        56,
+        53
+      ]
+    ]
+  },
+  "test_always_non_toxic": {
+    "classification_report": {
+      "non_toxic": {
+        "precision": 0.8896761133603239,
+        "recall": 1.0,
+        "f1-score": 0.9416175682913765,
+        "support": 879.0
+      },
+      "toxic": {
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1-score": 0.0,
+        "support": 109.0
+      },
+      "accuracy": 0.8896761133603239,
+      "macro avg": {
+        "precision": 0.44483805668016196,
+        "recall": 0.5,
+        "f1-score": 0.4708087841456883,
+        "support": 988.0
+      },
+      "weighted avg": {
+        "precision": 0.791523586683932,
+        "recall": 0.8896761133603239,
+        "f1-score": 0.8377346584292713,
+        "support": 988.0
+      }
+    },
+    "confusion_matrix_true_rows_predicted_columns": [
+      [
+        879,
+        0
+      ],
+      [
+        109,
+        0
+      ]
+    ]
+  },
+  "fit_seconds": 2.515194799998426,
+  "test_batch_seconds": 0.2988398000015877,
+  "environment": {
+    "python": "3.12.10",
+    "platform": "Windows-11-10.0.26300-SP0",
+    "processor": "AMD64 Family 25 Model 68 Stepping 1, AuthenticAMD",
+    "sklearn": "1.9.1",
+    "numpy": "2.5.4"
+  },
+  "artifact_sha256": "e2806dbfb9f50a7a8551c9962dbe6b58cfea0c98eaba1479823e0401150e120a",
+  "limitations": [
+    "Comment classification only; not evaluated on ASR or video.",
+    "Exact normalized text deduplication only; near duplicates/topic leakage not ruled out.",
+    "Scores are not calibrated safety probabilities.",
+    "No public redistribution license found in upstream repository at inspection."
+  ]
+}

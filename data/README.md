@@ -1,6 +1,6 @@
 # Dữ liệu và nhãn
 
-Chưa chọn/tải dataset nào. Đây là kế hoạch và format cần dùng, không phải tuyên bố có sẵn dữ liệu. ML lead kiểm tra nguồn và quyền sử dụng ngay D1.
+Ngày 16/10/2026 đã tải ViCTSD vào `data/raw/victsd/` và RLVS version 1 vào `data/raw/rlvs/` để huấn luyện hai baseline; có provenance/checksum local. Xem [Toxic](../reports/TOXIC_BASELINE.md) và [Visual](../reports/VISUAL_BASELINE.md). Một mẫu FLEURS tiếng Việt được dùng riêng cho smoke test ASR, không phải dữ liệu train/moderation. Phần dưới là kế hoạch cho tập video đích tiếng Việt, chưa có tập này.
 
 - Pilot 20–30 clip để thử pipeline; mục tiêu 150–300 clip ngắn nếu có nguồn phù hợp và thời gian gán nhãn. Số lượng này chỉ phục vụ mini project, không chứng minh khả năng tổng quát ngoài thực tế.
 - Ưu tiên video được phép sử dụng, tự tạo hoặc benchmark có điều kiện rõ ràng; lưu nguồn, giấy phép và group_id. Không suy ra quyền tái phân phối từ việc xem được công khai.

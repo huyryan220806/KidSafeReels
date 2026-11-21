@@ -1,0 +1,83 @@
+{
+  "version": "kidsafe-cpu-v2",
+  "run_id": "model-improvement-2026-10-20",
+  "files": [
+    {
+      "path": "faster-whisper-small/config.json",
+      "bytes": 2370,
+      "sha256": "b55496ac7940a7ae47d2c01eab40edfd8701feec1229d9cce3b40014383fb828"
+    },
+    {
+      "path": "faster-whisper-small/model.bin",
+      "bytes": 483546902,
+      "sha256": "3e305921506d8872816023e4c273e75d2419fb89b24da97b4fe7bce14170d671"
+    },
+    {
+      "path": "faster-whisper-small/provenance.json",
+      "bytes": 644,
+      "sha256": "1d7b6153bc23b223be98522811860a07de953ec380289a24cd76d600b9f9cfc2"
+    },
+    {
+      "path": "faster-whisper-small/tokenizer.json",
+      "bytes": 2203239,
+      "sha256": "fb7b63191e9bb045082c79fd742a3106a12c99513ab30df4a0d47fa6cb6fd0ab"
+    },
+    {
+      "path": "faster-whisper-small/vocabulary.txt",
+      "bytes": 459861,
+      "sha256": "34ce3fe1c5041027b3f8d42912270993f986dbc4bb34cf27f951e34a1e453913"
+    },
+    {
+      "path": "inference-config.json",
+      "bytes": 262,
+      "sha256": "e1b76547f250049a4fb7ab239cdb55577ae2d1222c0c611717694578d0c85982"
+    },
+    {
+      "path": "resnet18-imagenet1k-v1.pth",
+      "bytes": 46837579,
+      "sha256": "821d93baf8655da3b5415fa4f1d62ae6fbecd1019fb3f895ed48245b6fe9c1e5"
+    },
+    {
+      "path": "toxic-tfidf-v1.joblib",
+      "bytes": 1293362,
+      "sha256": "e2806dbfb9f50a7a8551c9962dbe6b58cfea0c98eaba1479823e0401150e120a"
+    },
+    {
+      "path": "violence-resnet18-v1.joblib",
+      "bytes": 34351,
+      "sha256": "86b951f202613971fb2a25ff7555c03da9ee0a7a786fa6e468e1e4b459143c69"
+    }
+  ],
+  "asr": {
+    "repo": "Systran/faster-whisper-small",
+    "revision": "536b0662742c02347bc0e980a01041f333bce120",
+    "files": [
+      {
+        "path": "config.json",
+        "sha256": "b55496ac7940a7ae47d2c01eab40edfd8701feec1229d9cce3b40014383fb828"
+      },
+      {
+        "path": "model.bin",
+        "sha256": "3e305921506d8872816023e4c273e75d2419fb89b24da97b4fe7bce14170d671"
+      },
+      {
+        "path": "tokenizer.json",
+        "sha256": "fb7b63191e9bb045082c79fd742a3106a12c99513ab30df4a0d47fa6cb6fd0ab"
+      },
+      {
+        "path": "vocabulary.txt",
+        "sha256": "34ce3fe1c5041027b3f8d42912270993f986dbc4bb34cf27f951e34a1e453913"
+      }
+    ]
+  },
+  "toxic": {
+    "report": "reports/model-improvement-2026-10-20/toxic/evaluation.json",
+    "threshold": 0.59,
+    "active_variant": "baseline"
+  },
+  "violence": {
+    "report": "reports/model-improvement-2026-10-20/violence/evaluation.json",
+    "threshold": 0.42999999999999994,
+    "active_variant": "baseline"
+  }
+}

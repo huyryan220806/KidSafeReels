@@ -1,0 +1,9 @@
+{
+  "validation_gate": true,
+  "model_bytes": 124816,
+  "model_sha256": "9348e77e139cc48fd6e945b55ad4ef49bac90f14cbf421df8f533279061afa07",
+  "train_clips": 142,
+  "valid_clips": 28,
+  "test_inference": false,
+  "deployed": false
+}

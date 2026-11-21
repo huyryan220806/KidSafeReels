@@ -1,0 +1,19 @@
+{
+  "passed": true,
+  "n": 20,
+  "max_cpu_fp32_difference": 8.225164372377414e-07,
+  "max_cpu_tf32_difference": 0.0006302659442462,
+  "changed_decisions": 0,
+  "gpu_full_test": {
+    "n": 395,
+    "test_n": 386,
+    "max_score_difference": 0.0009306325446646335,
+    "changed_decisions": 0,
+    "purpose": "Frozen classifier deployment precision audit; no fitting or threshold changes",
+    "torch": "2.10.0+cu128"
+  },
+  "manifest_sha256": "89a9123a4d0f74e9cbabfafc6c6cc0d1d35c8cb1a50faa1d40a9e3a2f077e299",
+  "initial_check": "cpu_benchmark.json retains initial failed 1e-4 absolute TF32 tolerance",
+  "explanation": "Identical sampled pixels. Original cuDNN TF32 convolution rounds differently; CPU matches GPU FP32 within 1e-5 on 20 nearest-boundary validation/test samples. No model or threshold change.",
+  "limitation": "All 386 test decisions audited on GPU FP32; CPU audited on 20 nearest-boundary samples plus 10 train clips, not all test clips."
+}

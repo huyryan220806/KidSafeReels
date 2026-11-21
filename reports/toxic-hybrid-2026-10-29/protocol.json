@@ -1,0 +1,30 @@
+{
+  "created_utc": "2026-10-29T06:25:01.960038+00:00",
+  "evaluation": "descriptive_reused_benchmark_not_new_independent_test",
+  "dataset": "ViCTSD",
+  "splits": [
+    "valid",
+    "test"
+  ],
+  "training_performed": false,
+  "model_version": "toxic-phobert-model-improvement-2026-10-28",
+  "model_threshold": 0.7799999999999999,
+  "lexicon_version": "toxic-hybrid-v1-56b3a177c7b2",
+  "lexicon_sha256": "56b3a177c7b230ced198535cf2a7c99e09c917e4364f8d31f92c39e25ae821b0",
+  "cached_predictions_sha256": "c5afbe4c6a6a92c3eb217ef92af24701c84ebf276a2df092548f0fd647c62b0a",
+  "model_config_sha256": "743c87687e6d891c80b9a750868af652b14d68022b925634da8dc8ac6dd4f797",
+  "model_manifest_sha256": "89a9123a4d0f74e9cbabfafc6c6cc0d1d35c8cb1a50faa1d40a9e3a2f077e299",
+  "evaluator_sha256": "11c961a816c943807d259ab498d8efa0ef5d4816347a0241a5d5236857c3026c",
+  "rules_code_sha256": "47108934c0e6fac5d450a349af9a3cc6febd9ee1b9c1cb91386d7f2367d1a614",
+  "methods": [
+    "model_only",
+    "rule_only",
+    "hybrid"
+  ],
+  "rule_policy": "Any exact flag rule; review abbreviations do not flag",
+  "hybrid_policy": "model_prediction OR rule_prediction; no fused probability",
+  "audio_scope": "Written text only: does not evaluate ASR or the audio-quality gate",
+  "tuning": "None. Freeze seed lexicon from project policy and known development clips; do not revise from this test.",
+  "test_exposure": "Benchmark already reported for previous models; not an unseen target-video evaluation",
+  "losses": "Only model_only has real log loss. Rules/hybrid have no probabilistic output."
+}

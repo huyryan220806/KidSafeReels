@@ -1,0 +1,8 @@
+{
+  "n": 395,
+  "test_n": 386,
+  "max_score_difference": 0.0009306325446646335,
+  "changed_decisions": 0,
+  "purpose": "Frozen classifier deployment precision audit; no fitting or threshold changes",
+  "torch": "2.10.0+cu128"
+}

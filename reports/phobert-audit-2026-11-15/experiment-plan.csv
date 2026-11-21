@@ -1,0 +1,9 @@
+﻿id,evidence,experiment,evaluation
+R0,History thiếu logits mỗi epoch,Audit/tái chạy với checkpoint + logits/ID đầy đủ; đã thực hiện,"Tái hiện metrics, drift và checkpoint; không thay production"
+R1,Source-disjoint nhưng speaker/channel proxy giao nhau,"Xác minh speaker; tạo manifest chẩn đoán phụ từ TRAIN theo speaker/nguồn, giữ nguyên manifest gốc","Group-CV chỉ TRAIN; báo số nhóm/nhãn, không dùng test để chia lại hoặc chọn"
+R2,Bỏ sót có ASR thiếu/sai; chưa có transcript chuẩn,Đối chiếu một nhóm TRAIN bằng transcript người xác minh; so ASR hiện hành với một thay đổi cố định,"WER/CER chỉ khi có reference; coverage, FP/FN; không thêm prompt ép từ Toxic"
+R3,"Supervision là cấp clip, không phải từng đoạn",Xác minh đoạn evidence trên TRAIN rồi thử loss phụ cho các đoạn đã xác minh,"Không gán mọi đoạn của clip Toxic thành 1; giữ cùng split, so với R0"
+R4,Max pooling chỉ truyền gradient qua một đoạn mỗi clip,"Thử mean BCE trên đoạn của clip âm đã kiểm ASR, giữ max-MIL cho clip dương","Một thay đổi loss; cùng seed/LR/epoch/replay; báo FP, FN, AP và recall ViCTSD"
+R5,Ngữ cảnh thử 15/11 giảm FP nhưng tăng FN so checkpoint 13/11,"Nếu R2/R3 đủ dữ liệu, train và infer cùng cửa sổ ngữ cảnh cố định","Không tự phát hành từ inference-only; giữ Recall, báo truncation"
+R6,"Loss/AP đổi nhưng quyết định tại 0,5 có thể chưa qua ngưỡng","Sau khi khóa trọng số, báo điểm vận hành và calibration trên dev; giữ .5 làm mốc",Chọn ngưỡng chỉ train/validation theo FP/Recall đã định; không tuning test
+R7,"Validation dùng nhiều lần, thiếu test speaker độc lập mới",Khóa toàn bộ pipeline rồi đánh giá một lần trên tập mới có nguồn/quyền dùng và nhãn xác minh,"Báo support/coverage/CI, FP/FN, CPU latency; không chọn lại model bằng test"

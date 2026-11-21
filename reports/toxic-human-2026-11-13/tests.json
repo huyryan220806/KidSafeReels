@@ -1,0 +1,7 @@
+{
+  "full_suite_passed": 280,
+  "duration_seconds": 125.17,
+  "targeted_passed": 18,
+  "command": ".venv/Scripts/python.exe -m pytest -q",
+  "scope": "Software correctness, not moderation accuracy"
+}

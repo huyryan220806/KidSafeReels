@@ -1,62 +1,61 @@
 # KidSafeReels
 
-Mini project môn **Học máy và ứng dụng**: hỗ trợ người lớn sàng lọc nội dung video ngắn trước khi cho trẻ xem.
+Đồ án môn **Học máy và ứng dụng**. KidSafeReels giúp phụ huynh kiểm tra video ngắn trước khi cho trẻ xem. App nhận MP4, MOV và WebM tối đa **60 giây, 50 MiB**, kiểm tra dấu hiệu bạo lực và lời nói độc hại tiếng Việt, rồi chỉ ra các đoạn cần xem lại khi có bằng chứng.
 
-**Trạng thái hiện tại: bộ khung chạy được với API mô phỏng; chưa có model đã huấn luyện hay kết quả đánh giá.** Chế độ mock luôn trả `review`, điểm số `null`, không phân tích nội dung video. Không dùng kết quả này để đánh giá độ an toàn.
+## Chạy trên Windows
 
-## Phạm vi một tuần
-
-- Web upload video MP4/MOV/WebM, mục tiêu tối đa 60 giây và 50 MiB.
-- MVP học máy: hình ảnh + transcript tiếng Việt, ưu tiên bạo lực và ngôn ngữ độc hại; hiển thị lý do và mốc thời gian.
-- Nhãn thiết kế: `violence`, `sexual`, `toxic_language`, `dangerous_acts` (đa nhãn). Nhãn chưa được hỗ trợ phải trả `null`.
-- OCR, hai nhóm sexual/dangerous_acts và triển khai online là mở rộng sau khi lõi chạy ổn.
-- TikTok/Reels/YouTube Shorts là bối cảnh sử dụng video, chưa có tích hợp chặn feed hay tải video trực tiếp từ nền tảng.
-
-## Chạy bộ khung (Python 3.11 hoặc 3.12)
+Dùng **Python 3.12** và mở PowerShell tại thư mục dự án.
 
 ```powershell
 git clone https://github.com/huyryan220806/KidSafeReels.git
 cd KidSafeReels
-python -m venv .venv
-.\.venv\Scripts\python.exe -m pip install -r requirements-dev.txt
-.\.venv\Scripts\python.exe -m uvicorn apps.api.main:app --reload
 ```
 
-Mở terminal thứ hai tại thư mục repo:
+**Dùng thử giao diện** bằng backend mô phỏng. Chế độ này kiểm tra luồng tải video và hiển thị kết quả mẫu.
 
 ```powershell
-.\.venv\Scripts\python.exe -m streamlit run apps/web/app.py
+powershell -ExecutionPolicy Bypass -File scripts/setup.ps1
+powershell -ExecutionPolicy Bypass -File scripts/run.ps1
 ```
 
-Web: http://localhost:8501 · API docs: http://127.0.0.1:8000/docs · Health: http://127.0.0.1:8000/health
-
-macOS/Linux: thay `.\.venv\Scripts\python.exe` bằng `.venv/bin/python`. Chế độ mock không cần GPU, FFmpeg hay tải model.
+**Chạy model thật** bằng gói `kidsafe-cpu-v3.zip` do nhóm cung cấp riêng. Thay đường dẫn ví dụ bằng vị trí ZIP trên máy.
 
 ```powershell
-.\.venv\Scripts\python.exe -m pytest -q
+powershell -ExecutionPolicy Bypass -File scripts/setup-model.ps1 -ModelBundle "D:\BanGiao\kidsafe-cpu-v3.zip"
+.\Chay-KidSafeReels.cmd
 ```
 
-`KIDSAFE_BACKEND=mock` là mặc định. Đặt biến môi trường `KIDSAFE_BACKEND=model` sẽ trả HTTP 503 cho phân tích cho đến khi ML lead nối model thật. `KIDSAFE_API_URL` cấu hình địa chỉ API cho web, mặc định `http://127.0.0.1:8000`. File `.env.example` là tài liệu cấu hình, chưa được tự động nạp.
+Web ở [127.0.0.1:8501](http://127.0.0.1:8501) và API ở [127.0.0.1:8000/docs](http://127.0.0.1:8000/docs). Chọn video, bấm **Kiểm tra video**, rồi xem kết quả và các đoạn được chỉ ra. Nhấn **Ctrl+C** trong terminal đã khởi động app để dừng.
 
-## Hai người bắt đầu từ đâu?
+Giao diện gia đình có thể tải bản tóm tắt TXT. Để xem điểm, cảnh báo kỹ thuật và tải JSON, dừng phiên đang chạy rồi mở `Chay-KidSafeReels-QuanTri.cmd`. Đây là công cụ chẩn đoán trên máy cá nhân. Xem [hướng dẫn sử dụng và xử lý sự cố](docs/APP_GUIDE.md).
 
-| Người | Phụ trách | Đọc trước |
-|---|---|---|
-| Huy — leader / ML | Dữ liệu, model, fusion, đánh giá; quyết định phạm vi và tích hợp | [Kế hoạch tuần](docs/PLAN.md), [ML](ml/README.md) |
-| Thành viên app | FastAPI, Streamlit, upload, hiển thị evidence, lỗi, chạy demo | [Bàn giao app](docs/HANDOFF_APP.md), [API contract](docs/API_CONTRACT.md) |
+## Model và kết quả thử nghiệm
 
-```text
-apps/api/       API upload và gọi pipeline (app owner)
-apps/web/       Giao diện Streamlit (app owner)
-kidsafe/        Schema dùng chung + giao diện pipeline (hai người thống nhất)
-ml/            Chỗ phát triển huấn luyện, trích đặc trưng, suy luận (ML lead)
-data/          Hướng dẫn dữ liệu + manifest mẫu; không commit video
-models/        Hướng dẫn checkpoint; không commit trọng số
-reports/       Khung báo cáo và model card
-docs/          Phạm vi, phân công, kiến trúc, hợp đồng và ảnh ý tưởng
-tests/         Kiểm tra API và giao diện mock
+- App dùng gói CPU v3 với R3D-18 cho bạo lực, Whisper small để nhận dạng lời nói, và PhoBERT kết hợp luật từ/cụm từ cho Toxic. Xem [hướng dẫn model v3](docs/MODEL_UPDATE_2026-10-28.md) và [model card](reports/MODEL_CARD.md).
+- Thử nghiệm Toxic ngày 20/11 trên **28 clip validation** đạt **F1 92,86%**, với 0 báo nhầm và 2 bỏ sót, khi kết hợp bộ phân loại ký tự trên toàn transcript với luật. Ứng viên này cần được đánh giá trên video mới trước khi tích hợp vào app. Xem [kết quả và cách tái hiện](reports/toxic-transcript-2026-11-20/README.md).
+- Kết quả hỗ trợ người lớn xem lại video. Nội dung gợi dục và hành vi nguy hiểm hiện ở trạng thái chưa kiểm tra.
+
+## Cấu trúc repo
+
+| Thư mục | Nội dung |
+| --- | --- |
+| `apps/`, `kidsafe/` | FastAPI, Streamlit, schema và pipeline |
+| `ml/`, `models/` | Mã ML, hướng dẫn và checksum của gói model |
+| `data/` | Hướng dẫn dữ liệu, manifest mẫu và split dùng để tái hiện |
+| `docs/`, `docs/assets/` | Hướng dẫn chạy, hợp đồng API, ảnh giao diện và tài liệu dự án |
+| `reports/`, `output/` | Báo cáo kỹ thuật, số liệu và tài liệu trình bày chung |
+| `scripts/`, `tests/` | Cài đặt, chạy app và kiểm thử |
+
+Video, phiếu gán nhãn, transcript riêng và gói bàn giao lưu ở `data/private/`. Trọng số và bộ cài model lưu ở `models/checkpoints/`. Đặt cấu hình cá nhân trong `.env` và dùng `.env.example` làm mẫu.
+
+## Phát triển
+
+Chạy bộ kiểm thử app sau khi cài môi trường mô phỏng:
+
+```powershell
+.\.venv\Scripts\python.exe -m pytest -q tests/test_api.py tests/test_media.py tests/test_run_app.py tests/test_validation.py tests/test_web.py tests/test_web_design.py tests/test_worker.py
 ```
 
-Đọc [quy trình Git](CONTRIBUTING.md) và [hướng dẫn cho Codex](AGENTS.md) trước khi sửa. Chi tiết giới hạn hiện tại nằm ở [API contract](docs/API_CONTRACT.md). Bộ khung chưa giải mã video, kiểm tra thời lượng hay chạy ASR/model; đây là hạng mục phải hoàn thành trong tuần triển khai.
+CI cài thêm phụ thuộc ML và chạy toàn bộ bộ test trên Windows và Linux. Xem [cấu hình CI](.github/workflows/ci.yml), [hợp đồng API](docs/API_CONTRACT.md), [hướng dẫn ML](ml/README.md) và [nhật ký dự án](docs/PROGRESS.md).
 
-Ý tưởng gốc được giữ tại [Idea1.png](docs/ideas/Idea1.png) và [Idea2.png](docs/ideas/Idea2.png); xem [kiến trúc dự kiến](docs/ARCHITECTURE.md) để đối chiếu với phạm vi một tuần.
+**Nhóm thực hiện:** Huy phụ trách ML, Lê Quyết Tiến phụ trách API, giao diện và tích hợp.

@@ -1,0 +1,9 @@
+﻿field,unique_nonmissing,missing,cross_split_values,pairs
+video_id,200,0,0,"{""train__valid"": 0, ""train__test"": 0, ""valid__test"": 0}"
+original_video_id,200,0,0,"{""train__valid"": 0, ""train__test"": 0, ""valid__test"": 0}"
+sha256,200,0,0,"{""train__valid"": 0, ""train__test"": 0, ""valid__test"": 0}"
+source_group_id,132,0,0,"{""train__valid"": 0, ""train__test"": 0, ""valid__test"": 0}"
+training_group,126,0,0,"{""train__valid"": 0, ""train__test"": 0, ""valid__test"": 0}"
+speaker_id,0,200,0,"{""train__valid"": 0, ""train__test"": 0, ""valid__test"": 0}"
+source_channel_id,100,0,12,"{""train__valid"": 6, ""train__test"": 8, ""valid__test"": 2}"
+query_speaker_group,29,0,18,"{""train__valid"": 11, ""train__test"": 11, ""valid__test"": 4}"

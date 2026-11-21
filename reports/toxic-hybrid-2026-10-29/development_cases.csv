@@ -1,0 +1,4 @@
+﻿case,asr_segments,model_score,model_only_toxic_flag,rule_only_toxic_flag,hybrid_toxic_flag,model_only_decision,hybrid_decision,cached_trace_sha256
+vi-speech-048,6,0.901373565196991,True,True,True,flagged,flagged,56905661ab88e0e5b21603f8bd1753a011bb693c0fbd12c3b41ac0779d3c188f
+vi-speech-019,4,0.0025196680799126625,False,False,False,review,review,591eef130fdb88f8ee7922cc41df9c5c9d9564233f48eb142364ef321536fa33
+vi-speech-022,7,0.022751977667212486,False,True,True,review,flagged,6fc7bd8d357ff8055ac35bfa70f6beafd6cb3d6f297a9639cdd4067f9197294b

@@ -1,0 +1,5 @@
+{
+  "selection_sha256": "bee2a0376eb995c7d8124f6ed2a7bdda047d48c58f5f05f455e08617ef405452",
+  "scope": "Speech train/valid and reused 30-clip test; single-reviewer labels; CPU app classifier",
+  "policy": "No tuning; missing ASR excludes probability metrics and counts as unflagged/review for decision metrics"
+}

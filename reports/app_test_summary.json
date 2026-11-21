@@ -1,0 +1,9 @@
+{
+  "tests": 118,
+  "failures": 0,
+  "errors": 0,
+  "skipped": 0,
+  "passed": 118,
+  "seconds": 37.046,
+  "environment": "Windows 11 / Python 3.12.5 / fresh .venv-model / CPU"
+}

@@ -1,0 +1,17 @@
+﻿variant,split,outcome,count
+baseline,valid,TN,177
+baseline,valid,FP,11
+baseline,valid,FN,6
+baseline,valid,TP,192
+baseline,test,TN,179
+baseline,test,FP,9
+baseline,test,FN,7
+baseline,test,TP,191
+selected,valid,TN,177
+selected,valid,FP,11
+selected,valid,FN,5
+selected,valid,TP,193
+selected,test,TN,176
+selected,test,FP,12
+selected,test,FN,9
+selected,test,TP,189

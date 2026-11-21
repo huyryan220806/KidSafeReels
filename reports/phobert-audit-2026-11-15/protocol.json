@@ -1,0 +1,15 @@
+{
+  "run_id": "phobert-audit-2026-11-15",
+  "created_utc": "2026-11-15T11:26:20.928901+00:00",
+  "source_run": "toxic-human-2026-11-13",
+  "source_inventory_sha256": "ba14f1dd6076bcb4a69e4e8fe841b6fab2486ba7165ee604583efa1734fde432",
+  "inference_splits": [
+    "valid"
+  ],
+  "test_usage": "Only label/count/hash and normalized ASR duplicate integrity audit; no inference, metrics or tuning",
+  "primary_threshold": 0.5,
+  "threshold_search": false,
+  "replay": "Unchanged existing train function; isolated paths; epoch recorder only",
+  "original_immutable": true,
+  "runtime_changed": false
+}

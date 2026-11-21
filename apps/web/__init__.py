@@ -1,0 +1,1 @@
+"""Vietnamese Streamlit application."""
